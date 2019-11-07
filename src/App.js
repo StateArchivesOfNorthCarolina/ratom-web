@@ -4,7 +4,17 @@ import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import GlobalStyle from './styles/globalStyles';
 import defaultTheme from './styles/defaultTheme';
-import { colorWhite } from './styles/styleVariables';
+
+// React Router
+import { Route } from 'react-router-dom';
+
+// Children
+import SideBar from './components/SideBar';
+import Home from './components/Home/Home';
+import About from './components/About/About';
+
+
+const THEME = defaultTheme;
 
 
 // Base App styles. These just came from create-react-app. You can prolly get rid of em.
@@ -13,21 +23,33 @@ const AppStyled = styled.div`
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: ${colorWhite};
+  flex-direction: row;
+  color: ${THEME.primaryTextWhite};
 `
 
-
+const MainContent = styled.main`
+  border: 1px solid green;
+  width: 100%;
+`
 
 
 function App() {
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={THEME}>
       <GlobalStyle />
       <AppStyled >
-        <h1>A tabula rasa in omnia errorum tua</h1>
+        <SideBar />
+        <MainContent>
+
+          <Route exact path='/'>
+            <Home />
+          </Route>
+
+          <Route path='/about'>
+            <About/>
+          </Route>
+
+        </MainContent>
       </AppStyled>
     </ThemeProvider>
   );
