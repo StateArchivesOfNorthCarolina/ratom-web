@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useContext, createContext } from "react";
 import { Route, useParams } from "react-router-dom";
 import CollectionDetail from "./CollectionDetail";
+import CollectionContext from "./collection-state";
 
 const CollectionMessages = props => {
-  let { collectionId } = useParams();
+  const { collectionId } = useParams();
 
   return (
     <>
-      <h3>Requested Collection ID: {collectionId}</h3>
-      <CollectionDetail />
+      <CollectionContext.Provider value={{ collectionId }}>
+        <CollectionDetail />
+      </CollectionContext.Provider>
+      {/* <MessageList collectionId={collectionId} /> */}
     </>
   );
 };

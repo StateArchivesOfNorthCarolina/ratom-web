@@ -3,6 +3,8 @@ import styled from "styled-components";
 
 import { Link } from "react-router-dom";
 
+import CollectionList from "./Collection/CollectionList";
+
 const SideBarStyled = styled.aside`
   width: 300px;
   background-color: ${props => props.theme.secondaryBackground};
@@ -29,13 +31,7 @@ const SideBarStyled = styled.aside`
 const SideBar = props => {
   return (
     <SideBarStyled {...props}>
-      <h2>Collections</h2>
-      <nav>
-        <Link to="/collection/1">Collection 1</Link>
-      </nav>
-      <nav>
-        <Link to="/collection/2">Collection 2</Link>
-      </nav>
+      <CollectionList />
       <br />
       <nav>
         <Link to="/">Home</Link>
