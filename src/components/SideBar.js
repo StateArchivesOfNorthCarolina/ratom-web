@@ -31,7 +31,7 @@ const SideBar = props => {
                 <Link to="/about">About</Link>
             </nav>
         </SideBarStyled>
-    )    
+    )
 }
 
 export default SideBar
