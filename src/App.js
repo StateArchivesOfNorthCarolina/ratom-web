@@ -1,25 +1,35 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+
+// Styles
+import styled, { ThemeProvider } from 'styled-components';
+import GlobalStyle from './styles/globalStyles';
+import defaultTheme from './styles/defaultTheme';
+import { colorWhite } from './styles/styleVariables';
+
+
+// Base App styles. These just came from create-react-app. You can prolly get rid of em.
+const AppStyled = styled.div`
+  text-align: center;
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: ${colorWhite};
+`
+
+
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={defaultTheme}>
+      <GlobalStyle />
+      <AppStyled >
+        <h1>A tabula rasa in omnia errorum tua</h1>
+      </AppStyled>
+    </ThemeProvider>
   );
 }
 
