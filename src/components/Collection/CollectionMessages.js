@@ -1,19 +1,25 @@
-import React, { useContext, createContext, useEffect } from "react";
-import { Route, useParams } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import CollectionDetail from "./CollectionDetail";
 import AppContext from "../app-state";
 
 const CollectionMessages = props => {
   const { collectionId } = useParams();
+  const [currentCollectionId, setCurrentCollectionId] = useState();
   const { currentCollection, setCurrentCollection, collections } = useContext(
     AppContext
   );
 
   useEffect(() => {
-    collections.forEach(element => {
-      if (element.collectionId == collectionId) setCurrentCollection(element);
+    setCurrentCollectionId(collectionId);
+  }, [setCurrentCollectionId, collectionId]);
+
+  useEffect(() => {
+    collections.forEach(collection => {
+      if (collection.collectionId === parseInt(currentCollectionId, 10))
+        setCurrentCollection(collection);
     });
-  }, [collectionId]);
+  }, [currentCollectionId, collections, setCurrentCollection]);
 
   function noCollection() {
     return "No collection selected";

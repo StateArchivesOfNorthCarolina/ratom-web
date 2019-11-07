@@ -6,7 +6,7 @@ import GlobalStyle from "./styles/globalStyles";
 import defaultTheme from "./styles/defaultTheme";
 
 // React Router
-import { Route, useParams } from "react-router-dom";
+import { Route } from "react-router-dom";
 
 // Children
 import SideBar from "./components/SideBar";

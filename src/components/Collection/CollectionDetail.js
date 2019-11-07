@@ -1,6 +1,4 @@
-import React, { useContext, createContext } from "react";
-import { Route, useParams } from "react-router-dom";
-import styled from "styled-components";
+import React, { useContext } from "react";
 import AppContext from "../app-state";
 
 const CollectionDetail = props => {

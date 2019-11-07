@@ -1,6 +1,4 @@
-import React, { useContext, createContext, useEffect, useState } from "react";
-import { Route, useParams } from "react-router-dom";
-import CollectionDetail from "./CollectionDetail";
+import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import sendOperation from "../../graphql/sendOperation";
 import AppContext from "../app-state";
@@ -14,13 +12,13 @@ const CollectionList = props => {
         setCollections(response.data);
       })
       .catch(err => {});
-  }, []);
+  }, [setCollections]);
 
   return (
     <>
       <h2>Collections</h2>
       {collections.map(collection => (
-        <nav>
+        <nav key={collection.collectionId}>
           <Link to={`/collection/${collection.collectionId}`}>
             {collection.name}
           </Link>
