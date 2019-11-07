@@ -1,16 +1,16 @@
 import React, { useContext, createContext } from "react";
 import { Route, useParams } from "react-router-dom";
 import styled from "styled-components";
-import CollectionContext from "./collection-state";
+import AppContext from "../app-state";
 
 const CollectionDetail = props => {
-  const { collectionId } = useContext(CollectionContext);
+  const { currentCollection } = useContext(AppContext);
 
   return (
     <>
-      <h3>Requested Collection ID: {collectionId}</h3>
-      {/* <h1>{name}</h1>
-      <p>{date}</p> */}
+      <h3>Requested Collection ID: {currentCollection.collectionId}</h3>
+      <h1>{currentCollection.name}</h1>
+      <p>{currentCollection.date}</p>
     </>
   );
 };

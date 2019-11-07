@@ -3,10 +3,10 @@ import { Route, useParams } from "react-router-dom";
 import CollectionDetail from "./CollectionDetail";
 import { Link } from "react-router-dom";
 import sendOperation from "../../graphql/sendOperation";
-import CollectionContext from "./collection-state";
+import AppContext from "../app-state";
 
 const CollectionList = props => {
-  const [collections, setCollections] = useState([]);
+  const { collections, setCollections } = useContext(AppContext);
 
   useEffect(() => {
     sendOperation("")
@@ -19,15 +19,13 @@ const CollectionList = props => {
   return (
     <>
       <h2>Collections</h2>
-      <CollectionContext.Provider value={{ collections }}>
-        {collections.map(collection => (
-          <nav>
-            <Link to={`/collection/${collection.collectionId}`}>
-              {collection.name}
-            </Link>
-          </nav>
-        ))}
-      </CollectionContext.Provider>
+      {collections.map(collection => (
+        <nav>
+          <Link to={`/collection/${collection.collectionId}`}>
+            {collection.name}
+          </Link>
+        </nav>
+      ))}
     </>
   );
 };

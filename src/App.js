@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 // Styles
 import styled, { ThemeProvider } from "styled-components";
@@ -13,6 +13,7 @@ import SideBar from "./components/SideBar";
 import Home from "./components/Home/Home";
 import About from "./components/About/About";
 import CollectionMessages from "./components/Collection/CollectionMessages";
+import AppContext from "./components/app-state";
 
 const THEME = defaultTheme;
 
@@ -32,24 +33,36 @@ const MainContent = styled.main`
 `;
 
 function App() {
+  const [collections, setCollections] = useState([]);
+  const [currentCollection, setCurrentCollection] = useState();
+
   return (
     <ThemeProvider theme={THEME}>
       <GlobalStyle />
       <AppStyled>
-        <SideBar />
-        <MainContent>
-          <Route exact path="/">
-            <Home />
-          </Route>
+        <AppContext.Provider
+          value={{
+            collections,
+            setCollections,
+            currentCollection,
+            setCurrentCollection
+          }}
+        >
+          <SideBar />
+          <MainContent>
+            <Route exact path="/">
+              <Home />
+            </Route>
 
-          <Route path="/about">
-            <About />
-          </Route>
+            <Route path="/about">
+              <About />
+            </Route>
 
-          <Route path="/collection/:collectionId">
-            <CollectionMessages />
-          </Route>
-        </MainContent>
+            <Route path="/collection/:collectionId">
+              <CollectionMessages />
+            </Route>
+          </MainContent>
+        </AppContext.Provider>
       </AppStyled>
     </ThemeProvider>
   );
