@@ -1,27 +1,33 @@
-import React, { useContext, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import sendOperation from "../../graphql/sendOperation";
-import AppContext from "../app-state";
+import { useQuery } from "@apollo/react-hooks";
+import { gql } from "apollo-boost";
+
+const ALL_COLLECTIONS = gql`
+  {
+    allCollections {
+      edges {
+        node {
+          id
+          title
+        }
+      }
+    }
+  }
+`;
 
 const CollectionList = props => {
-  const { collections, setCollections } = useContext(AppContext);
+  const { loading, error, data } = useQuery(ALL_COLLECTIONS);
 
-  useEffect(() => {
-    sendOperation("")
-      .then(response => {
-        setCollections(response.data);
-      })
-      .catch(err => {});
-  }, [setCollections]);
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :(</p>;
 
   return (
     <>
       <h2>Collections</h2>
-      {collections.map(collection => (
-        <nav key={collection.collectionId}>
-          <Link to={`/collection/${collection.collectionId}`}>
-            {collection.name}
-          </Link>
+      {data.allCollections.edges.map(edge => (
+        <nav key={edge.node.id}>
+          <Link to={`/collection/${edge.node.id}`}>{edge.node.title}</Link>
         </nav>
       ))}
     </>
