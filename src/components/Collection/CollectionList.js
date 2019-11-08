@@ -7,7 +7,7 @@ const CollectionList = props => {
   const { collections, setCollections } = useContext(AppContext);
 
   useEffect(() => {
-    sendOperation("")
+    sendOperation("collections")
       .then(response => {
         setCollections(response.data);
       })
