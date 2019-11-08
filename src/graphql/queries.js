@@ -25,27 +25,6 @@ export const ALL_COLLECTIONS = gql`
   }
 `;
 
-export const AllMessagesQuery = gql`
-  {
-    allMessages(first: 10) {
-      pageInfo {
-        hasNextPage
-        endCursor
-      }
-      edges {
-        node {
-          id
-          messageId
-          msgFrom
-          msgTo
-          msgSubject
-          sentDate
-        }
-      }
-    }
-  }
-`;
-
 export const SingleMessageQuery = gql`
   query SingleMessageQuery($currentMessageId: ID!) {
     message(id: $currentMessageId) {
@@ -59,3 +38,27 @@ export const SingleMessageQuery = gql`
     }
   }
 `;
+
+export const getCustomMessagesQuery = searchBy => {
+  return gql`
+  query ($searchString: String) {
+    allMessages(${searchBy}_Icontains: $searchString) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      edges {
+        node {
+          id
+          messageId
+          msgFrom
+          msgTo
+          msgSubject
+          sentDate
+          msgBody
+        }
+      }
+    }
+  }
+`
+};
