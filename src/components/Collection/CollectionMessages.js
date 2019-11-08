@@ -16,7 +16,7 @@ const CollectionMessages = props => {
 
   useEffect(() => {
     collections.forEach(collection => {
-      if (collection.collectionId === parseInt(currentCollectionId, 10))
+      if (collection.id === currentCollectionId)
         setCurrentCollection(collection);
     });
   }, [currentCollectionId, collections, setCurrentCollection]);

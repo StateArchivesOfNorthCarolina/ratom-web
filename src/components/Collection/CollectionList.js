@@ -1,29 +1,38 @@
 import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
-import sendOperation from "../../graphql/sendOperation";
+import { useQuery } from "@apollo/react-hooks";
 import AppContext from "../app-state";
+import { ALL_COLLECTIONS } from "../../graphql/queries";
 
 const CollectionList = props => {
   const { collections, setCollections } = useContext(AppContext);
+  const { loading, error, data } = useQuery(ALL_COLLECTIONS);
 
   useEffect(() => {
-    sendOperation("")
-      .then(response => {
-        setCollections(response.data);
-      })
-      .catch(err => {});
-  }, [setCollections]);
+    if (data && data.allCollections.edges.length) {
+      const collectionData = data.allCollections.edges.map(item => {
+        return {
+          title: item.node.title,
+          id: item.node.id,
+          accessionDate: item.node.accessionDate
+        };
+      });
+      setCollections(collectionData);
+    }
+  }, [data, loading, setCollections]);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :(</p>;
 
   return (
     <>
       <h2>Collections</h2>
-      {collections.map(collection => (
-        <nav key={collection.collectionId}>
-          <Link to={`/collection/${collection.collectionId}`}>
-            {collection.name}
-          </Link>
-        </nav>
-      ))}
+      {collections &&
+        collections.map(collection => (
+          <nav key={collection.id}>
+            <Link to={`/collection/${collection.id}`}>{collection.title}</Link>
+          </nav>
+        ))}
     </>
   );
 };

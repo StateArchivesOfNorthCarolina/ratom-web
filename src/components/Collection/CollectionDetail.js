@@ -6,9 +6,9 @@ const CollectionDetail = props => {
 
   return (
     <>
-      <h3>Requested Collection ID: {currentCollection.collectionId}</h3>
-      <h1>{currentCollection.name}</h1>
-      <p>{currentCollection.date}</p>
+      <h3>Requested Collection ID: {currentCollection.id}</h3>
+      <h1>{currentCollection.title}</h1>
+      <p>{currentCollection.accessionDate}</p>
     </>
   );
 };
