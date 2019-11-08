@@ -7,4 +7,4 @@
 3. npm run start
 
 ### Deployment
-For deployment documentation, please see the [ratom_api](https://github.com/caktus/ratom_api/tree/deployment-readme#staging-environment) repo.
+For deployment documentation, please see the [ratom_api](https://github.com/caktus/ratom_api#staging-environment) repo.
