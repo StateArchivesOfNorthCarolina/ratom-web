@@ -1,22 +1,8 @@
 import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
-import { gql } from "apollo-boost";
 import AppContext from "../app-state";
-
-const ALL_COLLECTIONS = gql`
-  {
-    allCollections {
-      edges {
-        node {
-          id
-          title
-          accessionDate
-        }
-      }
-    }
-  }
-`;
+import { ALL_COLLECTIONS } from "../../graphql/queries";
 
 const CollectionList = props => {
   const { collections, setCollections } = useContext(AppContext);
