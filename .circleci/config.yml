@@ -65,7 +65,7 @@ jobs:
               gcloud --quiet config set project ratom-258217
               gcloud container clusters get-credentials --region=us-east1 ratom-cluster
               kubectl cluster-info
-              # cd deployment/
-              # /caches/venv/bin/ansible-galaxy install -r requirements.yaml
-              # /caches/venv/bin/ansible-playbook -l gcp-staging deploy.yaml -e k8s_container_image_tag=${TAG}
+              cd deployment/
+              /caches/venv/bin/ansible-galaxy install -r requirements.yaml
+              /caches/venv/bin/ansible-playbook -l gcp-staging deploy.yaml -e k8s_container_image_tag=${TAG}
             fi

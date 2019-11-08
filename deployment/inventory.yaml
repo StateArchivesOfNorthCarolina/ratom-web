@@ -1,0 +1,18 @@
+all:
+  children:
+    k8s_clusters:
+      vars:
+        ansible_connection: local
+      hosts:
+        gcp-staging:
+          env_name: staging
+          k8s_kube_context: gke_ratom-258217_us-east1_ratom-cluster
+          k8s_domain_names:
+          - ratom-staging.caktus-built.com
+          k8s_namespace: "ratom-{{ env_name }}"
+          k8s_container_name: frontend
+          k8s_container_image: us.gcr.io/ratom-258217/ratom_frontend
+          k8s_container_image_tag: latest
+          k8s_container_port: 80
+          k8s_container_ingress_paths:
+          - /
