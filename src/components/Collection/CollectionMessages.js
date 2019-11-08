@@ -4,7 +4,7 @@ import CollectionDetail from "./CollectionDetail";
 import AppContext from "../app-state";
 import MessageList from "../Message/MessageList";
 
-export const CollectionContext = createContext(null)
+export const CollectionContext = createContext(null);
 
 const CollectionMessages = props => {
   const { collectionId } = useParams();
@@ -29,11 +29,9 @@ const CollectionMessages = props => {
   }
 
   return (
-    <CollectionContext.Provider value={{
-      currentCollection
-    }}>
+    <CollectionContext.Provider>
       {currentCollection ? <CollectionDetail /> : noCollection()}
-      <MessageList /> 
+      <MessageList />
     </CollectionContext.Provider>
   );
 };

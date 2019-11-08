@@ -7,9 +7,9 @@ const MessageCardStyled = styled.div`
   height: 100px;
 `;
 
-export default function MessageCard({ message }) {
+export default function MessageCard({ message, handleCardClick }) {
   return (
-    <MessageCardStyled>
+    <MessageCardStyled onClick={() => handleCardClick(message.id)}>
       <div>To: {message.msgTo}</div>
       <div>From: {message.msgFrom}</div>
       <div>Subject: {message.msgSubject}</div>

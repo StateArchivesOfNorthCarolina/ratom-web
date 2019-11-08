@@ -40,9 +40,22 @@ export const AllMessagesQuery = gql`
           msgTo
           msgSubject
           sentDate
-          msgBody
         }
       }
+    }
+  }
+`;
+
+export const SingleMessageQuery = gql`
+  query SingleMessageQuery($currentMessageId: ID!) {
+    message(id: $currentMessageId) {
+      id
+      messageId
+      msgFrom
+      msgTo
+      msgSubject
+      sentDate
+      msgBody
     }
   }
 `;

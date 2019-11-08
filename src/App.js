@@ -14,6 +14,7 @@ import Home from "./components/Home/Home";
 import About from "./components/About/About";
 import CollectionMessages from "./components/Collection/CollectionMessages";
 import AppContext from "./components/app-state";
+import MessageDetail from "./components/Message/MessageDetail";
 
 const THEME = defaultTheme;
 
@@ -35,6 +36,8 @@ const MainContent = styled.main`
 function App() {
   const [collections, setCollections] = useState([]);
   const [currentCollection, setCurrentCollection] = useState();
+  const [messages, setMessages] = useState([]);
+  const [currentMessageId, setCurrentMessageId] = useState();
 
   return (
     <ThemeProvider theme={THEME}>
@@ -45,7 +48,11 @@ function App() {
             collections,
             setCollections,
             currentCollection,
-            setCurrentCollection
+            setCurrentCollection,
+            messages,
+            setMessages,
+            currentMessageId,
+            setCurrentMessageId
           }}
         >
           <SideBar />
@@ -58,8 +65,12 @@ function App() {
               <About />
             </Route>
 
-            <Route path="/collection/:collectionId">
+            <Route exact path="/collection/:collectionId">
               <CollectionMessages />
+            </Route>
+
+            <Route path="/collection/:collectionId/message/:messageId">
+              <MessageDetail />
             </Route>
           </MainContent>
         </AppContext.Provider>
