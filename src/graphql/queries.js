@@ -26,8 +26,8 @@ export const ALL_COLLECTIONS = gql`
 `;
 
 export const AllMessagesQuery = gql`
-  {
-    allMessages(first: 10) {
+  query ($searchBy: String, $searchString: String) {
+    allMessages(searchBy: $searchString) {
       pageInfo {
         hasNextPage
         endCursor
@@ -46,3 +46,28 @@ export const AllMessagesQuery = gql`
     }
   }
 `;
+
+
+export const getCustomMessagesQuery = searchBy => {
+  return gql`
+  query ($searchString: String) {
+    allMessages(${searchBy}_Icontains: $searchString) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      edges {
+        node {
+          id
+          messageId
+          msgFrom
+          msgTo
+          msgSubject
+          sentDate
+          msgBody
+        }
+      }
+    }
+  }
+`
+};
