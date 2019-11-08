@@ -10,13 +10,7 @@ const CollectionList = props => {
 
   useEffect(() => {
     if (data && data.allCollections.edges.length) {
-      const collectionData = data.allCollections.edges.map(item => {
-        return {
-          title: item.node.title,
-          id: item.node.id,
-          accessionDate: item.node.accessionDate
-        };
-      });
+      const collectionData = data.allCollections.edges.map(({node:{title, id, accessionDate}}) => ({title, id, accessionDate}));
       setCollections(collectionData);
     }
   }, [data, loading, setCollections]);

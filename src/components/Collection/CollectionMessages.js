@@ -1,7 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, createContext } from "react";
 import { useParams } from "react-router-dom";
 import CollectionDetail from "./CollectionDetail";
 import AppContext from "../app-state";
+import MessageList from "../Message/MessageList";
+
+export const CollectionContext = createContext(null)
 
 const CollectionMessages = props => {
   const { collectionId } = useParams();
@@ -26,10 +29,12 @@ const CollectionMessages = props => {
   }
 
   return (
-    <>
+    <CollectionContext.Provider value={{
+      currentCollection
+    }}>
       {currentCollection ? <CollectionDetail /> : noCollection()}
-      {/* <MessageList collectionId={collectionId} /> */}
-    </>
+      <MessageList /> 
+    </CollectionContext.Provider>
   );
 };
 

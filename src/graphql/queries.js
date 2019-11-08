@@ -24,3 +24,25 @@ export const ALL_COLLECTIONS = gql`
     }
   }
 `;
+
+export const AllMessagesQuery = gql`
+  {
+    allMessages(first: 10) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      edges {
+        node {
+          id
+          messageId
+          msgFrom
+          msgTo
+          msgSubject
+          sentDate
+          msgBody
+        }
+      }
+    }
+  }
+`;
