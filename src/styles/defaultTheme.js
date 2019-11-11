@@ -5,6 +5,7 @@ export default {
 
     primaryTexBlack: vars.colorBlack,
     primaryTextWhite: vars.colorWhite,
+    secondaryTextWhite: vars.colorWhiteDark,
     secondaryText: vars.colorPrimary,
     primaryBackground: vars.colorPrimary,
     secondaryBackground: vars.offWhite,
