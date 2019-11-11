@@ -4,11 +4,7 @@ import * as vars from './styleVariables';
 const GlobalStyle = createGlobalStyle`
     body {
         margin: 0;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-            "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-            sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
+        font-family: 'Roboto', sans-serif;
     }
 
     a {
@@ -17,6 +13,17 @@ const GlobalStyle = createGlobalStyle`
 
     h1 {
         font-size: 3.5rem;
+    }
+
+    h3, p {
+        font-family: 'Roboto Mono', monospace;
+        padding: 0;
+        margin: 0;
+        color: ${props => props.theme.secondaryTextWhite}
+    }
+
+    nav {
+        text-align: center;
     }
 `
 

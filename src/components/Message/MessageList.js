@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import styled from "styled-components";
 import { useApolloClient } from "@apollo/react-hooks";
 import { getCustomMessagesQuery } from "../../graphql/queries";
 import MessageCard from "./MessageCard";
@@ -6,13 +7,18 @@ import MessageSearch from "./MessageSearch";
 import { useHistory } from "react-router-dom";
 import AppContext from "../app-state";
 
+const MessagesWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 
 export default function MessageList(props) {
   const [messages, setMessages] = useState([])
 
   const client = useApolloClient();
   const searchMessages = ({ searchBy, searchString }) => {
-    console.log('query: ', { searchBy, searchString })
     const query = getCustomMessagesQuery(searchBy)
     client.query({
       query,
@@ -37,12 +43,14 @@ export default function MessageList(props) {
         <MessageCard key={message.id} message={message} handleCardClick={handleCardClick}/>
       ));
     }
-    return "No Data";
+    return null;
   }
 
   return (
     <div>
       <MessageSearch searchMessages={searchMessages} />
-      {renderData()}
+      <MessagesWrapper>
+        {renderData()}
+      </MessagesWrapper>
     </div>);
 }

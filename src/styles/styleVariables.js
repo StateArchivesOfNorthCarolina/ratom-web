@@ -1,6 +1,7 @@
 
 /* COLORS  */
 export const colorWhite = '#fff';
+export const colorWhiteDark = '#a6a6a6'
 export const colorBlack = '#000';
 export const offWhite = `#fff`
 

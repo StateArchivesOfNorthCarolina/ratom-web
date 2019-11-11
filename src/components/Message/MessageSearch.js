@@ -10,14 +10,17 @@ const Searchables = styled.div`
     flex-direction: column;
     align-items: center;
 
+    margin: 1rem 0;
+
     p {
-        margin: 0;
-        padding: 0;
         font-size: 18px;
+        display: block;
+        margin-bottom: 1rem;
     }
 
     div {
         width: 80%;
+        max-width: 800px;
         display: flex;
         justify-content: space-evenly;
     }
@@ -42,12 +45,12 @@ const SearchBoxStyled = styled.div`
     align-items: center;
     justify-content: space-between;
     margin-bottom: 2rem;
-    label {
-        font-size: 28px;
+    p {
+        font-size: 18px;
         margin-bottom: 1rem;
     }
     input {
-        width: 85%;
+        width: 65%;
         margin-bottom: 1rem;
         padding: .5rem 1rem;
     }
@@ -90,16 +93,17 @@ const SEARCHABLE = [
 
 function MessageSearch({ searchMessages }) {
     const [searchBy, setSearchBy] = useState({});
-    const [searchString, setSearchString] = useState();
+    const [searchString, setSearchString] = useState('');
 
     const handleSearchMessages = () => {
-        searchMessages({ searchBy: searchBy.key, searchString });
+        if (searchString.trim()) searchMessages({ searchBy: searchBy.key, searchString });
     }
 
     return (
         <MessageSearchStyled>
+            <hr/>
             <Searchables>
-                <p>Search in:</p>
+                <p>search in</p>
                 <div>
                     {SEARCHABLE.map(item => (
                         <StyledRadioLabel
@@ -119,9 +123,9 @@ function MessageSearch({ searchMessages }) {
             </Searchables>
             {searchBy.label && 
                 <SearchBoxStyled>
-                    <label>'{searchBy.label}' contains: </label>
+                    <p>containing: </p>
                     <input placeholder='Search' value={searchString} onChange={e => setSearchString(e.target.value)}/>
-                    <ButtonStyled onClick={handleSearchMessages}>Search</ButtonStyled>
+                <ButtonStyled disabled={!searchString} onClick={handleSearchMessages}>Search</ButtonStyled>
                 </SearchBoxStyled>
             }
         </MessageSearchStyled>
