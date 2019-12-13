@@ -2,7 +2,10 @@
 import React from "react";
 import { Route } from "react-router-dom";
 import { useAuthContext } from "../Context/auth-provider";
-import Login from "../Pages/Login/Login";
+
+// Children
+import Login from "./Login/Login";
+
 
 const PrivateRoute = ({ component, ...options }) => {
   const { user } = useAuthContext();

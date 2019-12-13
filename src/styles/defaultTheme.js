@@ -11,7 +11,7 @@ export default {
     secondaryBackground: vars.colorWhiteDark,
 
     colorPrimary: vars.colorPrimary,
+    colorGrey: vars.colorGrey,
 
     colorCaution: vars.colorCaution,
-    testGreen: "green"
 };

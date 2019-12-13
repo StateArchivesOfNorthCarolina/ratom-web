@@ -11,15 +11,13 @@ import PrivateRoute from "./components/Containers/PrivateRoute";
 
 // Context
 import AuthProvider from "./components/Context/auth-provider";
-import Main from "./components/Containers/Main";
+import MainLayout from "./components/Containers/Main/MainLayout";
 
 
 const THEME = defaultTheme;
 
 const AppStyled = styled.div`
   min-height: 100vh;
-  display: flex;
-  flex-direction: row;
 `;
 
 const App = () => {
@@ -30,7 +28,7 @@ const App = () => {
       <BrowserRouter>
         <AuthProvider>
           <AppStyled>
-            <PrivateRoute path="/" component={Main}/>
+            <PrivateRoute path="/" component={MainLayout}/>
           </AppStyled>
         </AuthProvider>
       </BrowserRouter>

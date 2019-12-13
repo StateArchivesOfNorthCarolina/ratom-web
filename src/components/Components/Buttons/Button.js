@@ -1,12 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
+import { borderRadius } from '../../../styles/styleVariables';
 
 
 const ButtonStyled = styled.button`
   padding: 1rem 2rem;
-  font-size: 2rem;
   font-weight: bold;
-  border-radius: 5px;
+  border-radius: ${borderRadius};
+
+  font-size: ${props => props.small ? "inherit" : "2rem"};
 
   display: ${props => (props.block ? "block" : "inline-block")};
   background-color: ${props => {
@@ -41,7 +43,8 @@ const ButtonStyled = styled.button`
     return props.theme.textColorLight;
   }};
 
-  border: ${props => props.neutral ? `2px solid ${props.theme.colorPrimary}` : "none"};
+  border: ${props =>
+    props.neutral ? `2px solid ${props.theme.colorPrimary}` : "none"};
 `;
 
 export default function Button({children, ...props}) {
