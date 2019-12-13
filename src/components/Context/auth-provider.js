@@ -10,7 +10,8 @@ import {
     setTokenToLocalStorage, 
     setUserToLocalStorage, 
     clearUserFromLocalStorage, 
-    clearTokenFromLocalStorage 
+    clearTokenFromLocalStorage, 
+    getUserFromLocalStorage
 } from "../../util/authManager";
 
 
@@ -22,25 +23,28 @@ const AuthProvider = props => {
   const [authData, setAuthData] = useState(initialAuthData);
 
   useEffect(() => {
-    const currentAuthData = getTokenFromLocalStorage();
+    const token = getTokenFromLocalStorage();
+    const user = getUserFromLocalStorage()
+    
+    const currentAuthData = { token, user };
     if (currentAuthData) {
       setAuthData(currentAuthData);
     }
   }, []);
 
   const onLogout = () => {
-      clearTokenFromLocalStorage();
-      clearUserFromLocalStorage();
-      setAuthData(initialAuthData);
-    }
+    clearTokenFromLocalStorage();
+    clearUserFromLocalStorage();
+    setAuthData(initialAuthData);
+  }
 
   const onLogin = newAuthData => {
-      const { token, user } = newAuthData;
-      // TODO: token and user may not be at this depth.
-      setTokenToLocalStorage(token);
-      setUserToLocalStorage(user);
-      setAuthData(newAuthData);
-    }
+    const { token, user } = newAuthData;
+    // TODO: token and user may not be at this depth.
+    setTokenToLocalStorage(token);
+    setUserToLocalStorage(user);
+    setAuthData(newAuthData);
+  }
 
   // const authDataValue = useMemo({ ...authData, onLogin, onLogout }, [authData]);
 
