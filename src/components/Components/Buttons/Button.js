@@ -1,6 +1,7 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { borderRadius } from '../../../styles/styleVariables';
+import { lighten, darken } from '../../../styles/styleUtils/lighten-darken';
 
 
 const ButtonStyled = styled.button`
@@ -8,7 +9,7 @@ const ButtonStyled = styled.button`
   font-weight: bold;
   border-radius: ${borderRadius};
 
-  font-size: ${props => props.small ? "inherit" : "2rem"};
+  font-size: ${props => (props.small ? "inherit" : "2rem")};
 
   display: ${props => (props.block ? "block" : "inline-block")};
   background-color: ${props => {
@@ -45,6 +46,60 @@ const ButtonStyled = styled.button`
 
   border: ${props =>
     props.neutral ? `2px solid ${props.theme.colorPrimary}` : "none"};
+
+  &:hover {
+    ${props => {
+      if (props.positive) {
+        return css`
+          background-color: ${props => darken(props.theme.colorPrimary)};
+          transform: translateY(-1px);
+        `;
+      }
+
+      if (props.neutral) {
+        return css`
+          border-color: ${props => darken(props.theme.colorPrimary)};
+          color: ${props => darken(props.theme.colorPrimary)};
+          transform: translateY(-1px);
+        `;
+      }
+
+      if (props.negative) {
+        return css`
+          background-color: ${props => darken(props.theme.colorCaution)};
+          transform: translateY(-1px);
+        `;
+      }
+    }}
+  }
+
+  &:active {
+    ${props => {
+      if (props.positive) {
+        return css`
+          background-color: ${props => darken(props.theme.colorPrimary)};
+          transform: translateY(1px);
+        `;
+      }
+
+      if (props.neutral) {
+        return css`
+          border-color: ${props => darken(props.theme.colorPrimary)};
+          color: ${props => darken(props.theme.colorPrimary)};
+          transform: translateY(1px);
+        `;
+      }
+
+      if (props.negative) {
+        return css`
+          background-color: ${props => darken(props.theme.colorCaution)};
+          transform: translateY(1px);
+        `;
+      }
+    }}
+  }
+
+  transition: all 0.2s ease-out;
 `;
 
 export default function Button({children, ...props}) {
