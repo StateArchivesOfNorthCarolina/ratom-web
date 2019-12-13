@@ -2,13 +2,19 @@ import { createGlobalStyle } from 'styled-components';
 import * as vars from './styleVariables';
 
 const GlobalStyle = createGlobalStyle`
+    html {
+        font-size: 10px;
+    }
+
     body {
         margin: 0;
-        font-family: 'Roboto', sans-serif;
+        font-family: ${vars.fontPrimary};
+        font-size: 1.5rem;
+        box-sizing: border-box;
     }
 
     a {
-        color: ${vars.colorAccentPrimary}
+        color: ${vars.colorAccent}
     }
 
     h1 {
@@ -16,15 +22,14 @@ const GlobalStyle = createGlobalStyle`
     }
 
     h3, p {
-        font-family: 'Roboto Mono', monospace;
-        padding: 0;
         margin: 0;
         color: ${props => props.theme.secondaryTextWhite}
     }
 
-    nav {
-        text-align: center;
+    input {
+        font-size: 1.5rem;
+        color: ${props => props.theme.textColorSecondary}
     }
-`
+`;
 
 export default GlobalStyle
