@@ -2,10 +2,22 @@ import React from 'react';
 import styled from 'styled-components';
 import { borderSeparator, standardPadding } from '../../../../../../styles/styleVariables';
 
+// Router
+import { useHistory, useRouteMatch } from 'react-router-dom';
 
-const MessageListItem = () => {
+
+const MessageListItem = ({ message }) => {
+    const { path } = useRouteMatch();
+    const history = useHistory();
+
+    const handleSelectMessage = () => {
+        // TODO: stick it in context or whatever
+        // TODO: maybe including the cursor?
+        history.push(`${path}/messages/${message.id}`);
+    }
+
     return (
-        <MessageListItemStyled>
+        <MessageListItemStyled onClick={handleSelectMessage}>
             <h4>message list item</h4>
         </MessageListItemStyled>
     )

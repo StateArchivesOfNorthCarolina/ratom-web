@@ -1,14 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 import { borderSeparator, standardPadding } from '../../../styles/styleVariables';
+
+// Router
+import { useHistory } from 'react-router-dom';
+
+// Components
 import BackButton from '../../Components/Buttons/BackButton';
 
 const MessagesHeader = () => {
+    const history = useHistory();
     return (
-        <MessagesHeaderStyled >
-            <BackButton />
-        </MessagesHeaderStyled>
-    )
+      <MessagesHeaderStyled>
+        <BackButton onClick={() => history.push("/")} />
+      </MessagesHeaderStyled>
+    );
 }
 
 const MessagesHeaderStyled = styled.header`

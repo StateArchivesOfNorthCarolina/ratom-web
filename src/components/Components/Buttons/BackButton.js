@@ -8,7 +8,6 @@ import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 // Deps
 import tinycolor from "tinycolor2";
 import { lighten } from '../../../styles/styleUtils/lighten-darken';
-import { standardLighten } from '../../../styles/styleVariables';
 
 
 const BackButton = props => {
