@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { borderSeparator, standardPadding } from '../../../styles/styleVariables';
+import BackButton from '../../Components/Buttons/BackButton';
 
 const MessagesHeader = () => {
     return (
         <MessagesHeaderStyled >
-            <h2>Messages Header</h2>
+            <BackButton />
         </MessagesHeaderStyled>
     )
 }
