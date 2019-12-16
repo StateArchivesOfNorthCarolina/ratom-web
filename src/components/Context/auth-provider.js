@@ -27,9 +27,7 @@ const AuthProvider = props => {
     const user = getUserFromLocalStorage()
     
     const currentAuthData = { token, user };
-    if (currentAuthData) {
-      setAuthData(currentAuthData);
-    }
+    setAuthData(currentAuthData);
   }, []);
 
   const onLogout = () => {
