@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { borderRadius } from '../../../styles/styleVariables';
-import { lighten, darken } from '../../../styles/styleUtils/lighten-darken';
+import { darken } from '../../../styles/styleUtils/lighten-darken';
 
 
 const ButtonStyled = styled.button`
