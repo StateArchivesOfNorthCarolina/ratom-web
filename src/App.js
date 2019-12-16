@@ -1,4 +1,4 @@
-import React  from "react";
+import React from "react";
 
 // Styles
 import styled, { ThemeProvider } from "styled-components";
@@ -12,7 +12,6 @@ import PrivateRoute from "./components/Containers/PrivateRoute";
 // Context
 import AuthProvider from "./components/Context/auth-provider";
 import MainLayout from "./components/Containers/Main/MainLayout";
-
 
 const THEME = defaultTheme;
 
@@ -30,12 +29,12 @@ const App = () => {
       <BrowserRouter>
         <AuthProvider>
           <AppStyled>
-            <PrivateRoute path="/" component={MainLayout}/>
+            <PrivateRoute path="/" component={MainLayout} />
           </AppStyled>
         </AuthProvider>
       </BrowserRouter>
     </ThemeProvider>
   );
-}
+};
 
 export default App;

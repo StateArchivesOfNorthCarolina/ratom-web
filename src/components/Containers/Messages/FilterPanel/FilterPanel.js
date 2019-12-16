@@ -2,12 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import FilterActions from "./FilterActions";
 
-
 const FilterPanel = () => {
   return (
     <FilterPanelStyled>
-        <h4>Filter Panel</h4>
-        <FilterActions />
+      <h4>Filter Panel</h4>
+      <FilterActions />
     </FilterPanelStyled>
   );
 };
@@ -24,6 +23,5 @@ const FilterPanelStyled = styled.aside`
     padding: 2rem;
   }
 `;
-
 
 export default FilterPanel;

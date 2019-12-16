@@ -11,13 +11,13 @@ const Pagination = () => {
 };
 
 const PaginationStyled = styled.div`
-    height: 8rem;
-    width: 100%;
-    padding: ${standardPadding};
-    
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+  height: 8rem;
+  width: 100%;
+  padding: ${standardPadding};
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
 
 export default Pagination;

@@ -6,18 +6,18 @@ import {
 } from "../../../styles/styleVariables";
 
 // Router
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
 // Components
 import BackButton from "../../Components/Buttons/BackButton";
 
 const MessageHeader = () => {
-    const history = useHistory();
-    return (
-        <MessageHeaderStyled>
-            <BackButton onClick={() => history.goBack()} />
-        </MessageHeaderStyled>
-    )
+  const history = useHistory();
+  return (
+    <MessageHeaderStyled>
+      <BackButton onClick={() => history.goBack()} />
+    </MessageHeaderStyled>
+  );
 };
 
 const MessageHeaderStyled = styled.header`

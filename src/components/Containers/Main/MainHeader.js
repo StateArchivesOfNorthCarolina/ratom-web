@@ -1,8 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-import { boxShadow, standardPadding } from '../../../styles/styleVariables';
-import Logo from '../../Components/Logo';
-
+import React from "react";
+import styled from "styled-components";
+import { boxShadow, standardPadding } from "../../../styles/styleVariables";
+import Logo from "../../Components/Logo";
 
 /**
  * MainHeader needs to know:
@@ -13,26 +12,23 @@ import Logo from '../../Components/Logo';
  *      ImportAccount actions, whatever those are
  */
 
-const MainHeader = props => { 
-    return (
-        <MainHeaderStyled>
-            <Logo />
-        </MainHeaderStyled>
-    )
-}
+const MainHeader = props => {
+  return (
+    <MainHeaderStyled>
+      <Logo />
+    </MainHeaderStyled>
+  );
+};
 
 const MainHeaderStyled = styled.header`
-    height: 6.5rem;
-    width: 100%;
-    box-shadow: ${boxShadow};
+  height: 6.5rem;
+  width: 100%;
+  box-shadow: ${boxShadow};
 
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: ${standardPadding};
-
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: ${standardPadding};
 `;
-
-
 
 export default MainHeader;
