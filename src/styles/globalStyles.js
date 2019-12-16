@@ -6,11 +6,14 @@ const GlobalStyle = createGlobalStyle`
         font-size: 10px;
     }
 
+    *, *:before, *:after {
+        box-sizing: border-box;
+    }
+
     body {
         margin: 0;
         font-family: ${vars.fontPrimary};
         font-size: 1.5rem;
-        box-sizing: border-box;
     }
 
     a {
@@ -21,9 +24,27 @@ const GlobalStyle = createGlobalStyle`
         font-size: 3.5rem;
     }
 
-    h3, p {
+    h2 {
+        font-size: 2rem;
+        font-weight: bold;
+        color: ${props => props.theme.textColorPrimary}
+    }
+    
+    h4 {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: ${props => props.theme.textColorSecondary};
+    }
+
+    p {
         margin: 0;
-        color: ${props => props.theme.secondaryTextWhite}
+        color: ${props => props.theme.textColorPrimary}
+    }
+
+    ul, li {
+        padding: 0;
+        margin: 0;
+        list-style: none;
     }
 
     input {
