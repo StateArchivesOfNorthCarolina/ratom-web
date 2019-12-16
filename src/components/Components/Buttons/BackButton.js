@@ -6,12 +6,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 
 // Deps
-import tinycolor from "tinycolor2";
 import { lighten } from '../../../styles/styleUtils/lighten-darken';
 
 
 const BackButton = props => {
-    console.log(tinycolor(props.theme.colorPrimary).lighten(40).toString());
     return (
       <BackButtonStyled {...props}>
         <FontAwesomeIcon
