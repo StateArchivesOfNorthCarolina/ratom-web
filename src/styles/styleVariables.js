@@ -22,3 +22,6 @@ export const standardPadding = '1rem';
 export const borderRadius = '4px';
 export const borderSeparator = `1px solid ${colorGrey}`;
 export const boxShadow = '0 8px 16px 0 rgba(48, 49, 51, 0.1), 0 0 1px 0 rgba(48, 49, 51, 0.05);'
+
+export const standardLighten = 20;
+export const standardDarken = 20;

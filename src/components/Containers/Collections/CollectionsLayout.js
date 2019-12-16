@@ -8,7 +8,7 @@ const CollectionsLayout = () => {
     return (
         <CollectionsLayoutStyled>
             <CollectionsHeader />
-            <h2>Collections Content</h2>
+            <p>manually navigation to "/collections/1"  to view more</p>
         </CollectionsLayoutStyled>
     )
 }
