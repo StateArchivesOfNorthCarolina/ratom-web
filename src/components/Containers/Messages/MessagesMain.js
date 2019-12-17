@@ -1,5 +1,4 @@
 import React from "react";
-import styled from "styled-components";
 
 // Router
 import PrivateRoute from "../PrivateRoute";
@@ -10,28 +9,25 @@ import MessagesLayout from "./MessagesLayout";
 import MessageLayout from "../Message/MessageLayout";
 import GenericNotFound from "../GenericNotFound";
 
-
 const MessagesMain = () => {
-    const { path } = useRouteMatch();
+  const { path } = useRouteMatch();
 
-    return (
-      <>
-        <Switch>
-          <PrivateRoute exact path={path}>
-            <MessagesLayout />
-          </PrivateRoute>
-          <PrivateRoute path={`${path}/messages/:messageId`}>
-            <MessageLayout />
-          </PrivateRoute>
-          <Route path="/404">
-            <GenericNotFound />
-          </Route>
-          <Redirect to="/404" />
-        </Switch>
-      </>
-    );
+  return (
+    <>
+      <Switch>
+        <PrivateRoute exact path={path}>
+          <MessagesLayout />
+        </PrivateRoute>
+        <PrivateRoute path={`${path}/messages/:messageId`}>
+          <MessageLayout />
+        </PrivateRoute>
+        <Route path="/404">
+          <GenericNotFound />
+        </Route>
+        <Redirect to="/404" />
+      </Switch>
+    </>
+  );
 };
 
-
 export default MessagesMain;
-

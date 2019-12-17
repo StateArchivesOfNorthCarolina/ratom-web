@@ -1,19 +1,18 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
 
 // Children
-import MessageHeader from './MessageHeader';
-import MessageDetail from './MessageDetail';
-import MessageFooter from './MessageFooter';
+import MessageHeader from "./MessageHeader";
+import MessageDetail from "./MessageDetail";
+import MessageFooter from "./MessageFooter";
 
 const MessageLayout = () => {
-    return (
-        <>
-            <MessageHeader />
-            <MessageDetail />
-            <MessageFooter />
-        </>
-    )
-}
+  return (
+    <>
+      <MessageHeader />
+      <MessageDetail />
+      <MessageFooter />
+    </>
+  );
+};
 
 export default MessageLayout;

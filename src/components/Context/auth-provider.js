@@ -5,15 +5,14 @@ import React, {
   // useMemo,
   useContext
 } from "react";
-import { 
-    getTokenFromLocalStorage, 
-    setTokenToLocalStorage, 
-    setUserToLocalStorage, 
-    clearUserFromLocalStorage, 
-    clearTokenFromLocalStorage, 
-    getUserFromLocalStorage
+import {
+  getTokenFromLocalStorage,
+  setTokenToLocalStorage,
+  setUserToLocalStorage,
+  clearUserFromLocalStorage,
+  clearTokenFromLocalStorage,
+  getUserFromLocalStorage
 } from "../../util/authManager";
-
 
 export const AuthContext = createContext(null);
 
@@ -24,8 +23,8 @@ const AuthProvider = props => {
 
   useEffect(() => {
     const token = getTokenFromLocalStorage();
-    const user = getUserFromLocalStorage()
-    
+    const user = getUserFromLocalStorage();
+
     const currentAuthData = { token, user };
     setAuthData(currentAuthData);
   }, []);
@@ -34,7 +33,7 @@ const AuthProvider = props => {
     clearTokenFromLocalStorage();
     clearUserFromLocalStorage();
     setAuthData(initialAuthData);
-  }
+  };
 
   const onLogin = newAuthData => {
     const { token, user } = newAuthData;
@@ -42,7 +41,7 @@ const AuthProvider = props => {
     setTokenToLocalStorage(token);
     setUserToLocalStorage(user);
     setAuthData(newAuthData);
-  }
+  };
 
   // const authDataValue = useMemo({ ...authData, onLogin, onLogout }, [authData]);
 
