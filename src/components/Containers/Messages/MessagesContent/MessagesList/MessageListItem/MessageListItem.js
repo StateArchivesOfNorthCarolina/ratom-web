@@ -17,13 +17,16 @@ const MessageListItem = ({ message }) => {
     }
 
     return (
-        <MessageListItemStyled onClick={handleSelectMessage}>
-            <h4>message list item</h4>
-        </MessageListItemStyled>
-    )
+      <MessageListItemStyled
+        onClick={handleSelectMessage}
+        data-cy="messages_list_item"
+      >
+        <h4>message list item</h4>
+      </MessageListItemStyled>
+    );
 }
 
-const MessageListItemStyled = styled.li`
+const MessageListItemStyled = styled.div`
     height: 15rem;
     width: 100%;
     border-bottom: ${borderSeparator};

@@ -7,7 +7,7 @@ import { standardPadding, borderSeparator } from '../../../../styles/styleVariab
 const CollectionsListItem = ({ collection, setCollection }) => {
 
     return (
-      <CollectionsListItemStyled onClick={() => setCollection(collection)}>
+      <CollectionsListItemStyled onClick={() => setCollection(collection)} data-cy="collections_list_item">
         <h5>{collection.person}</h5>
       </CollectionsListItemStyled>
     );

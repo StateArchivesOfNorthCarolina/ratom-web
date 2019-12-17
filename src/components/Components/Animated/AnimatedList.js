@@ -12,7 +12,6 @@ const Item = posed.li({
 });
 
 const AnimatedList = props => {
-  console.log('animated list mounts')
   return (
     <ListContainer>
       {Children.map(props.children, (child, i) =>

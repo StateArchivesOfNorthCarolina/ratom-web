@@ -11,9 +11,9 @@ import { lighten } from '../../../styles/styleUtils/lighten-darken';
 
 const BackButton = props => {
     return (
-      <BackButtonStyled {...props}>
+      <BackButtonStyled {...props} data-cy="back_button">
         <FontAwesomeIcon
-          size='xs'
+          size="xs"
           icon={faChevronLeft}
           color={props.theme.colorPrimary}
         />
