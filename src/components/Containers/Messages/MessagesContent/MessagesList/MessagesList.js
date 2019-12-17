@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import MessageListItem from "./MessageListItem/MessageListItem";
+import AnimatedList from "../../../../Components/Animated/AnimatedList";
 
 // ! REMOVE
 const MESSAGES = [
@@ -30,7 +31,7 @@ const MessagesList = () => {
   return <MessagesListStyled>{MESSAGES.map(message => <MessageListItem key={message.id} message={message}/>)}</MessagesListStyled>;
 };
 
-const MessagesListStyled = styled.ul`
+const MessagesListStyled = styled(AnimatedList)`
     width: 100%;
     padding: 3rem 3rem 0 3rem;
 `;
