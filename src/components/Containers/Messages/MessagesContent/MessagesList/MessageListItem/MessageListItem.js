@@ -1,12 +1,9 @@
-import React from "react";
-import styled from "styled-components";
-import {
-  borderSeparator,
-  standardPadding
-} from "../../../../../../styles/styleVariables";
+import React from 'react';
+import styled from 'styled-components';
+import { borderSeparator, standardPadding } from '../../../../../../styles/styleVariables';
 
 // Router
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory, useLocation } from 'react-router-dom';
 
 const MessageListItem = ({ message }) => {
   const { pathname } = useLocation();
@@ -19,13 +16,13 @@ const MessageListItem = ({ message }) => {
   };
 
   return (
-    <MessageListItemStyled onClick={handleSelectMessage}>
+    <MessageListItemStyled onClick={handleSelectMessage} data-cy="messages_list_item">
       <h4>message list item</h4>
     </MessageListItemStyled>
   );
 };
 
-const MessageListItemStyled = styled.li`
+const MessageListItemStyled = styled.div`
   height: 15rem;
   width: 100%;
   border-bottom: ${borderSeparator};

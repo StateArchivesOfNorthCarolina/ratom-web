@@ -33,11 +33,21 @@ const Login = () => {
     <LoginStyled>
       <h1>Login!</h1>
       <LoginWrapper>
-        <Input label="Email Address" type="email" onChange={e => setEmail(e.target.value)} />
-        <Input label="Password" type="password" onChange={e => setPassword(e.target.value)} />
+        <Input
+          label="Email Address"
+          type="email"
+          onChange={e => setEmail(e.target.value)}
+          data-cy="login_email"
+        />
+        <Input
+          label="Password"
+          type="password"
+          onChange={e => setPassword(e.target.value)}
+          data-cy="login_password"
+        />
         <FormErrors errors={error && error.graphQLErrors} />
 
-        <Button postitive block onClick={handleSignIn}>
+        <Button postitive block onClick={handleSignIn} data-cy="signin_button">
           {loading ? <Spinner /> : 'Sign in'}
         </Button>
       </LoginWrapper>
