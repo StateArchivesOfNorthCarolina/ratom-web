@@ -1,14 +1,15 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 // Children
-import CollectionsHeader from "./CollectionsHeader";
+import CollectionsHeader from './CollectionsHeader';
+import CollectionsList from './CollectionsList/CollectionsList';
 
 const CollectionsLayout = () => {
   return (
     <CollectionsLayoutStyled>
       <CollectionsHeader />
-      <p>manually navigation to "/collections/1" to view more</p>
+      <CollectionsList />
     </CollectionsLayoutStyled>
   );
 };

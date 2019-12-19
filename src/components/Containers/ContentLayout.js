@@ -1,19 +1,20 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 // Router
-import { Switch, Redirect, Route } from "react-router-dom";
-import PrivateRoute from "./PrivateRoute";
+import { Redirect, Route } from 'react-router-dom';
+import PrivateRoute from './PrivateRoute';
 
 // Children
-import CollectionsLayout from "./Collections/CollectionsLayout";
-import MessagesMain from "./Messages/MessagesMain";
-import GenericNotFound from "./GenericNotFound";
+import CollectionsLayout from './Collections/CollectionsLayout';
+import MessagesMain from './Messages/MessagesMain';
+import GenericNotFound from './GenericNotFound';
+import AnimatedSwitch from '../Components/Animated/AnimatedSwitch';
 
 const ContentLayout = props => {
   return (
     <ContentLayoutStyled>
-      <Switch>
+      <AnimatedSwitch>
         <PrivateRoute exact path="/">
           <CollectionsLayout />
         </PrivateRoute>
@@ -26,7 +27,7 @@ const ContentLayout = props => {
           <GenericNotFound />
         </Route>
         <Redirect to="/404" />
-      </Switch>
+      </AnimatedSwitch>
     </ContentLayoutStyled>
   );
 };

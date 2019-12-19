@@ -2,7 +2,10 @@ import React from "react";
 
 // Router
 import PrivateRoute from "../PrivateRoute";
-import { Switch, Route, Redirect, useRouteMatch } from "react-router-dom";
+import { Route, Redirect, useRouteMatch } from "react-router-dom";
+
+// Components 
+import AnimatedSwitch from "../../Components/Animated/AnimatedSwitch";
 
 // Children
 import MessagesLayout from "./MessagesLayout";
@@ -14,7 +17,7 @@ const MessagesMain = () => {
 
   return (
     <>
-      <Switch>
+      <AnimatedSwitch>
         <PrivateRoute exact path={path}>
           <MessagesLayout />
         </PrivateRoute>
@@ -25,7 +28,7 @@ const MessagesMain = () => {
           <GenericNotFound />
         </Route>
         <Redirect to="/404" />
-      </Switch>
+      </AnimatedSwitch>
     </>
   );
 };

@@ -36,6 +36,12 @@ const GlobalStyle = createGlobalStyle`
         color: ${props => props.theme.textColorSecondary};
     }
 
+    h5 {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: ${props => props.theme.textColorSecondary};
+    }
+
     p {
         margin: 0;
         color: ${props => props.theme.textColorPrimary}
