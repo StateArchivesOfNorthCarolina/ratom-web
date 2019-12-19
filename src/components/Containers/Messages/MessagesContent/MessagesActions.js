@@ -1,6 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { borderSeparator, standardPadding } from "../../../../styles/styleVariables";
+import {
+  borderSeparator,
+  standardPadding
+} from "../../../../styles/styleVariables";
 
 const MessagesActions = () => {
   return (

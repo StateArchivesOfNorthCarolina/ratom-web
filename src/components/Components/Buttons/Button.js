@@ -1,8 +1,7 @@
-import React from 'react';
-import styled, { css } from 'styled-components';
-import { borderRadius } from '../../../styles/styleVariables';
-import { darken } from '../../../styles/styleUtils/lighten-darken';
-
+import React from "react";
+import styled, { css } from "styled-components";
+import { borderRadius } from "../../../styles/styleVariables";
+import { darken } from "../../../styles/styleUtils/lighten-darken";
 
 const ButtonStyled = styled.button`
   padding: 1rem 2rem;
@@ -102,8 +101,6 @@ const ButtonStyled = styled.button`
   transition: all 0.2s ease-out;
 `;
 
-export default function Button({children, ...props}) {
-    return (
-        <ButtonStyled {...props}>{children}</ButtonStyled>
-    )
+export default function Button({ children, ...props }) {
+  return <ButtonStyled {...props}>{children}</ButtonStyled>;
 }

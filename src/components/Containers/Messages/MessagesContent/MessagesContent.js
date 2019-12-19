@@ -8,7 +8,6 @@ import MessagesList from "./MessagesList/MessagesList";
 import MessagesActions from "./MessagesActions";
 import Pagination from "../../../Components/Pagination/Pagination";
 
-
 const MessagesContent = () => {
   return (
     <MessagesContentStyled>

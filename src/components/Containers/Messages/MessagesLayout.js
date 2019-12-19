@@ -8,7 +8,7 @@ const MessagesLayout = () => {
   return (
     <MessagesLayoutStyled>
       <MessagesHeader />
-      <ContentWrapper >
+      <ContentWrapper>
         <FilterPanel />
         <MessagesContent />
       </ContentWrapper>
@@ -21,9 +21,9 @@ const MessagesLayoutStyled = styled.section`
 `;
 
 const ContentWrapper = styled.section`
-    width: 100%;
-    display: flex;
-    flex-direction: row;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
 `;
 
 export default MessagesLayout;

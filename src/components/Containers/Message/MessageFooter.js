@@ -8,7 +8,7 @@ import {
 const MessageFooter = () => {
   return (
     <MessageFooterStyled>
-        <h4>Footer</h4>
+      <h4>Footer</h4>
     </MessageFooterStyled>
   );
 };

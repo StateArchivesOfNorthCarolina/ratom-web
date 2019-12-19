@@ -1,5 +1,5 @@
-import { createGlobalStyle } from 'styled-components';
-import * as vars from './styleVariables';
+import { createGlobalStyle } from "styled-components";
+import * as vars from "./styleVariables";
 
 const GlobalStyle = createGlobalStyle`
     html {
@@ -53,4 +53,4 @@ const GlobalStyle = createGlobalStyle`
     }
 `;
 
-export default GlobalStyle
+export default GlobalStyle;
