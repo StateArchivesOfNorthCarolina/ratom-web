@@ -1,30 +1,18 @@
-import React, { useState } from "react";
-import styled from "styled-components";
+import React, { useState } from 'react';
+import styled from 'styled-components';
 
 // Fetch
-import { useMutation } from "@apollo/react-hooks";
-import { LOGIN } from "../../../graphql/mutations/authMutations";
+import { useMutation } from '@apollo/react-hooks';
+import { LOGIN } from '../../../graphql/mutations/authMutations';
+
+// Context
+import { useAuthContext } from '../../Context/auth-provider';
 
 // Components
-import Input from "../../Components/Inputs/Input";
-import Button from "../../Components/Buttons/Button";
-import Spinner from "../../Components/Loading/Spinner";
-import { useAuthContext } from "../../Context/auth-provider";
-
-// ! REMOVE
-const PRETEND_AUTH_RESPONSE = {
-  token:
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwibmFtZSI6Ik1pY2hhZWwgQXNodG9uIiwiaWF0IjoxNTE2MjM5MDIyfQ.NJ3Fr-HjBfowRp8j9poxS8GQexwKCTJUOaZlOXzI-2Q",
-  user: {
-    id: 1,
-    firstName: "Michael",
-    lastName: "Ashton",
-    collections: [1, 3, 6]
-  }
-};
-
-// TODO: Handle Error
-// TODO: Don't know enough about how the error object will look to make inferences
+import Input from '../../Components/Inputs/Input';
+import Button from '../../Components/Buttons/Button';
+import Spinner from '../../Components/Loading/Spinner';
+import FormErrors from '../../Components/Form/FormErrors';
 
 const Login = () => {
   const [email, setEmail] = useState(null);
@@ -32,40 +20,25 @@ const Login = () => {
   const { onLogin } = useAuthContext();
 
   const [login, { loading, error }] = useMutation(LOGIN, {
-    onCompleted(response) {
-      // TODO: response probably needs to be destructured
-      // onLogin(response)
+    onCompleted({ tokenAuth }) {
+      onLogin(tokenAuth);
     }
   });
 
   const handleSignIn = () => {
-    // login({ variables: { email, password }})
-    mockLogin();
-  };
-
-  // ! REMOVE
-  const mockLogin = () => {
-    setTimeout(() => {
-      onLogin(PRETEND_AUTH_RESPONSE);
-    }, 1000);
+    login({ variables: { email, password } });
   };
 
   return (
     <LoginStyled>
       <h1>Login!</h1>
       <LoginWrapper>
-        <Input
-          label="Email Address"
-          type="email"
-          onChange={e => setEmail(e.target.value)}
-        />
-        <Input
-          label="Password"
-          type="password"
-          onChange={e => setPassword(e.target.value)}
-        />
+        <Input label="Email Address" type="email" onChange={e => setEmail(e.target.value)} />
+        <Input label="Password" type="password" onChange={e => setPassword(e.target.value)} />
+        <FormErrors errors={error && error.graphQLErrors} />
+
         <Button postitive block onClick={handleSignIn}>
-          {loading ? <Spinner /> : "Sign in"}
+          {loading ? <Spinner /> : 'Sign in'}
         </Button>
       </LoginWrapper>
     </LoginStyled>
