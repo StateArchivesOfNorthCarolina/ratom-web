@@ -1,4 +1,4 @@
-import React, { useState, createContext } from 'react';
+import React, { useState, createContext, useEffect } from 'react';
 
 // Router
 import PrivateRoute from '../PrivateRoute';
@@ -6,7 +6,7 @@ import { Route, Redirect, useParams, useRouteMatch } from 'react-router-dom';
 
 // Fetch
 import { useLazyQuery } from '@apollo/react-hooks';
-import { setFilterQueryToLocalStorage } from '../../../localStorageUtils/queryManager';
+import { setFilterQueryToLocalStorage, getFilterQueryFromLocalStorage } from '../../../localStorageUtils/queryManager';
 import { FILTER_MESSAGES } from '../../../graphql/queries/messageQueries';
 
 // Components
@@ -37,6 +37,11 @@ const MessagesMain = () => {
       setPageInfo(pageInfo);
     }
   });
+
+  useEffect(() => {
+    const previousQuery = getFilterQueryFromLocalStorage();
+    console.log('previousQuery: ', previousQuery);
+  }, [])
 
   const setCollection = () => {
     setCollectionId(collectionId);

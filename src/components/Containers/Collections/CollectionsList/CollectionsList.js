@@ -30,6 +30,7 @@ const CollectionsList = props => {
       {loading ? (
         <Spinner />
       ) : (
+        data &&
         data.myCollections.edges.map(({ node: collection }) => (
           <CollectionsListItem
             key={collection.id}
