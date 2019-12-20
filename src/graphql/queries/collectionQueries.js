@@ -1,15 +1,18 @@
-import { gql } from "apollo-boost";
+import { gql } from 'apollo-boost';
 
-export const emailQuery = ({ emailId }) => {
-  return `
-        query {
-            email(id: ${emailId}) {
-                subject
-                content
-            }
+export const MY_COLLECTIONS = gql`
+  query {
+    myCollections {
+      edges {
+        node {
+          id
+          title
+          accessionDate
         }
-    `;
-};
+      }
+    }
+  }
+`;
 
 export const ALL_COLLECTIONS = gql`
   {
@@ -60,5 +63,5 @@ export const getCustomMessagesQuery = searchBy => {
       }
     }
   }
-`
+`;
 };

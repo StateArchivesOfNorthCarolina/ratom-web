@@ -1,7 +1,7 @@
-import React from "react";
-import { withTheme } from "styled-components";
-import Loader from "react-loader-spinner";
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import React from 'react';
+import { withTheme } from 'styled-components';
+import Loader from 'react-loader-spinner';
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
 const Spinner = props => {
   const height = props.large ? 75 : 25;

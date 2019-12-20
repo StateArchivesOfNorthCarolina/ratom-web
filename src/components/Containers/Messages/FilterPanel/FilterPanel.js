@@ -1,6 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import FilterActions from "./FilterActions";
+import React from 'react';
+import styled from 'styled-components';
+
+// Children
+import FilterActions from './FilterActions';
 
 const FilterPanel = () => {
   return (

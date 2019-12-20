@@ -1,12 +1,12 @@
-import React from "react";
-import styled from "styled-components";
-import { borderSeparator } from "../../../../styles/styleVariables";
+import React from 'react';
+import styled from 'styled-components';
+import { borderSeparator } from '../../../../styles/styleVariables';
 
 // Children
-import ResultsSummary from "./ResultsSummary";
-import MessagesList from "./MessagesList/MessagesList";
-import MessagesActions from "./MessagesActions";
-import Pagination from "../../../Components/Pagination/Pagination";
+import ResultsSummary from './ResultsSummary';
+import MessagesList from './MessagesList/MessagesList';
+import MessagesActions from './MessagesActions';
+import Pagination from '../../../Components/Pagination/Pagination';
 
 const MessagesContent = () => {
   return (

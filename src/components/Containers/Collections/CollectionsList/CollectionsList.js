@@ -1,64 +1,47 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { useHistory } from "react-router-dom";
+// Router
+import { useHistory } from 'react-router-dom';
 
-// Childtren
+// AJAX
+import { useQuery } from '@apollo/react-hooks';
+import { MY_COLLECTIONS } from '../../../../graphql/queries/collectionQueries';
+
+// Children
 import CollectionsListItem from './CollectionsListItem';
 import AnimatedList from '../../../Components/Animated/AnimatedList';
+import Spinner from '../../../Components/Loading/Spinner';
 
 const CollectionsList = props => {
   const history = useHistory();
+  const { loading, error, data } = useQuery(MY_COLLECTIONS);
 
   const setCollection = collection => {
     history.push(`/collections/${collection.id}`);
-  }
+  };
+
+  console.log('data: ', data);
+  console.log('error: ', error && error.graphQLErrors);
+  console.log('error: ', error && error.networkError);
 
   return (
     <CollectionsListStyled>
-      {COLLECTIONS.map(collection => (
-        <CollectionsListItem
-          key={collection.id}
-          collection={collection}
-          setCollection={setCollection}
-        />
-      ))}
+      {loading ? (
+        <Spinner />
+      ) : (
+        data.myCollections.edges.map(({ node: collection }) => (
+          <CollectionsListItem
+            key={collection.id}
+            collection={collection}
+            setCollection={setCollection}
+          />
+        ))
+      )}
     </CollectionsListStyled>
   );
-}
+};
 
 const CollectionsListStyled = styled(AnimatedList)``;
 
-export default CollectionsList
-
-// ! REMOVE vv
-const COLLECTIONS = [
-  {
-    id: 1,
-    person: "John h. Doe"
-  },
-  {
-    id: 2,
-    person: "John h. Doe"
-  },
-  {
-    id: 3,
-    person: "John h. Doe"
-  },
-  {
-    id: 4,
-    person: "John h. Doe"
-  },
-  {
-    id: 5,
-    person: "John h. Doe"
-  },
-  {
-    id: 6,
-    person: "John h. Doe"
-  },
-  {
-    id: 7,
-    person: "John h. Doe"
-  }
-];
+export default CollectionsList;

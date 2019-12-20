@@ -4,15 +4,15 @@ import React, {
   useEffect,
   // useMemo,
   useContext
-} from "react";
+} from 'react';
 import {
   getTokenFromLocalStorage,
   setTokenToLocalStorage,
   setUserToLocalStorage,
-  clearUserFromLocalStorage,
-  clearTokenFromLocalStorage,
-  getUserFromLocalStorage
-} from "../../util/authManager";
+  removeUserFromLocalStorage,
+  getUserFromLocalStorage,
+  removeTokenFromLocalStorage
+} from '../../localStorageUtils/authManager';
 
 export const AuthContext = createContext(null);
 
@@ -22,16 +22,16 @@ const AuthProvider = props => {
   const [authData, setAuthData] = useState(initialAuthData);
 
   useEffect(() => {
-    const token = getTokenFromLocalStorage();
-    const user = getUserFromLocalStorage();
+    const token = authData.token || getTokenFromLocalStorage();
+    const user = authData.user || getUserFromLocalStorage();
 
     const currentAuthData = { token, user };
     setAuthData(currentAuthData);
   }, []);
 
   const onLogout = () => {
-    clearTokenFromLocalStorage();
-    clearUserFromLocalStorage();
+    removeTokenFromLocalStorage();
+    removeUserFromLocalStorage();
     setAuthData(initialAuthData);
   };
 
@@ -45,12 +45,7 @@ const AuthProvider = props => {
 
   // const authDataValue = useMemo({ ...authData, onLogin, onLogout }, [authData]);
 
-  return (
-    <AuthContext.Provider
-      value={{ ...authData, onLogin, onLogout }}
-      {...props}
-    />
-  );
+  return <AuthContext.Provider value={{ ...authData, onLogin, onLogout }} {...props} />;
 };
 
 export const useAuthContext = () => useContext(AuthContext);
