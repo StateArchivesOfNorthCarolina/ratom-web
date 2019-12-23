@@ -30,7 +30,9 @@ const MessageListItem = ({ message }) => {
   // TODO: remove vv once we've decided about how to show highlights
   const getHighlights = () => {
     if (message && message.hasOwnProperty('highlight') && message.highlight) {
-      return [{ type: 'body', highlights: [message.highlight.msg_body[0]] }];
+      if (message.highlight.msg_body) {
+        return [{ type: 'body', highlights: [message.highlight.msg_body[0]] }];
+      }
     }
     return [];
   };

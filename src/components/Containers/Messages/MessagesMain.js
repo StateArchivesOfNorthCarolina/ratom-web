@@ -25,7 +25,13 @@ export const CollectionContext = createContext(null);
 const MessagesMain = () => {
   const [collection, setCollectionId] = useState();
   const [messages, setMessages] = useState([]);
-  const [query, setQueryLocally] = useState({});
+  const [query, setQueryLocally] = useState(
+    getFilterQueryFromLocalStorage() || {
+      keywords: []
+    }
+  );
+
+  console.log('query: ', query);
   const [pageInfo, setPageInfo] = useState();
   const [facets, setFacets] = useState({});
 
@@ -35,8 +41,6 @@ const MessagesMain = () => {
   const [sendMessagesQuery, { called, loading, error, fetchMore }] = useLazyQuery(FILTER_MESSAGES, {
     onCompleted(data) {
       const { edges, facets, pageInfo } = data.filterMessages;
-      console.log('messages: ', edges);
-      console.log('pageInfo: ', pageInfo);
       setMessages(edges);
       setFacets(facets);
       setPageInfo(pageInfo);
@@ -46,9 +50,8 @@ const MessagesMain = () => {
   useEffect(() => {
     const previousQuery = getFilterQueryFromLocalStorage();
     if (previousQuery) {
-      sendMessagesQuery();
+      queryMessages();
     }
-    console.log('previousQuery: ', previousQuery);
   }, []);
 
   const setCollection = () => {
@@ -66,12 +69,14 @@ const MessagesMain = () => {
     // TODO: user query or getFilterQueryFromLocalStorage();
     const variables = {
       collectionId,
-      keywords: 'energy, kate'
+      keywords: query.keywords.join(', ')
     };
     sendMessagesQuery({
       variables
     });
   };
+
+  console.log('messages: ', messages);
 
   return (
     <CollectionContext.Provider
