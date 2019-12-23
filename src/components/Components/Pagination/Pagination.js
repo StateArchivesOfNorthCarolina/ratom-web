@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { standardPadding } from "../../../styles/styleVariables";
+import React from 'react';
+import styled from 'styled-components';
+import { standardPadding, colorWhite } from '../../../styles/styleVariables';
 
 const Pagination = () => {
   return (
@@ -14,6 +14,10 @@ const PaginationStyled = styled.div`
   height: 8rem;
   width: 100%;
   padding: ${standardPadding};
+
+  position: fixed;
+  bottom: 0;
+  background-color: ${colorWhite};
 
   display: flex;
   flex-direction: row;
