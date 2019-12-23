@@ -67,9 +67,9 @@ const MessageListItem = ({ message }) => {
 
 const MessageListItemStyled = styled.div`
   height: 15rem;
-  width: 100%;
   border-bottom: ${borderSeparator};
   padding: 2rem 2rem 2rem ${standardPadding};
+  margin: 0 2rem;
 
   display: flex;
   flex-direction: row;
