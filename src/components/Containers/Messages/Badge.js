@@ -1,11 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {
-  borderRadius,
-  colorBadgeBlue,
-  colorBadgeGreen,
-  colorBadgeRed
-} from '../../../styles/styleVariables';
+import { colorBadgeBlue, colorBadgeGreen, colorBadgeRed } from '../../../styles/styleVariables';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -56,6 +51,8 @@ const BadgeStyled = styled.div`
         return colorBadgeRed;
       case 'nlp':
         return colorBadgeGreen;
+      default:
+        return colorBadgeBlue;
     }
   }};
 `;

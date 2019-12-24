@@ -9,7 +9,6 @@ import {
   faChevronLeft,
   faChevronRight
 } from '@fortawesome/free-solid-svg-icons';
-import { colorPrimary } from '../../../styles/styleVariables';
 import { lighten } from '../../../styles/styleUtils/lighten-darken';
 
 const Input = ({ label, icon, ...props }) => {

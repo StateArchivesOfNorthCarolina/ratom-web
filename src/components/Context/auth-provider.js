@@ -27,7 +27,7 @@ const AuthProvider = props => {
 
     const currentAuthData = { token, user };
     setAuthData(currentAuthData);
-  }, []);
+  }, [authData.token, authData.user]);
 
   const onLogout = () => {
     removeTokenFromLocalStorage();

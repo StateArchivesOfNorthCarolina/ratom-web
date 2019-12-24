@@ -1,15 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 // Children
 import SearchKeywords from './SearchKeywords';
 import FilterActions from './FilterActions';
 
-// Context
-import { CollectionContext } from '../MessagesMain';
-
 const FilterPanel = () => {
-  const { setQuery } = useContext(CollectionContext);
   return (
     <FilterPanelStyled>
       <h4>Filter Panel</h4>
