@@ -4,6 +4,7 @@ import { borderSeparator } from '../../../../styles/styleVariables';
 
 // Util
 import { objectIsEmpty } from '../../../../util/objectIsEmpty';
+import emptyQuery from '../emptyQuery';
 
 // Components
 import Button from '../../../Components/Buttons/Button';
@@ -12,22 +13,11 @@ import Button from '../../../Components/Buttons/Button';
 import { CollectionContext } from '../MessagesMain';
 
 const FilterActions = () => {
-  const { query, setQuery, queryMessages } = useContext(CollectionContext);
-
-  const handleSetQuery = newQuery => {
-    if (objectIsEmpty(newQuery)) setQuery(newQuery);
-    else {
-      const derivedQuery = {
-        ...query,
-        newQuery
-      };
-      setQuery(derivedQuery);
-    }
-  };
+  const { setQuery, queryMessages } = useContext(CollectionContext);
 
   return (
     <FilterActionsStyled>
-      <Button neutral small handleSetQuery={() => handleSetQuery({})}>
+      <Button neutral small onClick={() => setQuery(emptyQuery)}>
         Reset
       </Button>
       <Button positive small onClick={queryMessages}>

@@ -11,6 +11,7 @@ import {
   getFilterQueryFromLocalStorage
 } from '../../../localStorageUtils/queryManager';
 import { FILTER_MESSAGES } from '../../../graphql/queries/messageQueries';
+import emptyQuery from './emptyQuery';
 
 // Components
 import AnimatedSwitch from '../../Components/Animated/AnimatedSwitch';
@@ -25,11 +26,7 @@ export const CollectionContext = createContext(null);
 const MessagesMain = () => {
   const [collection, setCollectionId] = useState();
   const [messages, setMessages] = useState([]);
-  const [query, setQueryLocally] = useState(
-    getFilterQueryFromLocalStorage() || {
-      keywords: []
-    }
-  );
+  const [query, setQueryLocally] = useState(getFilterQueryFromLocalStorage() || emptyQuery);
 
   console.log('query: ', query);
   const [pageInfo, setPageInfo] = useState();
