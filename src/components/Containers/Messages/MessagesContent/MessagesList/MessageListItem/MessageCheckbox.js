@@ -4,20 +4,25 @@ import { borderRadius } from '../../../../../../styles/styleVariables';
 
 const MessageCheckbox = props => {
   return (
-    <MessageCheckboxStyled type="checkbox">
-      <input type="checkbox" {...props} />
-      <span></span>
+    <MessageCheckboxStyled>
+      <CheckboxStyled type="checkbox">
+        <input type="checkbox" {...props} />
+        <span></span>
+      </CheckboxStyled>
     </MessageCheckboxStyled>
   );
 };
 
-const MessageCheckboxStyled = styled.label`
+const MessageCheckboxStyled = styled.div`
+  width: 2rem;
+  height: 2rem;
+  margin-right: 1.5rem;
+`;
+
+const CheckboxStyled = styled.label`
   display: block;
   position: relative;
-  padding-left: 35px;
-  margin-bottom: 12px;
   cursor: pointer;
-  font-size: 1rem;
   user-select: none;
 
   input {
@@ -28,7 +33,6 @@ const MessageCheckboxStyled = styled.label`
     width: 0;
 
     &:checked ~ span {
-      /* background-color: #2196f3; */
       border-color: ${props => props.theme.colorPrimary};
     }
 
@@ -41,10 +45,10 @@ const MessageCheckboxStyled = styled.label`
     position: absolute;
     top: 0;
     left: 0;
-    height: 2rem;
-    width: 2rem;
+    height: 1.8rem;
+    width: 1.8rem;
     background-color: ${props => props.theme.primaryBackground};
-    border: 3px solid ${props => props.theme.secondaryBackground};
+    border: 2px solid ${props => props.theme.colorGrey};
     border-radius: ${borderRadius};
 
     &:after {
@@ -55,18 +59,18 @@ const MessageCheckboxStyled = styled.label`
 
     &:after {
       left: 4px;
-      top: 0px;
-      width: 6px;
-      height: 12px;
+      top: 2px;
+      width: 5px;
+      height: 9px;
       border: solid ${props => props.theme.colorPrimary};
-      border-width: 0 3px 3px 0;
+      border-width: 0 2px 2px 0;
       transform: rotate(45deg);
     }
   }
 
-  /* &:hover input ~ span {
-    background-color: #ccc;
-  } */
+  &:hover input ~ span {
+    border-color: ${props => props.theme.colorPrimary};
+  }
 `;
 
 export default MessageCheckbox;

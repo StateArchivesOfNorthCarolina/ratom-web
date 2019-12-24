@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import MessageCheckbox from './MessageCheckbox';
 
-const MessageListItemContentLeft = ({ message }) => {
+const MessageListItemContentLeft = ({ message, checked, checkMessage }) => {
   // TODO: This eventually...prolly
   // const getHighlights = () => {
   //   if (message && message.hasOwnProperty('highlight')) {
@@ -31,27 +31,29 @@ const MessageListItemContentLeft = ({ message }) => {
 
   return (
     <ContentLeft>
-      <MessageCheckbox />
-      <div>
-        <h4>from: {message.msgFrom}</h4>
-        <p>subject: {message.msgSubject}</p>
-        {getHighlights().map((h, i) => (
-          <div key={i}>
-            <p>{h.type}: </p>
-            {h.highlights.map((m, j) => (
-              <p key={j}>
-                ...
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html: m
-                  }}
-                ></span>
-                ...
-              </p>
-            ))}
-          </div>
-        ))}
-      </div>
+      <MessageCheckbox checked={checked} onChange={() => checkMessage(message.id)} />
+      <InnerContent>
+        <h4>{message.msgSubject}</h4>
+        <p>From: {message.msgFrom}</p>
+        <MessageHighlights>
+          {getHighlights().map((h, i) => (
+            <Highlight key={i}>
+              {/* <p>{h.type}: </p> */}
+              {h.highlights.map((m, j) => (
+                <p key={j}>
+                  ...
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: m
+                    }}
+                  ></span>
+                  ...
+                </p>
+              ))}
+            </Highlight>
+          ))}
+        </MessageHighlights>
+      </InnerContent>
     </ContentLeft>
   );
 };
@@ -59,11 +61,30 @@ const MessageListItemContentLeft = ({ message }) => {
 const ContentLeft = styled.div`
   display: flex;
   flex-direction: row;
+`;
 
-  & > div {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+const InnerContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  h4 {
+    margin: 0;
+  }
+
+  > p {
+    margin: 0.5rem 0;
+  }
+`;
+
+const MessageHighlights = styled.div``;
+
+const Highlight = styled.p`
+  span {
+    font-size: 1rem;
+  }
+  strong {
+    color: ${props => props.theme.colorPrimary};
   }
 `;
 
