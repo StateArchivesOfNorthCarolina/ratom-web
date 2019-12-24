@@ -8,30 +8,6 @@ import { CollectionContext } from '../../MessagesMain';
 import MessageListItem from './MessageListItem/MessageListItem';
 import AnimatedList from '../../../../Components/Animated/AnimatedList';
 
-// // ! REMOVE
-// const MESSAGES = [
-//   {
-//     id: 1,
-//     subject: 'oh hi'
-//   },
-//   {
-//     id: 2,
-//     subject: 'Hamlet'
-//   },
-//   {
-//     id: 3,
-//     subject: 'pipeline'
-//   },
-//   {
-//     id: 4,
-//     subject: 'FREE DVDs'
-//   },
-//   {
-//     id: 5,
-//     subject: 'illegal stuff'
-//   }
-// ];
-
 const MessagesList = () => {
   const { messages } = useContext(CollectionContext);
   return (

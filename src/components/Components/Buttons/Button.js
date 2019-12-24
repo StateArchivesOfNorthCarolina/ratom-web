@@ -1,16 +1,16 @@
-import React from "react";
-import styled, { css } from "styled-components";
-import { borderRadius } from "../../../styles/styleVariables";
-import { darken } from "../../../styles/styleUtils/lighten-darken";
+import React from 'react';
+import styled, { css } from 'styled-components';
+import { borderRadius } from '../../../styles/styleVariables';
+import { darken } from '../../../styles/styleUtils/lighten-darken';
 
 const ButtonStyled = styled.button`
   padding: 1rem 2rem;
   font-weight: bold;
   border-radius: ${borderRadius};
 
-  font-size: ${props => (props.small ? "inherit" : "2rem")};
+  font-size: ${props => (props.small ? 'inherit' : '2rem')};
 
-  display: ${props => (props.block ? "block" : "inline-block")};
+  display: ${props => (props.block ? 'block' : 'inline-block')};
   background-color: ${props => {
     if (props.positive) {
       return props.theme.colorPrimary;
@@ -43,8 +43,7 @@ const ButtonStyled = styled.button`
     return props.theme.textColorLight;
   }};
 
-  border: ${props =>
-    props.neutral ? `2px solid ${props.theme.colorPrimary}` : "none"};
+  border: ${props => (props.neutral ? `2px solid ${props.theme.colorPrimary}` : 'none')};
 
   &:hover {
     ${props => {
@@ -98,7 +97,7 @@ const ButtonStyled = styled.button`
     }}
   }
 
-  transition: all 0.2s ease-out;
+  transition: all 0.05s linear;
 `;
 
 export default function Button({ children, ...props }) {

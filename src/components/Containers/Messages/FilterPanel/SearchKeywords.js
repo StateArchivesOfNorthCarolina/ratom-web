@@ -18,7 +18,6 @@ const SearchKeywords = props => {
   const { keywords } = query;
 
   const handleKeyPressed = e => {
-    // e.preventDefault();
     e.stopPropagation();
     if (e.key === 'Enter' && e.shiftKey) {
       queryMessages();
