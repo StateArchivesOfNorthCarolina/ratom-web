@@ -29,8 +29,10 @@ const MessageListItem = ({ message }) => {
 
   // TODO: remove vv once we've decided about how to show highlights
   const getHighlights = () => {
-    if (message && message.hasOwnProperty('highlight')) {
-      return [{ type: 'body', highlights: [message.highlight.msg_body[0]] }];
+    if (message && message.hasOwnProperty('highlight') && message.highlight) {
+      if (message.highlight.msg_body) {
+        return [{ type: 'body', highlights: [message.highlight.msg_body[0]] }];
+      }
     }
     return [];
   };
@@ -67,9 +69,9 @@ const MessageListItem = ({ message }) => {
 
 const MessageListItemStyled = styled.div`
   height: 15rem;
-  width: 100%;
   border-bottom: ${borderSeparator};
   padding: 2rem 2rem 2rem ${standardPadding};
+  margin: 0 2rem;
 
   display: flex;
   flex-direction: row;

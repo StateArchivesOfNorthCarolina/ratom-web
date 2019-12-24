@@ -11,8 +11,12 @@ function controlKey(key) {
 }
 
 function parseValue(value) {
-  if (typeof value === 'string') return value;
-  return JSON.parse(value);
+  try {
+    const oVal = JSON.parse(value);
+    if (typeof oVal === 'object') return oVal;
+  } catch (e) {
+    return value;
+  }
 }
 
 function stringifyValue(value) {

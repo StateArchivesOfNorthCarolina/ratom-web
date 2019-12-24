@@ -14,6 +14,7 @@ const MessagesActionsStyled = styled.div`
   height: 7rem;
   width: 100%;
   padding: 2rem;
+  border-top: ${borderSeparator};
   border-bottom: ${borderSeparator};
 
   display: flex;

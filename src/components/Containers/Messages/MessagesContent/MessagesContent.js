@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { borderSeparator } from '../../../../styles/styleVariables';
+import { borderSeparator, colorWhite } from '../../../../styles/styleVariables';
 
 // Children
 import ResultsSummary from './ResultsSummary';
@@ -13,8 +13,10 @@ const MessagesContent = () => {
     <MessagesContentStyled>
       <ResultsSummary />
       <MessagesList />
-      <MessagesActions />
-      <Pagination />
+      <FixedToBottom>
+        <MessagesActions />
+        <Pagination />
+      </FixedToBottom>
     </MessagesContentStyled>
   );
 };
@@ -24,6 +26,13 @@ const MessagesContentStyled = styled.div`
   display: flex;
   flex-direction: column;
   border-left: ${borderSeparator};
+`;
+
+const FixedToBottom = styled.div`
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  background-color: ${colorWhite};
 `;
 
 export default MessagesContent;

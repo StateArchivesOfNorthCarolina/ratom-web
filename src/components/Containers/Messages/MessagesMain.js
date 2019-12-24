@@ -6,7 +6,10 @@ import { Route, Redirect, useParams, useRouteMatch } from 'react-router-dom';
 
 // Fetch
 import { useLazyQuery } from '@apollo/react-hooks';
-import { setFilterQueryToLocalStorage, getFilterQueryFromLocalStorage } from '../../../localStorageUtils/queryManager';
+import {
+  setFilterQueryToLocalStorage,
+  getFilterQueryFromLocalStorage
+} from '../../../localStorageUtils/queryManager';
 import { FILTER_MESSAGES } from '../../../graphql/queries/messageQueries';
 
 // Components
@@ -22,7 +25,13 @@ export const CollectionContext = createContext(null);
 const MessagesMain = () => {
   const [collection, setCollectionId] = useState();
   const [messages, setMessages] = useState([]);
-  const [query, setQueryLocally] = useState({});
+  const [query, setQueryLocally] = useState(
+    getFilterQueryFromLocalStorage() || {
+      keywords: []
+    }
+  );
+
+  console.log('query: ', query);
   const [pageInfo, setPageInfo] = useState();
   const [facets, setFacets] = useState({});
 
@@ -40,16 +49,18 @@ const MessagesMain = () => {
 
   useEffect(() => {
     const previousQuery = getFilterQueryFromLocalStorage();
-    console.log('previousQuery: ', previousQuery);
-  }, [])
+    if (previousQuery) {
+      queryMessages();
+    }
+  }, []);
 
   const setCollection = () => {
     setCollectionId(collectionId);
   };
 
-  const setQuery = query => {
-    setFilterQueryToLocalStorage(query);
-    setQueryLocally(query);
+  const setQuery = newQuery => {
+    setFilterQueryToLocalStorage(newQuery);
+    setQueryLocally(newQuery);
   };
 
   const queryMessages = () => {
@@ -58,12 +69,14 @@ const MessagesMain = () => {
     // TODO: user query or getFilterQueryFromLocalStorage();
     const variables = {
       collectionId,
-      keyword: 'energy'
+      keywords: query.keywords.join(', ')
     };
     sendMessagesQuery({
       variables
     });
   };
+
+  console.log('messages: ', messages);
 
   return (
     <CollectionContext.Provider
