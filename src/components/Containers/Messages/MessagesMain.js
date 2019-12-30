@@ -28,7 +28,6 @@ const MessagesMain = () => {
   const [messages, setMessages] = useState([]);
   const [query, setQueryLocally] = useState(getFilterQueryFromLocalStorage() || emptyQuery);
 
-  console.log('query: ', query);
   const [pageInfo, setPageInfo] = useState();
   const [facets, setFacets] = useState({});
 
@@ -64,16 +63,14 @@ const MessagesMain = () => {
     // TODO: - use query to serialize the JS object 'query' in to the format we need
     // TODO: - for the gql FILTER_MESSAGES query to run properly
     // TODO: user query or getFilterQueryFromLocalStorage();
+
     const variables = {
       collectionId,
-      keywords: query.keywords.join(', ')
+      search: { msgBody: { value: 'bob' } },
+      filter: { msgBody: { in: ['release', 'value'] } }
     };
-    sendMessagesQuery({
-      variables
-    });
+    sendMessagesQuery({ variables });
   };
-
-  console.log('messages: ', messages);
 
   return (
     <CollectionContext.Provider

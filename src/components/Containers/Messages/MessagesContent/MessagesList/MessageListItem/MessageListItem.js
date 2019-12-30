@@ -1,10 +1,6 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import {
-  borderSeparator,
-  standardPadding,
-  blueGradient
-} from '../../../../../../styles/styleVariables';
+import { borderSeparator, blueGradient } from '../../../../../../styles/styleVariables';
 
 // Router
 import { useHistory, useLocation } from 'react-router-dom';
@@ -15,7 +11,6 @@ import { MessagesContext } from '../../MessagesContent';
 // Children
 import MessageListItemContentRight from './MessageListItemContentRight';
 import MessageListItemContentLeft from './MessageListItemContentLeft';
-import { lighten } from '../../../../../../styles/styleUtils/lighten-darken';
 
 const MessageListItem = ({ message }) => {
   const { checkMessage, checkedMessages } = useContext(MessagesContext);

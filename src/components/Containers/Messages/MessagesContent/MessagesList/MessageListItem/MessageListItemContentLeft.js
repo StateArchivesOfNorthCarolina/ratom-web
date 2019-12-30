@@ -79,7 +79,7 @@ const InnerContent = styled.div`
 
 const MessageHighlights = styled.div``;
 
-const Highlight = styled.p`
+const Highlight = styled.div`
   span {
     font-size: 1rem;
   }

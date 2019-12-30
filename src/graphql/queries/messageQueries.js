@@ -2,14 +2,13 @@ import { gql } from 'apollo-boost';
 
 // TODO: Add collectionId! filter: { collectionId: $collectionId }
 export const FILTER_MESSAGES = gql`
-  query FilterMessages($keywords: String!) {
+  query FilterMessages(
+    $filter: GrapheneElasticFilterMessageElasticsearchNodeConnectionBackendFilter
+    $search: GrapheneElasticSearchMessageElasticsearchNodeConnectionBackendFilter
+  ) {
     filterMessages(
-      search: {
-        msgTo: { value: $keywords }
-        msgFrom: { value: $keywords }
-        msgSubject: { value: $keywords }
-        msgBody: { value: $keywords }
-      }
+      filter: $filter
+      search: $search
       facets: [labels, sent_date]
       highlight: [msg_to, msg_from, msg_subject, msg_body]
     ) {
