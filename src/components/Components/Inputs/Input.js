@@ -11,8 +11,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { lighten } from '../../../styles/styleUtils/lighten-darken';
 
-const Input = ({ label, icon, ...props }) => {
-  let derivedIcon = faQuestion;
+const Input = ({ label, icon, onEnterKey, ...props }) => {
+  let derivedIcon;
   switch (icon) {
     case 'search':
       derivedIcon = faSearch;
@@ -31,12 +31,19 @@ const Input = ({ label, icon, ...props }) => {
       break;
   }
 
+  const handleKeyPressed = e => {
+    e.stopPropagation();
+    if (e.key === 'Enter') {
+      if (onEnterKey) onEnterKey();
+    }
+  };
+
   return (
     <FieldSetStyled {...props}>
       <LabelStyled>{label}</LabelStyled>
       <div>
-        <InputStyled {...props} type={props.type || 'text'} />
-        <IconStyled icon={derivedIcon} />
+        <InputStyled {...props} type={props.type || 'text'} onKeyPress={handleKeyPressed} />
+        {icon && <IconStyled icon={derivedIcon} />}
       </div>
     </FieldSetStyled>
   );
@@ -58,7 +65,7 @@ const LabelStyled = styled.label`
 `;
 
 const InputStyled = styled.input`
-  max-width: 38rem;
+  width: 100%;
   /* height: 2.3rem; */
   padding: 1rem 2rem;
 `;
