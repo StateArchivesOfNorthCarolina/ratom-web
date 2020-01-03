@@ -64,11 +64,32 @@ const MessagesMain = () => {
     setQueryLocally(newQuery);
   };
 
-  const queryMessages = () => {
-    const variables = {
-      collectionId,
-      search: { query: 'taste' }
+  const buildKeywordSearch = () => {
+    const { keywords } = query;
+    const value = keywords.join(', ');
+    return {
+      msgTo: { value },
+      msgFrom: { value },
+      msgSubject: { value },
+      msgBody: { value }
     };
+  };
+
+  const buildFilterSearch = () => {
+    // const { filters } = query;
+    return {};
+  };
+
+  const queryMessages = () => {
+    // TODO: - use query to serialize the JS object 'query' in to the format we need
+    // TODO: - for the gql FILTER_MESSAGES query to run properly
+    // TODO: user query or getFilterQueryFromLocalStorage();
+    console.log('query: ', query);
+
+    const search = buildKeywordSearch();
+    const filter = buildFilterSearch();
+
+    const variables = { collectionId, search, filter };
     sendMessagesQuery({ variables });
   };
 

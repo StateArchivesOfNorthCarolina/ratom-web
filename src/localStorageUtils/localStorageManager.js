@@ -65,3 +65,7 @@ export function removeValueFromLocalStorage(key) {
     throwError(key, error);
   }
 }
+
+export function clearLocalStorage() {
+  localStorage.clear();
+}

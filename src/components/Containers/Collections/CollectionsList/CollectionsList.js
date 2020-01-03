@@ -21,10 +21,6 @@ const CollectionsList = props => {
     history.push(`/collections/${collection.id}`);
   };
 
-  console.log('data: ', data);
-  console.log('error: ', error && error.graphQLErrors);
-  console.log('error: ', error && error.networkError);
-
   return (
     <CollectionsListStyled>
       {loading ? (
