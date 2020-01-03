@@ -1,39 +1,34 @@
-import React, { useContext, useRef, useCallback, useState } from 'react';
+import React, { useContext, useRef, useCallback, useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 // Context
 import { CollectionContext } from '../../MessagesMain';
-
-// Hooks
-import useScrollToBottom from '../../../../Hooks/useScrollToBottom';
 
 // Children
 import MessageListItem from './MessageListItem/MessageListItem';
 import AnimatedList from '../../../../Components/Animated/AnimatedList';
 
 const MessagesList = () => {
-  // const messagesUL = useRef(null);
-  const [element, setElement] = useState(document.body);
-  const { messages, loadMoreMessages } = useContext(CollectionContext);
-  const bottom = useScrollToBottom(element, loadMoreMessages);
-  // const clientHeight = document.documentElement.clientHeight || window.innerHeight;
+  const messagesUL = useRef();
+  const { messages, loadMoreMessages, listPlaceholder, setListPlaceholder } = useContext(
+    CollectionContext
+  );
 
-  // console.log('clientHeight: ', clientHeight);
-  // console.log('scroll Y: ', y);
-  // console.log(messagesUL);
-
-  const measuredUlRef = useCallback(node => {
-    if (node !== null) {
-      setElement(node);
-    }
-  }, []);
-
-  console.log('messages.length: ', messages.length);
+  useEffect(() => {
+    const element = messagesUL.current;
+    const scrollListener = () => {
+      if (element.scrollTop + element.offsetHeight >= element.scrollHeight - 1) {
+        loadMoreMessages();
+      }
+    };
+    element.addEventListener('scroll', scrollListener);
+    return () => element.removeEventListener('scroll', scrollListener);
+  }, [loadMoreMessages]);
 
   return (
-    <MessagesListStyled ref={measuredUlRef}>
-      {messages.map(({ node: message }) => (
-        <MessageListItem key={message.id} message={message} />
+    <MessagesListStyled ref={messagesUL}>
+      {messages.map(({ node: message }, i) => (
+        <MessageListItem key={message.id} message={message} i={i} />
       ))}
     </MessagesListStyled>
   );

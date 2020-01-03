@@ -14,9 +14,6 @@ import {
 import { FILTER_MESSAGES } from '../../../graphql/queries/messageQueries';
 import emptyQuery from './emptyQuery';
 
-// Util
-import { getDocCountFromFacets } from '../../../util/getDocCountFromFacets';
-
 // Components
 import AnimatedSwitch from '../../Components/Animated/AnimatedSwitch';
 
@@ -24,6 +21,7 @@ import AnimatedSwitch from '../../Components/Animated/AnimatedSwitch';
 import MessagesLayout from './MessagesLayout';
 import MessageLayout from '../Message/MessageLayout';
 import GenericNotFound from '../GenericNotFound';
+import { getDocCountFromFacets } from '../../../util/getDocCountFromFacets';
 
 export const CollectionContext = createContext(null);
 
@@ -31,20 +29,22 @@ const MessagesMain = () => {
   const [collection, setCollectionId] = useState();
   const [messages, setMessages] = useState([]);
   const [query, setQueryLocally] = useState(getFilterQueryFromLocalStorage() || emptyQuery);
+  const [messagesTotalCount, setMessagesTotalCount] = useState();
+  const [listPlaceholder, setListPlaceholder] = useState();
 
-  const [pageInfo, setPageInfo] = useState();
+  const [pageInfo, setPageInfo] = useState({});
   const [facets, setFacets] = useState({});
 
   const { path } = useRouteMatch();
   const { collectionId } = useParams();
 
   const [sendMessagesQuery, { called, loading, error, fetchMore }] = useLazyQuery(FILTER_MESSAGES, {
+    notifyOnNetworkStatusChange: true,
+    fetchPolicy: 'network-only',
     onCompleted: data => {
-      const { edges, facets, pageInfo } = data.filterMessages;
-      console.log('doc count: ', getDocCountFromFacets(facets));
-      setMessages(edges);
-      setFacets(facets);
-      setPageInfo(pageInfo);
+      setMessages(data.filterMessages.edges);
+      setFacets(data.filterMessages.facets);
+      setPageInfo(data.filterMessages.pageInfo);
     }
   });
 
@@ -54,6 +54,10 @@ const MessagesMain = () => {
       queryMessages();
     }
   }, []);
+
+  useEffect(() => {
+    setMessagesTotalCount(getDocCountFromFacets(facets));
+  }, [facets]);
 
   const setCollection = () => {
     setCollectionId(collectionId);
@@ -84,8 +88,6 @@ const MessagesMain = () => {
     // TODO: - use query to serialize the JS object 'query' in to the format we need
     // TODO: - for the gql FILTER_MESSAGES query to run properly
     // TODO: user query or getFilterQueryFromLocalStorage();
-    console.log('query: ', query);
-
     const search = buildKeywordSearch();
     const filter = buildFilterSearch();
 
@@ -95,42 +97,46 @@ const MessagesMain = () => {
 
   const loadMoreMessages = () => {
     //  TODO: set current "after" cursor position to state, possibly localStorage
-    // console.log('pageInfo.endCursor: ', pageInfo.endCursor);
-    // console.log('LOADING MESSAGES!!');
-    console.log('fetching more after pageInfo: ', pageInfo);
     if (pageInfo.hasNextPage) {
       fetchMore({
-        variables: { after: pageInfo.endCursor },
-        updateQuery: (prev, { fetchMoreResult, ..._rest }) => {
+        variables: {
+          after: pageInfo.endCursor
+        },
+        updateQuery: (prev, { fetchMoreResult }) => {
           if (!fetchMoreResult) return prev;
-          console.log('New endCursor:', fetchMoreResult.filterMessages.pageInfo.endCursor);
-          console.log('New edges:', fetchMoreResult.filterMessages.edges);
-          setMessages([...prev.filterMessages.edges, ...fetchMoreResult.filterMessages.edges]);
-          setFacets(fetchMoreResult.filterMessages.facets);
-          setPageInfo(fetchMoreResult.filterMessages.pageInfo);
+          return {
+            ...prev,
+            filterMessages: {
+              ...prev.filterMessages,
+              edges: [...prev.filterMessages.edges, ...fetchMoreResult.filterMessages.edges],
+              facets: { ...fetchMoreResult.filterMessages.facets },
+              pageInfo: { ...fetchMoreResult.filterMessages.pageInfo }
+            }
+          };
         }
       });
     } else console.log('ALL OUT, SON');
   };
 
-  console.log('endCursor: ', pageInfo && pageInfo.endCursor);
+  const context = {
+    collection,
+    setCollection,
+    messages,
+    messagesTotalCount,
+    queryMessages,
+    query,
+    setQuery,
+    loadMoreMessages,
+    pageInfo,
+    listPlaceholder,
+    setListPlaceholder,
+    loading,
+    called,
+    error
+  };
 
   return (
-    <CollectionContext.Provider
-      value={{
-        collection,
-        setCollection,
-        messages,
-        queryMessages,
-        query,
-        setQuery,
-        loadMoreMessages,
-        pageInfo,
-        loading,
-        called,
-        error
-      }}
-    >
+    <CollectionContext.Provider value={context}>
       <StyledAnimatedSwitch>
         <PrivateRoute exact path={path}>
           <MessagesLayout />

@@ -9,6 +9,7 @@ import {
 } from '../localStorageUtils/authManager';
 
 const client = new ApolloClient({
+  cache: false,
   uri: '/graphql',
   request: operation => {
     const token = getTokenFromLocalStorage();
