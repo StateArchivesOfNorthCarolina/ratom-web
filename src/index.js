@@ -19,9 +19,9 @@ const client = new ApolloClient({
       }
     });
     const { operationName, variables, query } = operation;
-    console.log(`Executing: ${operationName}`);
-    console.log('Variables: ', variables);
-    console.log('Query: ', query);
+    // console.log(`Executing: ${operationName}`);
+    // console.log('Variables: ', variables);
+    // console.log('Query: ', query);
   }
 });
 

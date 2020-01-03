@@ -1,4 +1,5 @@
 import React, { useState, createContext, useEffect } from 'react';
+import styled from 'styled-components';
 
 // Router
 import PrivateRoute from '../PrivateRoute';
@@ -12,6 +13,9 @@ import {
 } from '../../../localStorageUtils/queryManager';
 import { FILTER_MESSAGES } from '../../../graphql/queries/messageQueries';
 import emptyQuery from './emptyQuery';
+
+// Util
+import { getDocCountFromFacets } from '../../../util/getDocCountFromFacets';
 
 // Components
 import AnimatedSwitch from '../../Components/Animated/AnimatedSwitch';
@@ -35,8 +39,9 @@ const MessagesMain = () => {
   const { collectionId } = useParams();
 
   const [sendMessagesQuery, { called, loading, error, fetchMore }] = useLazyQuery(FILTER_MESSAGES, {
-    onCompleted(data) {
+    onCompleted: data => {
       const { edges, facets, pageInfo } = data.filterMessages;
+      console.log('doc count: ', getDocCountFromFacets(facets));
       setMessages(edges);
       setFacets(facets);
       setPageInfo(pageInfo);
@@ -60,17 +65,34 @@ const MessagesMain = () => {
   };
 
   const queryMessages = () => {
-    // TODO: - use query to serialize the JS object 'query' in to the format we need
-    // TODO: - for the gql FILTER_MESSAGES query to run properly
-    // TODO: user query or getFilterQueryFromLocalStorage();
-
     const variables = {
       collectionId,
-      search: { msgBody: { value: 'bob' } },
-      filter: { msgBody: { in: ['release', 'value'] } }
+      search: { query: 'taste' }
     };
     sendMessagesQuery({ variables });
   };
+
+  const loadMoreMessages = () => {
+    //  TODO: set current "after" cursor position to state, possibly localStorage
+    // console.log('pageInfo.endCursor: ', pageInfo.endCursor);
+    // console.log('LOADING MESSAGES!!');
+    console.log('fetching more after pageInfo: ', pageInfo);
+    if (pageInfo.hasNextPage) {
+      fetchMore({
+        variables: { after: pageInfo.endCursor },
+        updateQuery: (prev, { fetchMoreResult, ..._rest }) => {
+          if (!fetchMoreResult) return prev;
+          console.log('New endCursor:', fetchMoreResult.filterMessages.pageInfo.endCursor);
+          console.log('New edges:', fetchMoreResult.filterMessages.edges);
+          setMessages([...prev.filterMessages.edges, ...fetchMoreResult.filterMessages.edges]);
+          setFacets(fetchMoreResult.filterMessages.facets);
+          setPageInfo(fetchMoreResult.filterMessages.pageInfo);
+        }
+      });
+    } else console.log('ALL OUT, SON');
+  };
+
+  console.log('endCursor: ', pageInfo && pageInfo.endCursor);
 
   return (
     <CollectionContext.Provider
@@ -81,14 +103,14 @@ const MessagesMain = () => {
         queryMessages,
         query,
         setQuery,
-        fetchMore,
+        loadMoreMessages,
         pageInfo,
         loading,
         called,
         error
       }}
     >
-      <AnimatedSwitch>
+      <StyledAnimatedSwitch>
         <PrivateRoute exact path={path}>
           <MessagesLayout />
         </PrivateRoute>
@@ -99,9 +121,14 @@ const MessagesMain = () => {
           <GenericNotFound />
         </Route>
         <Redirect to="/404" />
-      </AnimatedSwitch>
+      </StyledAnimatedSwitch>
     </CollectionContext.Provider>
   );
 };
+
+const StyledAnimatedSwitch = styled(AnimatedSwitch)`
+  display: flex;
+  flex: 1;
+`;
 
 export default React.memo(MessagesMain);

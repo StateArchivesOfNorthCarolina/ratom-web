@@ -1,12 +1,16 @@
 import { gql } from 'apollo-boost';
+import { DEFAULT_PAGINATION_LIMIT } from '../../constants/applicationConstants';
 
 // TODO: Add collectionId! filter: { collectionId: $collectionId }
 export const FILTER_MESSAGES = gql`
   query FilterMessages(
+    $after: String
     $filter: GrapheneElasticFilterMessageElasticsearchNodeConnectionBackendFilter
     $search: GrapheneElasticSearchMessageElasticsearchNodeConnectionBackendFilter
   ) {
     filterMessages(
+      first: ${DEFAULT_PAGINATION_LIMIT}
+      after: $after
       filter: $filter
       search: $search
       facets: [labels, sent_date]
