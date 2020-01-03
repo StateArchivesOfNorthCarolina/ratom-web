@@ -17,12 +17,11 @@ const MessageListItem = ({ message, i }) => {
   const messageRef = useRef();
   const [highlightElement, setHighlightElement] = useState(false);
   const { checkMessage, checkedMessages } = useContext(MessagesContext);
-  const { listPlaceholder, setListPlaceholder } = useContext(CollectionContext);
+  const { messages, listPlaceholder, setListPlaceholder } = useContext(CollectionContext);
   const { pathname } = useLocation();
   const history = useHistory();
 
   const handleHighlightOnView = () => {
-    console.log('setting this!!');
     setHighlightElement(true);
     setTimeout(() => setHighlightElement(false), 2000);
   };
@@ -51,6 +50,9 @@ const MessageListItem = ({ message, i }) => {
   const handleSelectMessage = () => {
     // TODO: stick it in context or whatever
     // TODO: maybe including the cursor?
+    let messageIndex = i;
+    if (messages[i - 1]) messageIndex = i - 1;
+    // if (messages)
     setListPlaceholder(i);
     history.push(`${pathname}/messages/${message.pk}`);
   };
@@ -62,7 +64,7 @@ const MessageListItem = ({ message, i }) => {
       data-cy="messages_list_item"
       messageChecked={messageChecked}
       ref={messageRef}
-      // highlightElement={highlightElement}
+      highlightElement={highlightElement}
     >
       <MessageListItemContentLeft
         message={message}

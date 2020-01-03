@@ -10,9 +10,7 @@ import AnimatedList from '../../../../Components/Animated/AnimatedList';
 
 const MessagesList = () => {
   const messagesUL = useRef();
-  const { messages, loadMoreMessages, listPlaceholder, setListPlaceholder } = useContext(
-    CollectionContext
-  );
+  const { messages, loadMoreMessages } = useContext(CollectionContext);
 
   useEffect(() => {
     const element = messagesUL.current;
