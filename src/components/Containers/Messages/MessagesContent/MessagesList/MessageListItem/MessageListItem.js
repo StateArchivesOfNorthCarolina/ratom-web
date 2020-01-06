@@ -48,12 +48,11 @@ const MessageListItem = ({ message, i }) => {
   }, [listPlaceholder]);
 
   const handleSelectMessage = () => {
-    // TODO: stick it in context or whatever
-    // TODO: maybe including the cursor?
+    // set selected message to messages - 1 so that we're less likely
+    // to cause a pagination scoll by auto-scrolling
     let messageIndex = i;
     if (messages[i - 1]) messageIndex = i - 1;
-    // if (messages)
-    setListPlaceholder(i);
+    setListPlaceholder(messageIndex);
     history.push(`${pathname}/messages/${message.pk}`);
   };
 
