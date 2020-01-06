@@ -1,15 +1,12 @@
-import React from "react";
-import styled from "styled-components";
-import {
-  standardPadding,
-  borderSeparator
-} from "../../../styles/styleVariables";
+import React from 'react';
+import styled from 'styled-components';
+import { standardPadding, borderSeparator } from '../../../styles/styleVariables';
 
 // Router
-import { useHistory } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
 
 // Components
-import BackButton from "../../Components/Buttons/BackButton";
+import BackButton from '../../Components/Buttons/BackButton';
 
 const MessageHeader = () => {
   const history = useHistory();

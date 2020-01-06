@@ -19,7 +19,7 @@ import AnimatedSwitch from '../../Components/Animated/AnimatedSwitch';
 
 // Children
 import MessagesLayout from './MessagesLayout';
-import MessageLayout from '../Message/MessageLayout';
+import MessageMain from '../Message/MessageMain';
 import GenericNotFound from '../GenericNotFound';
 import { getDocCountFromFacets } from '../../../util/getDocCountFromFacets';
 
@@ -31,6 +31,7 @@ const MessagesMain = () => {
   const [query, setQueryLocally] = useState(getFilterQueryFromLocalStorage() || emptyQuery);
   const [messagesTotalCount, setMessagesTotalCount] = useState();
   const [listPlaceholder, setListPlaceholder] = useState();
+  const [messageCursor, setMessageCursor] = useState();
 
   const [pageInfo, setPageInfo] = useState({});
   const [facets, setFacets] = useState({});
@@ -49,6 +50,7 @@ const MessagesMain = () => {
   });
 
   useEffect(() => {
+    console.log('MessagesMain useEffect runs and FETCHES MESSAGES');
     const previousQuery = getFilterQueryFromLocalStorage();
     if (previousQuery) {
       queryMessages();
@@ -130,6 +132,8 @@ const MessagesMain = () => {
     pageInfo,
     listPlaceholder,
     setListPlaceholder,
+    messageCursor,
+    setMessageCursor,
     loading,
     called,
     error
@@ -142,7 +146,7 @@ const MessagesMain = () => {
           <MessagesLayout />
         </PrivateRoute>
         <PrivateRoute path={`${path}/messages/:messageId`}>
-          <MessageLayout />
+          <MessageMain />
         </PrivateRoute>
         <Route path="/404">
           <GenericNotFound />

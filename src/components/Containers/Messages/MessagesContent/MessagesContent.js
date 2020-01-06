@@ -54,12 +54,6 @@ const MessagesContent = () => {
   );
 };
 
-const TestDiv = styled.div`
-  width: 100%;
-  height: 100%;
-  background-color: pink;
-`;
-
 const MessagesContentStyled = styled.div`
   flex: 1;
   display: flex;

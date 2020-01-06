@@ -48,11 +48,8 @@ const MessageListItem = ({ message, i }) => {
   }, [listPlaceholder]);
 
   const handleSelectMessage = () => {
-    // set selected message to messages - 1 so that we're less likely
-    // to cause a pagination scoll by auto-scrolling
-    let messageIndex = i;
-    if (messages[i - 1]) messageIndex = i - 1;
-    setListPlaceholder(messageIndex);
+    console.log('setting list placeholder to : ', i);
+    setListPlaceholder(i);
     history.push(`${pathname}/messages/${message.pk}`);
   };
 

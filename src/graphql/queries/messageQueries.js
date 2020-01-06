@@ -57,3 +57,21 @@ export const GET_MESSAGE = gql`
     }
   }
 `;
+
+export const STEP_MESSAGES = gql`
+  query StepMessages($first: Int, $cursor: String) {
+    message(first: $first, after: $cursor) {
+      sentDate
+      labels
+      msgTo
+      msgFrom
+      msgSubject
+      msgBody
+      processor {
+        processed
+        isRecord
+        hasPii
+      }
+    }
+  }
+`;

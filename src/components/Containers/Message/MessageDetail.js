@@ -1,42 +1,35 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { borderSeparator } from '../../../styles/styleVariables';
 
-// Router
-import { useParams } from 'react-router-dom';
-
-// AJAX
-import { useQuery } from '@apollo/react-hooks';
-import { GET_MESSAGE } from '../../../graphql/queries/messageQueries';
-import Spinner from '../../Components/Loading/Spinner';
+// Context
+import { MessageContext } from './MessageMain';
 
 const MessageDetail = () => {
-  const { messageId } = useParams();
-  const { loading, error, data } = useQuery(GET_MESSAGE, {
-    variables: { pk: messageId }
-  });
+  const { message } = useContext(MessageContext);
 
   return (
     <MessageDetailStyled>
-      {loading && <Spinner />}
-      {error && error}
-      {data && data.message && (
-        <div>
-          <h3>{data.message.msgSubject}</h3>
-          <p>{data.message.msgTo}</p>
-          <p>{data.message.msgFrom}</p>
-          <p>{data.message.msgBody}</p>
-        </div>
-      )}
+      <MessageContent>
+        <h3>{message.msgSubject}</h3>
+        <p>{message.msgTo}</p>
+        <p>{message.msgFrom}</p>
+        <p>{message.msgBody}</p>
+      </MessageContent>
     </MessageDetailStyled>
   );
 };
 
 const MessageDetailStyled = styled.div`
+  max-height: 72vh;
+  overflow-y: scroll;
+
   width: 100%;
-  flex: 1;
   padding: 2rem;
-  border-bottom: ${borderSeparator};
+`;
+
+const MessageContent = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 export default MessageDetail;
