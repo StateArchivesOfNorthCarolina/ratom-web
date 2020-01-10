@@ -4,35 +4,25 @@ import styled from 'styled-components';
 // Router
 import { useHistory } from 'react-router-dom';
 
-// AJAX
-import { useQuery } from '@apollo/react-hooks';
-import { MY_COLLECTIONS } from '../../../../graphql/queries/collectionQueries';
-
 // Children
 import CollectionsListItem from './CollectionsListItem';
 import AnimatedList from '../../../Components/Animated/AnimatedList';
 import Spinner from '../../../Components/Loading/Spinner';
 
-const CollectionsList = props => {
+const CollectionsList = ({ loadingAccounts, accounts }) => {
   const history = useHistory();
-  const { loading, error, data } = useQuery(MY_COLLECTIONS);
 
-  const setCollection = collection => {
+  const setAccount = collection => {
     history.push(`/collections/${collection.id}`);
   };
 
   return (
     <CollectionsListStyled>
-      {loading ? (
+      {loadingAccounts ? (
         <Spinner />
       ) : (
-        data &&
-        data.myCollections.edges.map(({ node: collection }) => (
-          <CollectionsListItem
-            key={collection.id}
-            collection={collection}
-            setCollection={setCollection}
-          />
+        accounts.map(({ node: account }) => (
+          <CollectionsListItem key={account.id} account={account} setAccount={setAccount} />
         ))
       )}
     </CollectionsListStyled>

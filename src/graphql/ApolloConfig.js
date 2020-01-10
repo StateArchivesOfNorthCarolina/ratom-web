@@ -10,6 +10,7 @@ import {
 
 const client = new ApolloClient({
   cache: false,
+  fetchPolicy: 'no-cache',
   uri: '/graphql',
   request: operation => {
     const token = getTokenFromLocalStorage();

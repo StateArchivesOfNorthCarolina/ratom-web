@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+// GraphQl
+import { useMutation } from '@apollo/react-hooks';
+import { CREATE_ACCOUNT } from '../../../graphql/mutations/accountMutations';
+
 // Deps
 import { useAlert } from 'react-alert';
 
@@ -15,25 +19,36 @@ import Button from '../../Components/Buttons/Button';
 const AccountImportModal = ({ closeModal, ...props }) => {
   const alert = useAlert();
   const [name, setName] = useState('');
-  const [desc, setDesc] = useState('');
+  const [description, setDescription] = useState('');
   const [url, setUrl] = useState('');
 
-  const getImportDisabled = () => {
-    // TODO: can possibly do a bit more validation here once we know how this is reall going to work
-    return !(name && desc && url);
-  };
-
-  const handleImportAccount = () => {
-    // TODO: Do the importing business here
-    setTimeout(() => {
+  const [createAccount, { loading, error, data }] = useMutation(CREATE_ACCOUNT, {
+    onCompleted(data) {
       setName('');
-      setDesc('');
+      setDescription('');
       setUrl('');
       alert.show('Your account is being imported. Check the Accounts List for progress updates.', {
         type: 'success'
       });
       closeModal();
-    }, 1000);
+    },
+    onError(error) {
+      // This is an error in intial creation of Account, not in import process
+      // TODO: What's in error? Would be nice to give the Account name in the alert
+      alert.show('An error occured while trying to create this account.', { type: 'error' });
+    }
+  });
+
+  const getImportDisabled = () => {
+    // TODO: can possibly do a bit more validation here once we know how this is reall going to work
+    return loading || !(name && description && url);
+  };
+
+  const handleImportAccount = () => {
+    // TODO: Do the importing business here
+    createAccount({
+      varibles: { name, description, url }
+    });
   };
 
   return (
@@ -53,8 +68,8 @@ const AccountImportModal = ({ closeModal, ...props }) => {
             />
             <TextAreaStyled
               label="Provide a description"
-              value={desc}
-              onChange={e => setDesc(e.target.value)}
+              value={description}
+              onChange={e => setDescription(e.target.value)}
             />
           </div>
           <div>

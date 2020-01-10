@@ -19,6 +19,7 @@ import ApolloProvider from './graphql/ApolloConfig';
 // Children
 import MainLayout from './components/Containers/Main/MainLayout';
 import Alert from './components/Components/Alert';
+import { ALERT_TIMEOUT } from './constants/applicationConstants';
 
 const THEME = defaultTheme;
 
@@ -29,7 +30,7 @@ const AppStyled = styled.div`
   flex-direction: column;
 `;
 const alertOptions = {
-  timeout: 5000,
+  timeout: ALERT_TIMEOUT,
   position: positions.TOP_CENTER,
   transitions: transitions.FADE,
   containerStyle: { top: '7rem' }

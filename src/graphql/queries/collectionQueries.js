@@ -14,16 +14,11 @@ export const MY_COLLECTIONS = gql`
   }
 `;
 
-export const ALL_COLLECTIONS = gql`
-  {
-    allCollections {
-      edges {
-        node {
-          id
-          title
-          accessionDate
-        }
-      }
+export const IMPORT_STATUS = gql`
+  query {
+    importStatus {
+      status
+      details
     }
   }
 `;
