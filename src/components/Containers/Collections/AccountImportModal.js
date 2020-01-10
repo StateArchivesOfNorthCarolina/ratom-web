@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+
+// Deps
+import { useAlert } from 'react-alert';
+
+// Children
 import AnimatedModal from '../../Components/Animated/AnimatedModal';
 import Logo from '../../Components/Logo';
 import CloseButton from '../../Components/Buttons/CloseButton';
@@ -8,10 +13,10 @@ import TextArea from '../../Components/Inputs/TextArea';
 import Button from '../../Components/Buttons/Button';
 
 const AccountImportModal = ({ closeModal, ...props }) => {
+  const alert = useAlert();
   const [name, setName] = useState('');
   const [desc, setDesc] = useState('');
   const [url, setUrl] = useState('');
-  const [importDisabled, setImportDisabled] = useState(true);
 
   const getImportDisabled = () => {
     // TODO: can possibly do a bit more validation here once we know how this is reall going to work
@@ -19,8 +24,16 @@ const AccountImportModal = ({ closeModal, ...props }) => {
   };
 
   const handleImportAccount = () => {
-    // TODO: Do the importing business here, then:
-    closeModal();
+    // TODO: Do the importing business here
+    setTimeout(() => {
+      setName('');
+      setDesc('');
+      setUrl('');
+      alert.show('Your account is being imported. Check the Accounts List for progress updates.', {
+        type: 'success'
+      });
+      closeModal();
+    }, 1000);
   };
 
   return (

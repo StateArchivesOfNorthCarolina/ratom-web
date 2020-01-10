@@ -9,12 +9,12 @@ const CloseButton = props => {
 };
 
 const CloseButtonStyled = styled(FontAwesomeIcon)`
-  color: ${props => props.theme.colorPrimary};
-  font-size: 4rem;
+  color: ${props => props.color || props.theme.colorPrimary};
+  font-size: ${props => (props.small ? '2rem' : '4rem')};
   cursor: pointer;
 
   &:hover {
-    color: ${props => lighten(props.theme.colorPrimary)};
+    color: ${props => lighten(props.color || props.theme.colorPrimary)};
   }
 `;
 

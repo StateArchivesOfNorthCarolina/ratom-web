@@ -5,6 +5,9 @@ import styled, { ThemeProvider } from 'styled-components';
 import GlobalStyle from './styles/globalStyles';
 import defaultTheme from './styles/defaultTheme';
 
+// Deps
+import { transitions, positions, Provider as AlertProvider } from 'react-alert';
+
 // Router
 import { BrowserRouter } from 'react-router-dom';
 import PrivateRoute from './components/Containers/PrivateRoute';
@@ -15,6 +18,7 @@ import ApolloProvider from './graphql/ApolloConfig';
 
 // Children
 import MainLayout from './components/Containers/Main/MainLayout';
+import Alert from './components/Components/Alert';
 
 const THEME = defaultTheme;
 
@@ -24,6 +28,12 @@ const AppStyled = styled.div`
   display: flex;
   flex-direction: column;
 `;
+const alertOptions = {
+  timeout: 5000,
+  position: positions.TOP_CENTER,
+  transitions: transitions.FADE,
+  containerStyle: { top: '7rem' }
+};
 
 const App = () => {
   return (
@@ -31,13 +41,15 @@ const App = () => {
     <ThemeProvider theme={THEME}>
       <GlobalStyle />
       <BrowserRouter>
-        <AuthProvider>
-          <ApolloProvider>
-            <AppStyled>
-              <PrivateRoute path="/" component={MainLayout} />
-            </AppStyled>
-          </ApolloProvider>
-        </AuthProvider>
+        <AlertProvider template={Alert} {...alertOptions}>
+          <AuthProvider>
+            <ApolloProvider>
+              <AppStyled>
+                <PrivateRoute path="/" component={MainLayout} />
+              </AppStyled>
+            </ApolloProvider>
+          </AuthProvider>
+        </AlertProvider>
       </BrowserRouter>
     </ThemeProvider>
   );
