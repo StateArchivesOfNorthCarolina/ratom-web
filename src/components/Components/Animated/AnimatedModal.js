@@ -3,33 +3,28 @@ import styled from 'styled-components';
 
 import posed, { PoseGroup } from 'react-pose';
 
-const AnimatedModal = ({ isVisible, toggleVisibility, children, ...props }) => {
+const AnimatedModal = ({ isVisible, closeModal, children, ...props }) => {
   return (
     <PoseGroup {...props}>
       {isVisible && [
-        <StyledShade onClick={toggleVisibility} key="shade" />,
-        <StyledModal key="modal">
-          {children}
-        </StyledModal>
+        <StyledShade onClick={closeModal} key="shade" />,
+        <StyledModal key="modal">{children}</StyledModal>
       ]}
     </PoseGroup>
-  )
-}
+  );
+};
 
 const Modal = posed.div({
   enter: {
-    y: 0,
     opacity: 1,
-    delay: 300,
+    delay: 100,
     transition: {
-      y: { type: 'spring', stiffness: 500, damping: 30 },
       default: { duration: 200 }
     }
   },
   exit: {
-    y: 50,
     opacity: 0,
-    transition: { duration: 150 }
+    transition: { duration: 100 }
   }
 });
 
@@ -51,8 +46,7 @@ const StyledModal = styled(Modal)`
   position: absolute;
   width: 500px;
   height: 300px;
-  background: white;
-  border-radius: 10px;
+  background-color: ${props => props.theme.primaryBackground};
 `;
 
 export default AnimatedModal;

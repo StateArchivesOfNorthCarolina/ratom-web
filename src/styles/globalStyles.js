@@ -12,7 +12,7 @@ const GlobalStyle = createGlobalStyle`
 
     body {
         margin: 0;
-        font-family: ${vars.fontPrimary};
+        font-family: Montserrat;
         font-size: 1.5rem;
     }
 
@@ -21,8 +21,15 @@ const GlobalStyle = createGlobalStyle`
     }
 
     h1 {
-        font-size: 3.5rem;
-        line-height: 1.6;
+        height: 40px;
+        font-family: Montserrat;
+        font-size: 26px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.54;
+        letter-spacing: normal;
+        color: #212121;
     }
 
     h2 {
@@ -64,7 +71,7 @@ const GlobalStyle = createGlobalStyle`
         list-style: none;
     }
 
-    input {
+    input, textarea {
         font-size: 1.5rem;
         color: ${props => props.theme.textColorSecondary}
     }

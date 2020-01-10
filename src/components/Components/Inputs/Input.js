@@ -68,6 +68,7 @@ const InputStyled = styled.input`
   width: 100%;
   /* height: 2.3rem; */
   padding: 1rem 2rem;
+  border: 2px solid ${props => props.theme.colorGrey};
 `;
 
 const IconStyled = styled(FontAwesomeIcon)`
