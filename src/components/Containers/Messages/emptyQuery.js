@@ -1,3 +1,4 @@
 export default {
-  keywords: []
+  keywords: [],
+  filters: []
 };

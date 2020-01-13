@@ -1,4 +1,4 @@
-import * as vars from "./styleVariables";
+import * as vars from './styleVariables';
 
 export default {
   textColorPrimary: vars.colorBlack,

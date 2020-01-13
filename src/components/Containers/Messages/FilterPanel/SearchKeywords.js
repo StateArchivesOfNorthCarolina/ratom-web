@@ -17,8 +17,9 @@ const SearchKeywords = props => {
 
   const { keywords } = query;
 
-  const handleKeyPressed = e => {
+  const handleDeleteKeyPressed = e => {
     e.stopPropagation();
+    if (e.key === 'Backspace' && e.shiftKey) removeKeyword();
     if (e.key === 'Enter' && e.shiftKey) {
       queryMessages();
     } else if (e.key === 'Enter') {
@@ -37,13 +38,21 @@ const SearchKeywords = props => {
   };
 
   const removeKeyword = keyword => {
-    const keywordLoc = query.keywords.indexOf(keyword);
     const keywords = query.keywords.slice();
-    keywords.splice(keywordLoc, 1);
-    setQuery({
-      ...query,
-      keywords
-    });
+    if (keyword) {
+      const keywordLoc = query.keywords.indexOf(keyword);
+      keywords.splice(keywordLoc, 1);
+      setQuery({
+        ...query,
+        keywords
+      });
+    } else {
+      keywords.pop();
+      setQuery({
+        ...query,
+        keywords
+      });
+    }
   };
 
   return (
@@ -52,7 +61,7 @@ const SearchKeywords = props => {
         type="text"
         icon="search"
         label="Keyword Search"
-        onKeyPress={handleKeyPressed}
+        onKeyDown={handleDeleteKeyPressed}
         onChange={e => setKeyword(e.target.value)}
         value={keyword}
       />

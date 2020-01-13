@@ -38,12 +38,14 @@ const Login = () => {
           type="email"
           onChange={e => setEmail(e.target.value)}
           data-cy="login_email"
+          onEnterKey={handleSignIn}
         />
         <Input
           label="Password"
           type="password"
           onChange={e => setPassword(e.target.value)}
           data-cy="login_password"
+          onEnterKey={handleSignIn}
         />
         <FormErrors errors={error && error.graphQLErrors} />
 

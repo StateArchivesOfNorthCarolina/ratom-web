@@ -27,7 +27,7 @@ const AuthProvider = props => {
 
     const currentAuthData = { token, user };
     setAuthData(currentAuthData);
-  }, []);
+  }, [authData.token, authData.user]);
 
   const onLogout = () => {
     removeTokenFromLocalStorage();
@@ -37,13 +37,11 @@ const AuthProvider = props => {
 
   const onLogin = newAuthData => {
     const { token, user } = newAuthData;
-    // TODO: token and user may not be at this depth.
     setTokenToLocalStorage(token);
     setUserToLocalStorage(user);
+
     setAuthData(newAuthData);
   };
-
-  // const authDataValue = useMemo({ ...authData, onLogin, onLogout }, [authData]);
 
   return <AuthContext.Provider value={{ ...authData, onLogin, onLogout }} {...props} />;
 };

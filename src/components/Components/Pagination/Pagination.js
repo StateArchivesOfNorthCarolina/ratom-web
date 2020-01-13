@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { standardPadding } from '../../../styles/styleVariables';
 
-const Pagination = () => {
+// Context
+import { CollectionContext } from '../../Containers/Messages/MessagesMain';
+
+const Pagination = props => {
+  const { messages, messagesTotalCount } = useContext(CollectionContext);
+
   return (
-    <PaginationStyled>
-      <h4>Pagination</h4>
+    <PaginationStyled {...props}>
+      <ResultsTotals>
+        <h4>Showing </h4> <MessagesCount>{messages.length}</MessagesCount>
+        <h4>of </h4> <h5>{messagesTotalCount}</h5>
+      </ResultsTotals>
     </PaginationStyled>
   );
 };
@@ -18,6 +26,25 @@ const PaginationStyled = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
+
+  /* span {
+
+  } */
+`;
+
+const ResultsTotals = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  h4 {
+    margin: 0 1rem;
+  }
+`;
+
+const MessagesCount = styled.span`
+  color: ${props => props.theme.colorPrimary};
+  font-weight: bold;
 `;
 
 export default Pagination;

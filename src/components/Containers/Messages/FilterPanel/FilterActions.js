@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { borderSeparator } from '../../../../styles/styleVariables';
 
 // Util
-import { objectIsEmpty } from '../../../../util/objectIsEmpty';
 import emptyQuery from '../emptyQuery';
 
 // Components

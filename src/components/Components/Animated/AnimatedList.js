@@ -13,14 +13,12 @@ const Item = posed.li({
 
 const AnimatedList = props => {
   return (
-    <ListContainer>
-      {Children.map(props.children, (child, i) =>
-        <Item>
-          {child}
-        </Item>
-      )}
+    <ListContainer {...props}>
+      {Children.map(props.children, (child, i) => (
+        <Item>{child}</Item>
+      ))}
     </ListContainer>
-  )
-}
+  );
+};
 
 export default AnimatedList;

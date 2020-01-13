@@ -1,15 +1,18 @@
 import { gql } from 'apollo-boost';
+import { DEFAULT_PAGINATION_LIMIT } from '../../constants/applicationConstants';
 
 // TODO: Add collectionId! filter: { collectionId: $collectionId }
 export const FILTER_MESSAGES = gql`
-  query FilterMessages($keywords: String!) {
+  query FilterMessages(
+    $after: String
+    $filter: GrapheneElasticFilterMessageElasticsearchNodeConnectionBackendFilter
+    $search: GrapheneElasticSearchMessageElasticsearchNodeConnectionBackendFilter
+  ) {
     filterMessages(
-      search: {
-        msgTo: { value: $keywords }
-        msgFrom: { value: $keywords }
-        msgSubject: { value: $keywords }
-        msgBody: { value: $keywords }
-      }
+      first: ${DEFAULT_PAGINATION_LIMIT}
+      after: $after
+      filter: $filter
+      search: $search
       facets: [labels, sent_date]
       highlight: [msg_to, msg_from, msg_subject, msg_body]
     ) {
@@ -40,6 +43,24 @@ export const FILTER_MESSAGES = gql`
 export const GET_MESSAGE = gql`
   query GetMessage($pk: Int) {
     message(pk: $pk) {
+      sentDate
+      labels
+      msgTo
+      msgFrom
+      msgSubject
+      msgBody
+      processor {
+        processed
+        isRecord
+        hasPii
+      }
+    }
+  }
+`;
+
+export const STEP_MESSAGES = gql`
+  query StepMessages($first: Int, $cursor: String) {
+    message(first: $first, after: $cursor) {
       sentDate
       labels
       msgTo

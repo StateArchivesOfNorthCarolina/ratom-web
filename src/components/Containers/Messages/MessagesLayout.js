@@ -25,11 +25,12 @@ const MessagesLayout = () => {
 
 const MessagesLayoutStyled = styled.section`
   width: 100%;
+  flex: 1;
 `;
 
-const ContentWrapper = styled.section`
+const ContentWrapper = styled.div`
   width: 100%;
-  min-height: 100vh;
+  flex: 1;
   display: flex;
   flex-direction: row;
 `;

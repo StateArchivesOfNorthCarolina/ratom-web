@@ -1,8 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { borderSeparator, standardPadding, colorWhite } from '../../../../styles/styleVariables';
+import { borderSeparator, standardPadding } from '../../../../styles/styleVariables';
 
 const ResultsSummary = () => {
+  // TODO: @WIP, implement "select all/none",
+  // TODO: make MessageCheckbox usable here too tho
   return (
     <ResultsSummaryStyled>
       <h4>Results Summary</h4>
