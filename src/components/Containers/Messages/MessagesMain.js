@@ -5,12 +5,9 @@ import styled from 'styled-components';
 import PrivateRoute from '../PrivateRoute';
 import { Route, Redirect, useParams, useRouteMatch } from 'react-router-dom';
 
-// Util
-import { getDocCountFromFacets } from '../../../util/getDocCountFromFacets';
-
 // Axios
 import { useLazyAxios } from '../../Hooks/useAxios';
-import { searchMessages } from '../../../services/requests';
+import { searchMessages, stepThroughPaginatedMessages } from '../../../services/requests';
 import {
   setFilterQueryToLocalStorage,
   getFilterQueryFromLocalStorage
@@ -41,27 +38,31 @@ const MessagesMain = () => {
   const { path } = useRouteMatch();
   const { collectionId } = useParams();
 
-  const [executeSearchMessages, { loading, error, fetchMore }] = useLazyAxios(searchMessages, {
+  const [executeSearchMessages, { loading, error }] = useLazyAxios(searchMessages, {
     onCompleted: data => {
       console.log('Search messages, a lot...');
-      const { results, facets, next, previous, count } = data;
-      setMessages(results);
-      setFacets(facets);
-      setPageInfo({ next, previous, count });
+      updateResults(data);
     }
   });
 
   useEffect(() => {
-    console.log('MessagesMain useEffect runs and FETCHES MESSAGES');
     const previousQuery = getFilterQueryFromLocalStorage();
     if (previousQuery) {
       queryMessages();
     }
   }, []);
 
-  useEffect(() => {
-    setMessagesTotalCount(getDocCountFromFacets(facets));
-  }, [facets]);
+  const updateResults = (data, merge) => {
+    const { results, facets, next, previous, count } = data;
+    setFacets(facets);
+    setPageInfo({ next, previous, count });
+    setMessagesTotalCount(count);
+    if (merge) {
+      setMessages([...messages, ...results]);
+    } else {
+      setMessages(results);
+    }
+  };
 
   const setCollection = () => {
     setCollectionId(collectionId);
@@ -74,7 +75,8 @@ const MessagesMain = () => {
 
   const buildKeywordSearch = () => {
     const { keywords } = query;
-    return `keywords.join('&search=')`;
+    if (keywords) return `search=${keywords.join('&search=')}`;
+    return '';
   };
 
   const buildFilterSearch = () => {
@@ -92,23 +94,11 @@ const MessagesMain = () => {
 
   const loadMoreMessages = () => {
     //  TODO: set current "after" cursor position to state, possibly localStorage
-    if (pageInfo.hasNextPage) {
-      fetchMore({
-        variables: {
-          after: pageInfo.endCursor
-        },
-        updateQuery: (prev, { fetchMoreResult }) => {
-          if (!fetchMoreResult) return prev;
-          return {
-            ...prev,
-            filterMessages: {
-              ...prev.filterMessages,
-              edges: [...prev.filterMessages.edges, ...fetchMoreResult.filterMessages.edges],
-              facets: { ...fetchMoreResult.filterMessages.facets },
-              pageInfo: { ...fetchMoreResult.filterMessages.pageInfo }
-            }
-          };
-        }
+
+    console.log('pageInfo: ', pageInfo);
+    if (pageInfo.next) {
+      stepThroughPaginatedMessages(pageInfo.next).then(response => {
+        updateResults(response.data, true);
       });
     } else console.log('ALL OUT, SON');
   };

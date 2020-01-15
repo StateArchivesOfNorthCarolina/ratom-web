@@ -6,6 +6,7 @@ export const useAxios = (ajaxMethod, config = {}) => {
   const [data, setData] = useState();
 
   config.conditionals = config.conditionals || [];
+  config.arguments = config.arguments || [];
 
   useEffect(() => {
     setLoading(true);
@@ -33,10 +34,10 @@ export const useLazyAxios = (ajaxMethod, config = {}) => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState();
 
-  const execute = ajaxArgs => {
+  const execute = (...ajaxArgs) => {
     setLoading(true);
     setError(null);
-    ajaxMethod(ajaxArgs)
+    ajaxMethod(...ajaxArgs)
       .then(response => {
         setError(null);
         setData(response.data);

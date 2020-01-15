@@ -6,12 +6,13 @@ import React, {
   useContext
 } from 'react';
 import {
-  getTokenFromLocalStorage,
   setTokenToLocalStorage,
+  getTokenFromLocalStorage,
+  removeTokenFromLocalStorage,
+  setRefreshTokenToLocalStorage,
   setUserToLocalStorage,
-  removeUserFromLocalStorage,
   getUserFromLocalStorage,
-  removeTokenFromLocalStorage
+  removeUserFromLocalStorage
 } from '../../localStorageUtils/authManager';
 import { showUser } from '../../services/requests';
 import Axios from '../../services/axiosConfig';
@@ -42,8 +43,9 @@ const AuthProvider = props => {
     Axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
     showUser()
       .then(response => {
-        setUserToLocalStorage(response.data);
         setTokenToLocalStorage(access);
+        setRefreshTokenToLocalStorage(refresh);
+        setUserToLocalStorage(response.data);
         setAuthData(newAuthData);
       })
       .catch(error => {
