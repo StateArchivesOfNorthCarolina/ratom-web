@@ -9,8 +9,6 @@ import {
   removeUserFromLocalStorage
 } from '../localStorageUtils/authManager.js';
 
-import { useHistory } from 'react-router-dom';
-
 export const API_VERSION = 'v1';
 
 const Axios = axios.create({
@@ -36,17 +34,10 @@ Axios.interceptors.request.use(
 Axios.interceptors.response.use(
   response => response,
   error => {
-    const history = useHistory();
     const originalRequest = error.config;
 
-    if (
-      error.response.status === 401 &&
-      originalRequest.url === `${PKG.proxy}/api/${API_VERSION}/token/`
-    ) {
-      removeTokenFromLocalStorage();
-      removeRefreshTokenFromLocalStorage();
-      removeUserFromLocalStorage();
-      history.push('/');
+    if (error.response.status === 401 && originalRequest.url === 'token/') {
+      // Got 401 on Login, so it's just bad credentials. Pass through.
       return Promise.reject(error);
     }
 
@@ -54,16 +45,25 @@ Axios.interceptors.response.use(
       originalRequest._retry = true;
       const refreshToken = getRefreshTokenFromLocalStorage();
       return axios
-        .post('/token/refresh', {
+        .post(`${PKG.proxy}/api/${API_VERSION}/token/refresh/`, {
           refresh: refreshToken
         })
         .then(response => {
-          if (response.status === 201) {
-            const token = response.data;
-            setTokenToLocalStorage(token);
-            axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+          if (response.status === 200 || response.status === 201) {
+            const { access } = response.data;
+            setTokenToLocalStorage(access);
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + access;
+            originalRequest.headers['Authorization'] = 'Bearer ' + access;
             return axios(originalRequest);
           }
+        })
+        .catch(_ => {
+          // Prolly just the refresh token has expired
+          // TODO: Show user something a bit more friendly than just punting them back to login
+          removeRefreshTokenFromLocalStorage();
+          removeTokenFromLocalStorage();
+          removeUserFromLocalStorage();
+          window.location = '/';
         });
     }
     return Promise.reject(error);
@@ -71,36 +71,3 @@ Axios.interceptors.response.use(
 );
 
 export default Axios;
-
-// import axios from 'axios';
-// import PKG from '../../package.json';
-// import {
-//   getTokenFromLocalStorage,
-//   removeUserFromLocalStorage,
-//   removeTokenFromLocalStorage
-// } from '../localStorageUtils/authManager.js';
-
-// export const API_VERSION = 'v1';
-
-// const Axios = axios.create({
-//   baseURL: `${PKG.proxy}/api/${API_VERSION}/`,
-//   timeout: 5000,
-//   headers: { 'X-Version-Requested': API_VERSION }
-// });
-
-// Axios.interceptors.request.use(config => {
-//   const token = getTokenFromLocalStorage();
-//   if (token) {
-//     config.headers['Authorization'] = `Bearer ${token}`
-
-//   }
-//   else {
-//     removeUserFromLocalStorage();
-//   }
-
-//   return config;
-// });
-
-// export default Axios;
-
-///////////////////////////

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 // Axios
@@ -15,8 +15,8 @@ import Spinner from '../../Components/Loading/Spinner';
 import FormErrors from '../../Components/Form/FormErrors';
 
 const Login = () => {
-  const [username, setUsername] = useState(null);
-  const [password, setPassword] = useState(null);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const { onLogin } = useAuthContext();
 
   const [executeLogin, { loading, error, data }] = useLazyAxios(login, {
@@ -32,6 +32,13 @@ const Login = () => {
   const handleSignIn = () => {
     executeLogin({ username, password });
   };
+
+  useEffect(() => {
+    if (error && error.response.status === 401) {
+      setUsername('');
+      setPassword('');
+    }
+  }, [error]);
 
   return (
     <LoginStyled>
@@ -51,9 +58,9 @@ const Login = () => {
           data-cy="login_password"
           onEnterKey={handleSignIn}
         />
-        <FormErrors errors={error && error.graphQLErrors} />
+        <FormErrors errors={[error && error.response.data.detail]} />
 
-        <Button postitive block onClick={handleSignIn} data-cy="signin_button">
+        <Button postitive block onClick={handleSignIn} disabled={error} data-cy="signin_button">
           {loading ? <Spinner /> : 'Sign in'}
         </Button>
       </LoginWrapper>

@@ -47,6 +47,8 @@ export const useLazyAxios = (ajaxMethod, config = {}) => {
       .catch(error => {
         // TODO: Handle errors better
         setError(error);
+        setData();
+        setLoading(false);
         console.warn(error);
         if (config.onError) config.onError(error);
       });
