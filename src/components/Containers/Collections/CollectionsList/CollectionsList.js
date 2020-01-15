@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
+// Axios
+import { useAxios } from '../../../Hooks/useAxios';
+import { listAccounts } from '../../../../services/requests';
+
 // Router
 import { useHistory } from 'react-router-dom';
-
-// AJAX
-import { useQuery } from '@apollo/react-hooks';
-import { MY_COLLECTIONS } from '../../../../graphql/queries/collectionQueries';
 
 // Children
 import CollectionsListItem from './CollectionsListItem';
@@ -15,9 +15,9 @@ import Spinner from '../../../Components/Loading/Spinner';
 
 const CollectionsList = props => {
   const history = useHistory();
-  const { loading, error, data } = useQuery(MY_COLLECTIONS);
+  const { loading, error, data } = useAxios(listAccounts);
 
-  const setCollection = collection => {
+  const setAccount = collection => {
     history.push(`/collections/${collection.id}`);
   };
 
@@ -27,12 +27,8 @@ const CollectionsList = props => {
         <Spinner />
       ) : (
         data &&
-        data.myCollections.edges.map(({ node: collection }) => (
-          <CollectionsListItem
-            key={collection.id}
-            collection={collection}
-            setCollection={setCollection}
-          />
+        data.map(account => (
+          <CollectionsListItem key={account.id} collection={account} setCollection={setAccount} />
         ))
       )}
     </CollectionsListStyled>

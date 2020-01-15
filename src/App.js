@@ -11,7 +11,6 @@ import PrivateRoute from './components/Containers/PrivateRoute';
 
 // Context
 import AuthProvider from './components/Context/auth-provider';
-import ApolloProvider from './graphql/ApolloConfig';
 
 // Children
 import MainLayout from './components/Containers/Main/MainLayout';
@@ -32,11 +31,9 @@ const App = () => {
       <GlobalStyle />
       <BrowserRouter>
         <AuthProvider>
-          <ApolloProvider>
-            <AppStyled>
-              <PrivateRoute path="/" component={MainLayout} />
-            </AppStyled>
-          </ApolloProvider>
+          <AppStyled>
+            <PrivateRoute path="/" component={MainLayout} />
+          </AppStyled>
         </AuthProvider>
       </BrowserRouter>
     </ThemeProvider>

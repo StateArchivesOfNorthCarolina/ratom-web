@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-// Fetch
-import { useMutation } from '@apollo/react-hooks';
-import { LOGIN } from '../../../graphql/mutations/authMutations';
+// Axios
+import { useLazyAxios } from '../../Hooks/useAxios';
+import { login } from '../../../services/requests';
 
 // Context
 import { useAuthContext } from '../../Context/auth-provider';
@@ -15,18 +15,22 @@ import Spinner from '../../Components/Loading/Spinner';
 import FormErrors from '../../Components/Form/FormErrors';
 
 const Login = () => {
-  const [email, setEmail] = useState(null);
+  const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
   const { onLogin } = useAuthContext();
 
-  const [login, { loading, error }] = useMutation(LOGIN, {
-    onCompleted({ tokenAuth }) {
-      onLogin(tokenAuth);
+  const [executeLogin, { loading, error, data }] = useLazyAxios(login, {
+    onCompleted: ({ access, refresh }) => {
+      onLogin({ access, refresh });
+    },
+    onError: error => {
+      // TODO: Handle error better (at all)
+      console.warn(error.message);
     }
   });
 
   const handleSignIn = () => {
-    login({ variables: { email, password } });
+    executeLogin({ username, password });
   };
 
   return (
@@ -35,8 +39,8 @@ const Login = () => {
       <LoginWrapper>
         <Input
           label="Email Address"
-          type="email"
-          onChange={e => setEmail(e.target.value)}
+          type="username"
+          onChange={e => setUsername(e.target.value)}
           data-cy="login_email"
           onEnterKey={handleSignIn}
         />

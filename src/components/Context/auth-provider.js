@@ -13,6 +13,8 @@ import {
   getUserFromLocalStorage,
   removeTokenFromLocalStorage
 } from '../../localStorageUtils/authManager';
+import { showUser } from '../../services/requests';
+import Axios from '../../services/axiosConfig';
 
 export const AuthContext = createContext(null);
 
@@ -36,11 +38,18 @@ const AuthProvider = props => {
   };
 
   const onLogin = newAuthData => {
-    const { token, user } = newAuthData;
-    setTokenToLocalStorage(token);
-    setUserToLocalStorage(user);
-
-    setAuthData(newAuthData);
+    const { access, refresh } = newAuthData;
+    Axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
+    showUser()
+      .then(response => {
+        setUserToLocalStorage(response.data);
+        setTokenToLocalStorage(access);
+        setAuthData(newAuthData);
+      })
+      .catch(error => {
+        //TODO: Handle error at all
+        console.warn(error.message);
+      });
   };
 
   return <AuthContext.Provider value={{ ...authData, onLogin, onLogout }} {...props} />;

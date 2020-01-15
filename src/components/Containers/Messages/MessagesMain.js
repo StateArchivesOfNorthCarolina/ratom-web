@@ -5,13 +5,16 @@ import styled from 'styled-components';
 import PrivateRoute from '../PrivateRoute';
 import { Route, Redirect, useParams, useRouteMatch } from 'react-router-dom';
 
-// Fetch
-import { useLazyQuery } from '@apollo/react-hooks';
+// Util
+import { getDocCountFromFacets } from '../../../util/getDocCountFromFacets';
+
+// Axios
+import { useLazyAxios } from '../../Hooks/useAxios';
+import { searchMessages } from '../../../services/requests';
 import {
   setFilterQueryToLocalStorage,
   getFilterQueryFromLocalStorage
 } from '../../../localStorageUtils/queryManager';
-import { FILTER_MESSAGES } from '../../../graphql/queries/messageQueries';
 import emptyQuery from './emptyQuery';
 
 // Components
@@ -21,7 +24,6 @@ import AnimatedSwitch from '../../Components/Animated/AnimatedSwitch';
 import MessagesLayout from './MessagesLayout';
 import MessageMain from '../Message/MessageMain';
 import GenericNotFound from '../GenericNotFound';
-import { getDocCountFromFacets } from '../../../util/getDocCountFromFacets';
 
 export const CollectionContext = createContext(null);
 
@@ -39,13 +41,13 @@ const MessagesMain = () => {
   const { path } = useRouteMatch();
   const { collectionId } = useParams();
 
-  const [sendMessagesQuery, { called, loading, error, fetchMore }] = useLazyQuery(FILTER_MESSAGES, {
-    notifyOnNetworkStatusChange: true,
-    fetchPolicy: 'network-only',
+  const [executeSearchMessages, { loading, error, fetchMore }] = useLazyAxios(searchMessages, {
     onCompleted: data => {
-      setMessages(data.filterMessages.edges);
-      setFacets(data.filterMessages.facets);
-      setPageInfo(data.filterMessages.pageInfo);
+      console.log('Search messages, a lot...');
+      const { results, facets, next, previous, count } = data;
+      setMessages(results);
+      setFacets(facets);
+      setPageInfo({ next, previous, count });
     }
   });
 
@@ -72,29 +74,20 @@ const MessagesMain = () => {
 
   const buildKeywordSearch = () => {
     const { keywords } = query;
-    const value = keywords.join(', ');
-    return {
-      msgTo: { value },
-      msgFrom: { value },
-      msgSubject: { value },
-      msgBody: { value }
-    };
+    return `keywords.join('&search=')`;
   };
 
   const buildFilterSearch = () => {
     // const { filters } = query;
-    return {};
+    return '';
   };
 
   const queryMessages = () => {
-    // TODO: - use query to serialize the JS object 'query' in to the format we need
-    // TODO: - for the gql FILTER_MESSAGES query to run properly
-    // TODO: user query or getFilterQueryFromLocalStorage();
     const search = buildKeywordSearch();
     const filter = buildFilterSearch();
 
-    const variables = { collectionId, search, filter };
-    sendMessagesQuery({ variables });
+    const params = search + filter;
+    executeSearchMessages(collectionId, params);
   };
 
   const loadMoreMessages = () => {
@@ -135,7 +128,6 @@ const MessagesMain = () => {
     messageCursor,
     setMessageCursor,
     loading,
-    called,
     error
   };
 
