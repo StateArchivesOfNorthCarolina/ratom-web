@@ -56,17 +56,18 @@ const SearchKeywords = props => {
   };
 
   return (
-    <SearchKeywordsStyled {...props}>
+    <SearchKeywordsStyled {...props} data-cy="keyword_search">
       <Input
         data-cy="keyword_search_input"
         type="text"
         icon="search"
+        onIconClick={addKeyword}
         label="Keyword Search"
         onKeyDown={handleDeleteKeyPressed}
         onChange={e => setKeyword(e.target.value)}
         value={keyword}
       />
-      <BadgesList badges={keywords} onRemoveBadge={removeKeyword} />
+      <BadgesList badges={keywords} onRemoveBadge={removeKeyword} badgeType="keyword" />
     </SearchKeywordsStyled>
   );
 };

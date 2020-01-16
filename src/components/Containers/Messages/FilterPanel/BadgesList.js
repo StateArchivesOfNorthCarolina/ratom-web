@@ -4,9 +4,9 @@ import styled from 'styled-components';
 // Children
 import Badge from '../Badge';
 
-const BadgesList = ({ badges, onRemoveBadge, ...props }) => {
+const BadgesList = ({ badges, badgeType = '', onRemoveBadge, ...props }) => {
   return (
-    <BadgesListStyled>
+    <BadgesListStyled data-cy="badge_list">
       {badges.map((badge, i) => {
         let name = badge;
         if (badge.name) name = badge.name;

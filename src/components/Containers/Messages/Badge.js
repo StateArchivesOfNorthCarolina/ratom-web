@@ -14,9 +14,9 @@ const Badge = ({ remove, ...props }) => {
     console.log('props: ', props);
   }
   return (
-    <BadgeStyled {...props}>
+    <BadgeStyled {...props} data-cy="badge">
       <p>{name}</p>
-      <IconStyled icon={faTimes} onClick={remove} />
+      <IconStyled icon={faTimes} onClick={remove} data-cy="badge_close" />
     </BadgeStyled>
   );
 };

@@ -5,11 +5,8 @@ const accountsRegex = /collections\/(\d+)/;
 const messagesRegex = /collections\/(\d+)\/messages\/(\d+)/;
 
 describe('Navigation and basic access control', () => {
-  before(() => {
-    cy.clearLocalStorage();
-  });
-
   it('visiting "/" returns login page when localStorage is clear', () => {
+    cy.clearLocalStorage();
     cy.visit('/');
     cy.get('[data-cy="signin_button"]');
   });
@@ -27,14 +24,7 @@ describe('Navigation and basic access control', () => {
 
   describe('after successful login', () => {
     it('navigating to "/" when `localStorage` contains `token` displays collections list', () => {
-      cy.visit('/');
-      cy.get('[data-cy="login_email"]').type('test_user');
-      cy.get('[data-cy="login_password"]').type('testing');
-      cy.get('[data-cy="signin_button"]').click();
-
-      // localStorage.setItem(AUTH_TOKEN, '1234.abcd.4321');
-      // localStorage.setItem(USER, JSON.stringify({ id: 1, firstName: 'Test', lastName: 'User' }));
-
+      cy.login();
       cy.location('pathname').should('include', '/');
 
       cy.contains('My Collections');
