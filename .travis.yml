@@ -35,4 +35,4 @@ deploy:
   on:
     repo: StateArchivesOfNorthCarolina/ratom-web
     all_branches: true
-    # condition: $TRAVIS_BRANCH =~ ^(develop|master)$
+    condition: $TRAVIS_BRANCH =~ ^(develop|master)$
