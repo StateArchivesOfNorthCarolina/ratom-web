@@ -11,7 +11,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { lighten } from '../../../styles/styleUtils/lighten-darken';
 
-const Input = ({ label, icon, onEnterKey, ...props }) => {
+const Input = ({ label, icon, onEnterKey, className, ...props }) => {
   let derivedIcon;
   switch (icon) {
     case 'search':
@@ -39,7 +39,7 @@ const Input = ({ label, icon, onEnterKey, ...props }) => {
   };
 
   return (
-    <FieldSetStyled {...props}>
+    <FieldSetStyled className={className}>
       <LabelStyled>{label}</LabelStyled>
       <div>
         <InputStyled {...props} type={props.type || 'text'} onKeyPress={handleKeyPressed} />

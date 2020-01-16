@@ -58,6 +58,7 @@ const SearchKeywords = props => {
   return (
     <SearchKeywordsStyled {...props}>
       <Input
+        data-cy="keyword_search_input"
         type="text"
         icon="search"
         label="Keyword Search"
