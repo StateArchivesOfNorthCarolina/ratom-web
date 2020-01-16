@@ -1,0 +1,38 @@
+language: python
+
+cache: pip
+
+services:
+  - docker
+
+python:
+  - "3.7"
+
+env:
+  global:
+    - CLOUDSDK_CORE_DISABLE_PROMPTS=1
+    - DOCKERHUB_REPO=govsanc/ratom-web
+
+install:
+  - pip install -r deployment/requirements.txt
+
+before_script:
+  # Build container for this commit before tests run
+  - docker build --pull -t govsanc/ratom-web .
+
+script:
+  - echo 0
+
+before_deploy:
+  # Install kubectl using Google SDK
+  - curl https://sdk.cloud.google.com | bash > /dev/null
+  - source $HOME/google-cloud-sdk/path.bash.inc
+  - gcloud components install kubectl
+
+deploy:
+  provider: script
+  script: bash deployment/ci_deployment.sh
+  on:
+    repo: StateArchivesOfNorthCarolina/ratom-web
+    all_branches: true
+    # condition: $TRAVIS_BRANCH =~ ^(develop|master)$
