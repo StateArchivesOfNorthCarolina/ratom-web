@@ -5,7 +5,7 @@ import * as authManager from '../localStorageUtils/authManager.js';
 export const API_VERSION = 'v1';
 
 const Axios = axios.create({
-  baseURL: `${PKG.proxy}/api/${API_VERSION}/`,
+  baseURL: `/api/${API_VERSION}/`,
   timeout: 5000,
   headers: { 'X-Version-Requested': API_VERSION }
 });
@@ -52,7 +52,7 @@ const handle401Response = async error => {
   // Prevent infinite loop of requests by setting a _retry property on orignalRequest
   if (!originalRequest._retry) {
     originalRequest._retry = true;
-    const refreshUrl = `${PKG.proxy}/api/${API_VERSION}/token/refresh/`;
+    const refreshUrl = `/api/${API_VERSION}/token/refresh/`;
     const refresh = authManager.getRefreshTokenFromLocalStorage();
     try {
       const { status, data } = await axios.post(refreshUrl, { refresh });
