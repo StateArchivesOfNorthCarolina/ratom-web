@@ -70,7 +70,7 @@ const handle401Response = async error => {
       // just in case.
       authManager.removeRefreshTokenFromLocalStorage();
       authManager.removeTokenFromLocalStorage();
-      authManager.configremoveUserFromLocalStorage();
+      authManager.removeUserFromLocalStorage();
       // TODO: Show user something a bit more friendly than just punting them back to login
 
       window.location = '/';
