@@ -6,6 +6,7 @@ export const showUser = () => Axios.get(`users/`);
 
 //  Accounts
 export const listAccounts = () => Axios.get('accounts/');
+export const createAccount = account => Axios.post('accounts/', account);
 
 //  Messages
 // TODO: How are we including accountId? As part of url or params? (accounts/<id>/messages/?params)

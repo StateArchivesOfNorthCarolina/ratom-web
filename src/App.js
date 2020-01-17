@@ -41,11 +41,13 @@ const App = () => {
     <ThemeProvider theme={THEME}>
       <GlobalStyle />
       <BrowserRouter>
-        <AuthProvider>
-          <AppStyled>
-            <PrivateRoute path="/" component={MainLayout} />
-          </AppStyled>
-        </AuthProvider>
+        <AlertProvider template={Alert} alertOptions={alertOptions}>
+          <AuthProvider>
+            <AppStyled>
+              <PrivateRoute path="/" component={MainLayout} />
+            </AppStyled>
+          </AuthProvider>
+        </AlertProvider>
       </BrowserRouter>
     </ThemeProvider>
   );

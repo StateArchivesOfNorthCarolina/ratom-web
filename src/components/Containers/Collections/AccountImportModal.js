@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-// GraphQl
-import { useMutation } from '@apollo/react-hooks';
-import { CREATE_ACCOUNT } from '../../../graphql/mutations/accountMutations';
+// Axios
+import { useAxios } from '../../Hooks/useAxios';
+import { createAccount } from '../../../services/requests';
 
 // Deps
 import { useAlert } from 'react-alert';
@@ -22,7 +22,7 @@ const AccountImportModal = ({ closeModal, ...props }) => {
   const [description, setDescription] = useState('');
   const [url, setUrl] = useState('');
 
-  const [createAccount, { loading, error, data }] = useMutation(CREATE_ACCOUNT, {
+  const [executeCreateAccount, { loading, error, data }] = useAxios(createAccount, {
     onCompleted(data) {
       setName('');
       setDescription('');
@@ -46,7 +46,7 @@ const AccountImportModal = ({ closeModal, ...props }) => {
 
   const handleImportAccount = () => {
     // TODO: Do the importing business here
-    createAccount({
+    executeCreateAccount({
       varibles: { name, description, url }
     });
   };
