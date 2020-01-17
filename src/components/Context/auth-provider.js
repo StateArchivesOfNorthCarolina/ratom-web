@@ -6,13 +6,16 @@ import React, {
   useContext
 } from 'react';
 import {
-  getTokenFromLocalStorage,
   setTokenToLocalStorage,
+  getTokenFromLocalStorage,
+  removeTokenFromLocalStorage,
+  setRefreshTokenToLocalStorage,
   setUserToLocalStorage,
-  removeUserFromLocalStorage,
   getUserFromLocalStorage,
-  removeTokenFromLocalStorage
+  removeUserFromLocalStorage
 } from '../../localStorageUtils/authManager';
+import { showUser } from '../../services/requests';
+import Axios from '../../services/axiosConfig';
 
 export const AuthContext = createContext(null);
 
@@ -36,11 +39,19 @@ const AuthProvider = props => {
   };
 
   const onLogin = newAuthData => {
-    const { token, user } = newAuthData;
-    setTokenToLocalStorage(token);
-    setUserToLocalStorage(user);
-
-    setAuthData(newAuthData);
+    const { access, refresh } = newAuthData;
+    Axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
+    showUser()
+      .then(response => {
+        setTokenToLocalStorage(access);
+        setRefreshTokenToLocalStorage(refresh);
+        setUserToLocalStorage(response.data);
+        setAuthData(newAuthData);
+      })
+      .catch(error => {
+        //TODO: Handle error at all
+        console.warn(error.message);
+      });
   };
 
   return <AuthContext.Provider value={{ ...authData, onLogin, onLogout }} {...props} />;

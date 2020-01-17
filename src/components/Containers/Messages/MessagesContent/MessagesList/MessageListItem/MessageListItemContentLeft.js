@@ -21,7 +21,7 @@ const MessageListItemContentLeft = ({ message, checked, checkMessage }) => {
         return [
           {
             type: 'body',
-            highlights: [message.highlight.msg_body[0]]
+            highlights: [message.highlight.body[0]]
           }
         ];
       }
@@ -33,8 +33,8 @@ const MessageListItemContentLeft = ({ message, checked, checkMessage }) => {
     <ContentLeft>
       <MessageCheckbox checked={checked} onChange={() => checkMessage(message.id)} />
       <InnerContent>
-        <h4>{message.msgSubject}</h4>
-        <p>From: {message.msgFrom}</p>
+        <h4>{message.subject}</h4>
+        <p>From: {message.msg_from}</p>
         <MessageHighlights>
           {getHighlights().map((h, i) => (
             <Highlight key={i}>

@@ -5,13 +5,13 @@ import styled from 'styled-components';
 import PrivateRoute from '../PrivateRoute';
 import { Route, Redirect, useParams, useRouteMatch } from 'react-router-dom';
 
-// Fetch
-import { useLazyQuery } from '@apollo/react-hooks';
+// Axios
+import { useLazyAxios } from '../../Hooks/useAxios';
+import { searchMessages, stepThroughPaginatedMessages } from '../../../services/requests';
 import {
   setFilterQueryToLocalStorage,
   getFilterQueryFromLocalStorage
 } from '../../../localStorageUtils/queryManager';
-import { FILTER_MESSAGES } from '../../../graphql/queries/messageQueries';
 import emptyQuery from './emptyQuery';
 
 // Components
@@ -21,7 +21,6 @@ import AnimatedSwitch from '../../Components/Animated/AnimatedSwitch';
 import MessagesLayout from './MessagesLayout';
 import MessageMain from '../Message/MessageMain';
 import GenericNotFound from '../GenericNotFound';
-import { getDocCountFromFacets } from '../../../util/getDocCountFromFacets';
 
 export const CollectionContext = createContext(null);
 
@@ -39,27 +38,31 @@ const MessagesMain = () => {
   const { path } = useRouteMatch();
   const { collectionId } = useParams();
 
-  const [sendMessagesQuery, { called, loading, error, fetchMore }] = useLazyQuery(FILTER_MESSAGES, {
-    notifyOnNetworkStatusChange: true,
-    fetchPolicy: 'network-only',
+  const [executeSearchMessages, { loading, error }] = useLazyAxios(searchMessages, {
     onCompleted: data => {
-      setMessages(data.filterMessages.edges);
-      setFacets(data.filterMessages.facets);
-      setPageInfo(data.filterMessages.pageInfo);
+      console.log('Search messages, a lot...');
+      updateResults(data);
     }
   });
 
   useEffect(() => {
-    console.log('MessagesMain useEffect runs and FETCHES MESSAGES');
     const previousQuery = getFilterQueryFromLocalStorage();
     if (previousQuery) {
       queryMessages();
     }
   }, []);
 
-  useEffect(() => {
-    setMessagesTotalCount(getDocCountFromFacets(facets));
-  }, [facets]);
+  const updateResults = (data, merge) => {
+    const { results, facets, next, previous, count } = data;
+    setFacets(facets);
+    setPageInfo({ next, previous, count });
+    setMessagesTotalCount(count);
+    if (merge) {
+      setMessages([...messages, ...results]);
+    } else {
+      setMessages(results);
+    }
+  };
 
   const setCollection = () => {
     setCollectionId(collectionId);
@@ -72,50 +75,30 @@ const MessagesMain = () => {
 
   const buildKeywordSearch = () => {
     const { keywords } = query;
-    const value = keywords.join(', ');
-    return {
-      msgTo: { value },
-      msgFrom: { value },
-      msgSubject: { value },
-      msgBody: { value }
-    };
+    if (keywords) return `search=${keywords.join('&search=')}`;
+    return '';
   };
 
   const buildFilterSearch = () => {
     // const { filters } = query;
-    return {};
+    return '';
   };
 
   const queryMessages = () => {
-    // TODO: - use query to serialize the JS object 'query' in to the format we need
-    // TODO: - for the gql FILTER_MESSAGES query to run properly
-    // TODO: user query or getFilterQueryFromLocalStorage();
     const search = buildKeywordSearch();
     const filter = buildFilterSearch();
 
-    const variables = { collectionId, search, filter };
-    sendMessagesQuery({ variables });
+    const params = search + filter;
+    executeSearchMessages(collectionId, params);
   };
 
   const loadMoreMessages = () => {
     //  TODO: set current "after" cursor position to state, possibly localStorage
-    if (pageInfo.hasNextPage) {
-      fetchMore({
-        variables: {
-          after: pageInfo.endCursor
-        },
-        updateQuery: (prev, { fetchMoreResult }) => {
-          if (!fetchMoreResult) return prev;
-          return {
-            ...prev,
-            filterMessages: {
-              ...prev.filterMessages,
-              edges: [...prev.filterMessages.edges, ...fetchMoreResult.filterMessages.edges],
-              facets: { ...fetchMoreResult.filterMessages.facets },
-              pageInfo: { ...fetchMoreResult.filterMessages.pageInfo }
-            }
-          };
-        }
+
+    console.log('pageInfo: ', pageInfo);
+    if (pageInfo.next) {
+      stepThroughPaginatedMessages(pageInfo.next).then(response => {
+        updateResults(response.data, true);
       });
     } else console.log('ALL OUT, SON');
   };
@@ -135,7 +118,6 @@ const MessagesMain = () => {
     messageCursor,
     setMessageCursor,
     loading,
-    called,
     error
   };
 

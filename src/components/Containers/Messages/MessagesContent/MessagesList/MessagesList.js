@@ -25,7 +25,7 @@ const MessagesList = () => {
 
   return (
     <MessagesListStyled ref={messagesUL}>
-      {messages.map(({ node: message }, i) => (
+      {messages.map((message, i) => (
         <MessageListItem key={message.id} message={message} i={i} />
       ))}
     </MessagesListStyled>
