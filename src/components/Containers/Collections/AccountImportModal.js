@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 // Axios
-import { useAxios } from '../../Hooks/useAxios';
+import { useLazyAxios } from '../../Hooks/useAxios';
 import { createAccount } from '../../../services/requests';
 
 // Deps
@@ -22,7 +22,7 @@ const AccountImportModal = ({ closeModal, ...props }) => {
   const [description, setDescription] = useState('');
   const [url, setUrl] = useState('');
 
-  const [executeCreateAccount, { loading, error, data }] = useAxios(createAccount, {
+  const [executeCreateAccount, { loading, error, data }] = useLazyAxios(createAccount, {
     onCompleted(data) {
       setName('');
       setDescription('');

@@ -2,25 +2,24 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 // GraphQL
-import { useLazyQuery } from '@apollo/react-hooks';
-import { IMPORT_STATUS, MY_COLLECTIONS } from '../../../graphql/queries/collectionQueries';
-import { POLLING_INTERVAL } from '../../../constants/applicationConstants';
+import { useLazyAxios } from '../../Hooks/useAxios';
+// import { POLLING_INTERVAL } from '../../../constants/applicationConstants';
 
 // Children
 import CollectionsHeader from './CollectionsHeader';
 import CollectionsList from './CollectionsList/CollectionsList';
 import AccountImportModal from './AccountImportModal';
 import { useAlert } from 'react-alert';
+import { listAccounts } from '../../../services/requests';
 
 const CollectionsMain = () => {
   const alert = useAlert();
   const [showImportModal, setShowImportModal] = useState(false);
   const [accounts, setAccounts] = useState([]);
 
-  const [loadAccounts, { loading: loadingAccounts, error: accountsError }] = useLazyQuery(
-    MY_COLLECTIONS,
+  const [loadAccounts, { loading: loadingAccounts, error: accountsError }] = useLazyAxios(
+    listAccounts,
     {
-      fetchPolicy: 'no-cache',
       onCompleted(data) {
         setAccounts(data.myCollections.edges);
         // if (any of the accounts have import_status of anything but "complete" or "complete_read") {
@@ -30,20 +29,20 @@ const CollectionsMain = () => {
     }
   );
 
-  const [startImportStatusPolling, { error: pollingError }] = useLazyQuery(IMPORT_STATUS, {
-    pollInterval: POLLING_INTERVAL,
-    onCompleted(data) {
-      // TODO: update accounts with their status
-      // this query should return a list of accounts (still filtered by user-access)
-      // that have import_status of anything but "complete_read"
-      // here we need to update accounts in state accordingly
-    },
-    onError(error) {
-      // This is an error getting information about import status, NOT an import error itself.
-      alert.show('An error occured while trying to update import status of ?.', {
-        type: 'error'
-      });
-    }
+  const [startImportStatusPolling, { error: pollingError }] = useLazyAxios('', {
+    // pollInterval: POLLING_INTERVAL,
+    // onCompleted(data) {
+    //   // TODO: update accounts with their status
+    //   // this query should return a list of accounts (still filtered by user-access)
+    //   // that have import_status of anything but "complete_read"
+    //   // here we need to update accounts in state accordingly
+    // },
+    // onError(error) {
+    //   // This is an error getting information about import status, NOT an import error itself.
+    //   alert.show('An error occured while trying to update import status of ?.', {
+    //     type: 'error'
+    //   });
+    // }
   });
 
   useEffect(() => {
