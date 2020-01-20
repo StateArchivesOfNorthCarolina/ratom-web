@@ -10,10 +10,10 @@ const MessageDetail = () => {
   return (
     <MessageDetailStyled>
       <MessageContent>
-        <h3>{message.msgSubject}</h3>
-        <p>{message.msgTo}</p>
-        <p>{message.msgFrom}</p>
-        <p>{message.msgBody}</p>
+        <h3>{message.subject}</h3>
+        <p>{message.msg_to}</p>
+        <p>{message.msg_from}</p>
+        <p>{message.body}</p>
       </MessageContent>
     </MessageDetailStyled>
   );

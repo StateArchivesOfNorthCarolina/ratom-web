@@ -50,7 +50,7 @@ const MessageListItem = ({ message, i }) => {
   const handleSelectMessage = () => {
     console.log('setting list placeholder to : ', i);
     setListPlaceholder(i);
-    history.push(`${pathname}/messages/${message.pk}`);
+    history.push(`${pathname}/messages/${message.id}`);
   };
 
   const messageChecked = checkedMessages.includes(message.id);
