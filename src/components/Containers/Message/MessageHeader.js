@@ -3,16 +3,20 @@ import styled from 'styled-components';
 import { standardPadding, borderSeparator } from '../../../styles/styleVariables';
 
 // Router
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 // Components
 import BackButton from '../../Components/Buttons/BackButton';
 
 const MessageHeader = () => {
   const history = useHistory();
+  const { pathname } = useLocation();
+
+  const collectionsPath = pathname.split('/messages/')[0];
+
   return (
     <MessageHeaderStyled>
-      <BackButton onClick={() => history.goBack()} />
+      <BackButton onClick={() => history.replace(collectionsPath)} />
     </MessageHeaderStyled>
   );
 };

@@ -6,7 +6,6 @@ import { MessageContext } from './MessageMain';
 
 const MessageDetail = () => {
   const { message } = useContext(MessageContext);
-
   return (
     <MessageDetailStyled>
       <MessageContent>

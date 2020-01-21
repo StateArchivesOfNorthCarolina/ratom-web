@@ -29,7 +29,7 @@ const MessagesMain = () => {
   const [messages, setMessages] = useState([]);
   const [query, setQueryLocally] = useState(getFilterQueryFromLocalStorage() || emptyQuery);
   const [messagesTotalCount, setMessagesTotalCount] = useState();
-  const [listPlaceholder, setListPlaceholder] = useState();
+  const [messageIndex, setMessageIndex] = useState();
   const [messageCursor, setMessageCursor] = useState();
 
   const [pageInfo, setPageInfo] = useState({});
@@ -40,7 +40,6 @@ const MessagesMain = () => {
 
   const [executeSearchMessages, { loading, error }] = useLazyAxios(searchMessages, {
     onCompleted: data => {
-      console.log('Search messages, a lot...');
       updateResults(data);
     }
   });
@@ -48,7 +47,7 @@ const MessagesMain = () => {
   useEffect(() => {
     const previousQuery = getFilterQueryFromLocalStorage();
     if (previousQuery) {
-      queryMessages();
+      queryMessages(4);
     }
   }, []);
 
@@ -73,6 +72,12 @@ const MessagesMain = () => {
     setQueryLocally(newQuery);
   };
 
+  const buildSearchLimit = () => {
+    const { limit } = query;
+    if (limit) return `limit=${limit}`;
+    return 'limit=4';
+  };
+
   const buildKeywordSearch = () => {
     const { keywords } = query;
     if (keywords) return `search=${keywords.join('&search=')}`;
@@ -84,23 +89,21 @@ const MessagesMain = () => {
     return '';
   };
 
-  const queryMessages = () => {
+  const queryMessages = defaultLimit => {
+    const limit = buildSearchLimit();
     const search = buildKeywordSearch();
     const filter = buildFilterSearch();
-
-    const params = search + filter;
-    executeSearchMessages(collectionId, params);
+    const params = [limit, search, filter];
+    executeSearchMessages(collectionId, params.join('&'));
   };
 
   const loadMoreMessages = () => {
-    //  TODO: set current "after" cursor position to state, possibly localStorage
-
-    console.log('pageInfo: ', pageInfo);
+    //  TODO: set current offset to localStorage?
     if (pageInfo.next) {
       stepThroughPaginatedMessages(pageInfo.next).then(response => {
         updateResults(response.data, true);
       });
-    } else console.log('ALL OUT, SON');
+    } else console.log('ALL OUT');
   };
 
   const context = {
@@ -113,8 +116,8 @@ const MessagesMain = () => {
     setQuery,
     loadMoreMessages,
     pageInfo,
-    listPlaceholder,
-    setListPlaceholder,
+    messageIndex,
+    setMessageIndex,
     messageCursor,
     setMessageCursor,
     loading,

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 export const useAxios = (ajaxMethod, config = {}) => {
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [data, setData] = useState();
 
   config.conditionals = config.conditionals || [];
@@ -23,6 +23,7 @@ export const useAxios = (ajaxMethod, config = {}) => {
         setError(error);
         console.warn(error);
         if (config.onError) config.onError(error);
+        setLoading(false);
       });
   }, [...config.conditionals]);
 
@@ -36,23 +37,26 @@ export const useLazyAxios = (ajaxMethod, config = {}) => {
 
   const execute = (...ajaxArgs) => {
     setLoading(true);
-    setError(null);
-    ajaxMethod(...ajaxArgs)
-      .then(response => {
-        setError(null);
-        setData(response.data);
-        setLoading(false);
-        if (config.onCompleted) config.onCompleted(response.data);
-      })
-      .catch(error => {
-        // TODO: Handle errors better
-        setError(error);
-        setData();
-        setLoading(false);
-        console.warn(error);
-        if (config.onError) config.onError(error);
-      });
+    return new Promise((resolve, reject) => {
+      setError(null);
+      ajaxMethod(...ajaxArgs)
+        .then(response => {
+          setError(null);
+          setData(response.data);
+          resolve(response.data);
+          setLoading(false);
+          if (config.onCompleted) config.onCompleted(response.data);
+        })
+        .catch(error => {
+          // TODO: Handle errors better
+          setError(error);
+          setData();
+          reject(error);
+          console.warn(error);
+          if (config.onError) config.onError(error);
+          setLoading(false);
+        });
+    });
   };
-
   return [execute, { error, loading, data }];
 };

@@ -1,5 +1,9 @@
-import React, { createContext } from 'react';
+import React, { useState, createContext, useEffect } from 'react';
 import styled from 'styled-components';
+
+// Axios
+import { useLazyAxios } from '../../Hooks/useAxios';
+import { showMessage } from '../../../services/requests';
 
 // Router
 import { useParams } from 'react-router-dom';
@@ -9,25 +13,25 @@ import MessageHeader from './MessageHeader';
 import MessageDetail from './MessageDetail';
 import MessageFooter from './MessageFooter';
 import Spinner from '../../Components/Loading/Spinner';
-import { useAxios } from '../../Hooks/useAxios';
-import { showMessage } from '../../../services/requests';
 
 export const MessageContext = createContext();
 
 const MessageMain = () => {
   const { messageId } = useParams();
-  const { loading, error, data } = useAxios(showMessage, {
-    arguments: [messageId]
-  });
+  const [executeShowMessage] = useLazyAxios(showMessage, {});
+  const [message, setMessage] = useState();
 
-  const messageContext = {
-    message: data || {}
-  };
+  useEffect(() => {
+    executeShowMessage(messageId).then(message => {
+      setMessage(message);
+    });
+  }, [messageId]);
 
+  const messageContext = { message };
   return (
     <MessageContext.Provider value={messageContext}>
       <MessageMainStyled>
-        {loading ? (
+        {!message ? (
           <Spinner />
         ) : (
           <>

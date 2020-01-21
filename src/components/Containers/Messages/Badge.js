@@ -7,15 +7,9 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { darken } from '../../../styles/styleUtils/lighten-darken';
 
 const Badge = ({ remove, ...props }) => {
-  let name;
-  if (props.name) {
-    name = props.name;
-  } else {
-    console.log('props: ', props);
-  }
   return (
     <BadgeStyled {...props}>
-      <p>{name}</p>
+      <p>{props.name}</p>
       <IconStyled icon={faTimes} onClick={remove} />
     </BadgeStyled>
   );
