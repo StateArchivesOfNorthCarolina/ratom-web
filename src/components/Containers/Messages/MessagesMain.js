@@ -113,21 +113,10 @@ const MessagesMain = () => {
     if (pageInfo.next) {
       setLoading(true);
       const offset = getOffsetFromUrl(pageInfo.next);
-      console.log('setting new query to: ', {
-        ...query,
-        offset
-      });
-
       setFilterQuery({
         ...query,
         offset
       });
-
-      // setQuery({
-      //   ...query,
-      //   offset
-      // });
-
       Axios.get(pageInfo.next)
         .then(response => {
           updateResults(response.data, true);
