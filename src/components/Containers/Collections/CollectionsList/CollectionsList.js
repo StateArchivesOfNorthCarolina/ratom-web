@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 // Axios
-import { useAxios } from '../../../Hooks/useAxios';
-import { listAccounts } from '../../../../services/requests';
+import useAxios from '../../../Hooks/useAxios';
+import { LIST_ACCOUNTS } from '../../../../services/requests';
 
 // Router
 import { useHistory } from 'react-router-dom';
@@ -15,7 +15,7 @@ import Spinner from '../../../Components/Loading/Spinner';
 
 const CollectionsList = props => {
   const history = useHistory();
-  const { loading, error, data } = useAxios(listAccounts);
+  const [{ loading, data }] = useAxios(LIST_ACCOUNTS);
 
   const setAccount = collection => {
     history.push(`/collections/${collection.id}`);

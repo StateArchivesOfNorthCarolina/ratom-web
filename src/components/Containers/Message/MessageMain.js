@@ -9,16 +9,14 @@ import MessageHeader from './MessageHeader';
 import MessageDetail from './MessageDetail';
 import MessageFooter from './MessageFooter';
 import Spinner from '../../Components/Loading/Spinner';
-import { useAxios } from '../../Hooks/useAxios';
-import { showMessage } from '../../../services/requests';
+import useAxios from '../../Hooks/useAxios';
+import { SHOW_MESSAGE } from '../../../services/requests';
 
 export const MessageContext = createContext();
 
 const MessageMain = () => {
   const { messageId } = useParams();
-  const { loading, error, data } = useAxios(showMessage, {
-    arguments: [messageId]
-  });
+  const [{ loading, data }] = useAxios(SHOW_MESSAGE + `${messageId}/`);
 
   const messageContext = {
     message: data || {}

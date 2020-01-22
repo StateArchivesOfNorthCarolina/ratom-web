@@ -1,5 +1,4 @@
 import axios from 'axios';
-import PKG from '../../package.json';
 import * as authManager from '../localStorageUtils/authManager.js';
 
 export const API_VERSION = 'v1';

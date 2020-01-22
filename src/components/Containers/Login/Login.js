@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 // Axios
-import { useLazyAxios } from '../../Hooks/useAxios';
-import { login } from '../../../services/requests';
+import useAxios from '../../Hooks/useAxios';
+import { LOGIN } from '../../../services/requests';
 
 // Context
 import { useAuthContext } from '../../Context/auth-provider';
@@ -19,19 +19,30 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const { onLogin } = useAuthContext();
 
-  const [executeLogin, { loading, error, data }] = useLazyAxios(login, {
-    onCompleted: ({ access, refresh }) => {
-      onLogin({ access, refresh });
-    },
-    onError: error => {
-      // TODO: Handle error better (at all)
-      console.warn(error.message);
-    }
+  const [{ loading, error, data }, executeLogin] = useAxios(LOGIN, {
+    manual: true
+    // onCompleted: ({ access, refresh }) => {
+    //   onLogin({ access, refresh });
+    // },
+    // onError: error => {
+    //   // TODO: Handle error better (at all)
+    //   console.warn(error.message);
+    // }
   });
 
   const handleSignIn = () => {
-    executeLogin({ username, password });
+    executeLogin({
+      method: 'post',
+      data: { username, password }
+    });
   };
+
+  useEffect(() => {
+    if (data) {
+      const { access, refresh } = data;
+      onLogin({ access, refresh });
+    }
+  });
 
   useEffect(() => {
     if (error && error.response.status === 401) {

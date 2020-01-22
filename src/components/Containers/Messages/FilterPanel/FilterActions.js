@@ -11,15 +11,15 @@ import Button from '../../../Components/Buttons/Button';
 // Context
 import { CollectionContext } from '../MessagesMain';
 
-const FilterActions = () => {
-  const { setQuery, queryMessages } = useContext(CollectionContext);
+const FilterActions = ({ sendQuery }) => {
+  const { setQuery } = useContext(CollectionContext);
 
   return (
     <FilterActionsStyled>
       <Button neutral small onClick={() => setQuery(emptyQuery)}>
         Reset
       </Button>
-      <Button positive small onClick={queryMessages}>
+      <Button positive small onClick={sendQuery}>
         Apply
       </Button>
     </FilterActionsStyled>

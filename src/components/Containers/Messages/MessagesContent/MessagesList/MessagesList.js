@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useCallback, useState, useEffect } from 'react';
+import React, { useContext, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 
 // Context
@@ -6,7 +6,6 @@ import { CollectionContext } from '../../MessagesMain';
 
 // Children
 import MessageListItem from './MessageListItem/MessageListItem';
-import AnimatedList from '../../../../Components/Animated/AnimatedList';
 
 const MessagesList = () => {
   const messagesUL = useRef();
@@ -14,14 +13,16 @@ const MessagesList = () => {
 
   useEffect(() => {
     const element = messagesUL.current;
-    const scrollListener = () => {
-      if (element.scrollTop + element.offsetHeight >= element.scrollHeight - 1) {
-        loadMoreMessages();
-      }
-    };
-    element.addEventListener('scroll', scrollListener);
-    return () => element.removeEventListener('scroll', scrollListener);
-  }, [loadMoreMessages]);
+    if (element) {
+      const scrollListener = () => {
+        if (element.scrollTop + element.offsetHeight >= element.scrollHeight - 1) {
+          loadMoreMessages();
+        }
+      };
+      element.addEventListener('scroll', scrollListener);
+      return () => element.removeEventListener('scroll', scrollListener);
+    }
+  }, [loadMoreMessages, messagesUL]);
 
   return (
     <MessagesListStyled ref={messagesUL}>
@@ -32,7 +33,6 @@ const MessagesList = () => {
   );
 };
 
-// const MessagesListStyled = styled(AnimatedList)`
 const MessagesListStyled = styled.div`
   /* flex: 1; */
   /* SUPER TEMP FIX... */
