@@ -19,16 +19,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const { onLogin } = useAuthContext();
 
-  const [{ loading, error, data }, executeLogin] = useAxios(LOGIN, {
-    manual: true
-    // onCompleted: ({ access, refresh }) => {
-    //   onLogin({ access, refresh });
-    // },
-    // onError: error => {
-    //   // TODO: Handle error better (at all)
-    //   console.warn(error.message);
-    // }
-  });
+  const [{ loading, error, data }, executeLogin] = useAxios(LOGIN, { manual: true });
 
   const handleSignIn = () => {
     executeLogin({

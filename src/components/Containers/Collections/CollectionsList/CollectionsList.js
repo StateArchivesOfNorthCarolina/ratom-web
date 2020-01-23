@@ -16,7 +16,7 @@ import Spinner from '../../../Components/Loading/Spinner';
 const CollectionsList = props => {
   const history = useHistory();
   const [loading, setLoading] = useState(false);
-  const [_, setError] = useState();
+  const [, setError] = useState();
   const [accounts, setAccounts] = useState();
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const CollectionsList = props => {
         setError(error);
         setLoading(false);
       });
-  }, [Axios]);
+  }, []);
 
   const setAccount = collection => {
     history.push(`/collections/${collection.id}`);

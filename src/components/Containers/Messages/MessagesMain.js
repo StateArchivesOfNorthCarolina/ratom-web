@@ -1,5 +1,4 @@
 import React, { useState, createContext, useEffect } from 'react';
-import styled from 'styled-components';
 
 // Router
 import PrivateRoute from '../PrivateRoute';
@@ -15,9 +14,6 @@ import {
   getFilterQueryFromLocalStorage
 } from '../../../localStorageUtils/queryManager';
 import emptyQuery from './emptyQuery';
-
-// Components
-// import AnimatedSwitch from '../../Components/Animated/AnimatedSwitch';
 
 // Children
 import MessagesLayout from './MessagesLayout';
@@ -45,19 +41,6 @@ const MessagesMain = () => {
   const [facets, setFacets] = useState({});
 
   const { path } = useRouteMatch();
-
-  // TODO: Need better query string managment.
-  /**
-   * query string should look like this:
-   * ?limit=4&offset=12&search=test&search=patso&filter=bitso&ordering=send_date
-   * query string comes in three ways
-   * 1. from local storage, on initial page load
-   * 2. from pagination updated
-   * 3. from filter panel search
-   */
-
-  // console.log('initialResponse: ', initialResponse);
-  // console.log('response: ', response);
 
   useEffect(() => {
     if (!isEmpty(query)) {
@@ -140,8 +123,6 @@ const MessagesMain = () => {
   };
 
   const context = {
-    // collection,
-    // setCollection,
     filterQuery,
     setFilterQuery,
     messages,
@@ -177,10 +158,5 @@ const MessagesMain = () => {
     </CollectionContext.Provider>
   );
 };
-
-// const StyledAnimatedSwitch = styled(AnimatedSwitch)`
-//   display: flex;
-//   flex: 1;
-// `;
 
 export default React.memo(MessagesMain);
