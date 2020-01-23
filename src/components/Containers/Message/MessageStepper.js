@@ -11,28 +11,8 @@ import { CollectionContext } from '../Messages/MessagesMain';
 const MessageStepper = props => {
   const { listPlaceholder, messagesTotalCount } = useContext(CollectionContext);
 
-  // useEffect(() => {
-  //   // TODO: here we need to handle the case of a user navigating directly to this page,
-  //   // TODO: this will mean that listPlaceholder and messageCursor will be unset. So:
-  //   // TODO: Get listPlaceholder and messageCursor.
-  //   // every time I load, do this.
-  // });
-
   // TODO: setting offset + 1 will give me the message I want.
   // TODO: will need to add that message to local State [messages].push(this new message)
-  // const handleStep = direction => {
-  //   // TODO: get cursor for this guy.
-  //   // TODO: increment/decrement listPlaceholder
-  //   // TODO: fetch new item.
-  //   // fetching new item should:
-  //   // update cursor, get index
-  // };
-
-  // onStep
-  // get cursor
-  // increment/decrement list placeholder
-  // get new item
-  // update cursor
 
   return (
     <MessageStepperStyled {...props}>
