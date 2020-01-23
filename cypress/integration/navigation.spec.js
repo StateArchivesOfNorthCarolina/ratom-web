@@ -50,14 +50,14 @@ describe('Navigation and basic access control', () => {
     });
 
     it('clicking the `Back Button` from `Message Detail` sends user back to `Messages List', () => {
-      cy.wait(500);
+      cy.wait(1000);
       cy.get('[data-cy="back_button"]').click();
 
       cy.location('pathname').should('match', accountsRegex);
     });
 
     it('clicking the `Back Button` from `Messages List` sends user back to `Collections List', () => {
-      cy.wait(500);
+      cy.wait(1000);
       cy.get('[data-cy="back_button"]').click();
 
       cy.location('pathname').should('eq', '/');
