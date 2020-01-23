@@ -1,8 +1,6 @@
-import Axios from './axiosConfig';
-
 //   Auth
 export const LOGIN = 'token/';
-export const showUser = () => Axios.get(`users/`);
+export const GET_USER = 'users/';
 
 //  Accounts
 export const LIST_ACCOUNTS = 'accounts/';

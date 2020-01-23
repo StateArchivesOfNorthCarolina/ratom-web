@@ -37,7 +37,7 @@ Axios.interceptors.response.use(
     const { status } = error.response;
     // Only care about 401s so far, so pass through
     if (status !== 401) return Promise.reject(error);
-    handle401Response(error);
+    return handle401Response(error);
   }
 );
 
@@ -45,23 +45,23 @@ const handle401Response = async error => {
   const { config } = error;
   const originalRequest = config;
 
-  // Got 401 on Login, so it's just bad credentials. Pass through.
-  if (originalRequest.url === 'token/') return Promise.reject(error);
+  // Got 401 on Login or Token refresh, so it's just bad credentials or expired refresh token. Pass through.
+  if (originalRequest.url.includes('token/')) return Promise.reject(error);
 
   // Prevent infinite loop of requests by setting a _retry property on orignalRequest
   if (!originalRequest._retry) {
     originalRequest._retry = true;
-    const refreshUrl = `/api/${API_VERSION}/token/refresh/`;
+    const refreshUrl = `/token/refresh/`;
     const refresh = authManager.getRefreshTokenFromLocalStorage();
     try {
-      const { status, data } = await axios.post(refreshUrl, { refresh });
+      const { status, data } = await Axios.post(refreshUrl, { refresh });
       if (status === 200 || status === 201) {
         const { access } = data;
         const tokenHeader = 'Bearer ' + access;
         authManager.setTokenToLocalStorage(access);
-        axios.defaults.headers.common['Authorization'] = tokenHeader;
+        Axios.defaults.headers.common['Authorization'] = tokenHeader;
         originalRequest.headers['Authorization'] = tokenHeader;
-        return axios(originalRequest);
+        return Axios(originalRequest);
       }
     } catch (refreshError) {
       // Here, we're assuming that the error was an error response from axios.post(refreshUrl)
