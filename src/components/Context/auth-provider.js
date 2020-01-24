@@ -14,8 +14,10 @@ import {
   getUserFromLocalStorage,
   removeUserFromLocalStorage
 } from '../../localStorageUtils/authManager';
-import { showUser } from '../../services/requests';
+
+// Axios
 import Axios from '../../services/axiosConfig';
+import { GET_USER } from '../../services/requests';
 
 export const AuthContext = createContext(null);
 
@@ -41,7 +43,7 @@ const AuthProvider = props => {
   const onLogin = newAuthData => {
     const { access, refresh } = newAuthData;
     Axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
-    showUser()
+    Axios.get(GET_USER)
       .then(response => {
         setTokenToLocalStorage(access);
         setRefreshTokenToLocalStorage(refresh);

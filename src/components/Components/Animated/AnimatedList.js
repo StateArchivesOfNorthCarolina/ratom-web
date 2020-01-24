@@ -1,4 +1,4 @@
-import React, { Children } from 'react';
+import React, { Children, forwardRef } from 'react';
 import posed from 'react-pose';
 
 const ListContainer = posed.ul({
@@ -11,14 +11,14 @@ const Item = posed.li({
   exit: { y: 50, opacity: 0 }
 });
 
-const AnimatedList = props => {
+const AnimatedList = forwardRef((props, ref) => {
   return (
-    <ListContainer {...props}>
+    <ListContainer {...props} ref={ref}>
       {Children.map(props.children, (child, i) => (
         <Item>{child}</Item>
       ))}
     </ListContainer>
   );
-};
+});
 
 export default AnimatedList;

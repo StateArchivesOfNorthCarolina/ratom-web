@@ -6,13 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { darken } from '../../../styles/styleUtils/lighten-darken';
 
-const Badge = ({ remove, ...props }) => {
-  let name;
-  if (props.name) {
-    name = props.name;
-  } else {
-    console.log('props: ', props);
-  }
+const Badge = ({ name, remove, ...props }) => {
   return (
     <BadgeStyled {...props} data-cy="badge">
       <p>{name}</p>

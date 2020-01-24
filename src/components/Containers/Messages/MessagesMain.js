@@ -1,33 +1,38 @@
 import React, { useState, createContext, useEffect } from 'react';
-import styled from 'styled-components';
 
 // Router
 import PrivateRoute from '../PrivateRoute';
-import { Route, Redirect, useParams, useRouteMatch } from 'react-router-dom';
+import { Switch, Route, Redirect, useRouteMatch } from 'react-router-dom';
+
+// Utiul
+import { isEmpty } from '../../../util/isEmpty';
 
 // Axios
-import { useLazyAxios } from '../../Hooks/useAxios';
-import { searchMessages, stepThroughPaginatedMessages } from '../../../services/requests';
+import { SEARCH_MESSAGES } from '../../../services/requests';
 import {
   setFilterQueryToLocalStorage,
   getFilterQueryFromLocalStorage
 } from '../../../localStorageUtils/queryManager';
 import emptyQuery from './emptyQuery';
 
-// Components
-import AnimatedSwitch from '../../Components/Animated/AnimatedSwitch';
-
 // Children
 import MessagesLayout from './MessagesLayout';
 import MessageMain from '../Message/MessageMain';
 import GenericNotFound from '../GenericNotFound';
+import Axios from '../../../services/axiosConfig';
 
 export const CollectionContext = createContext(null);
 
+// TODO: Good candidate for a Reducer.
+
 const MessagesMain = () => {
-  const [collection, setCollectionId] = useState();
+  // const [collection, setCollectionId] = useState();
+  // const { collectionId } = useParams();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState();
   const [messages, setMessages] = useState([]);
   const [query, setQueryLocally] = useState(getFilterQueryFromLocalStorage() || emptyQuery);
+  const [filterQuery, setFilterQuery] = useState(getFilterQueryFromLocalStorage() || emptyQuery);
   const [messagesTotalCount, setMessagesTotalCount] = useState();
   const [listPlaceholder, setListPlaceholder] = useState();
   const [messageCursor, setMessageCursor] = useState();
@@ -36,21 +41,28 @@ const MessagesMain = () => {
   const [facets, setFacets] = useState({});
 
   const { path } = useRouteMatch();
-  const { collectionId } = useParams();
-
-  const [executeSearchMessages, { loading, error }] = useLazyAxios(searchMessages, {
-    onCompleted: data => {
-      console.log('Search messages, a lot...');
-      updateResults(data);
-    }
-  });
 
   useEffect(() => {
-    const previousQuery = getFilterQueryFromLocalStorage();
-    if (previousQuery) {
-      queryMessages();
+    if (!isEmpty(query)) {
+      searchMessages();
     }
-  }, []);
+  }, [query]);
+
+  const searchMessages = () => {
+    setLoading(true);
+    const queryParams = constructQueryString(query);
+    const url = SEARCH_MESSAGES + queryParams;
+    Axios.get(url)
+      .then(response => {
+        updateResults(response.data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.warn('ERROR searching Messages: ', error);
+        setError(error);
+        setLoading(false);
+      });
+  };
 
   const updateResults = (data, merge) => {
     const { results, facets, next, previous, count } = data;
@@ -64,8 +76,14 @@ const MessagesMain = () => {
     }
   };
 
-  const setCollection = () => {
-    setCollectionId(collectionId);
+  const constructQueryString = queryObj => {
+    const { limit, offset, keywords, filters } = queryObj;
+    const params = [];
+    if (limit) params.push(`limit=${limit}`);
+    if (offset) params.push(`offset=${offset}`);
+    if (keywords && keywords.length > 0) params.push(`search=${keywords.join('&search=')}`);
+    if (filters && filters.length > 0) params.push(''); // TODO: Implement
+    return params.join('&');
   };
 
   const setQuery = newQuery => {
@@ -73,46 +91,48 @@ const MessagesMain = () => {
     setQueryLocally(newQuery);
   };
 
-  const buildKeywordSearch = () => {
-    const { keywords } = query;
-    if (keywords) return `search=${keywords.join('&search=')}`;
-    return '';
-  };
-
-  const buildFilterSearch = () => {
-    // const { filters } = query;
-    return '';
-  };
-
-  const queryMessages = () => {
-    const search = buildKeywordSearch();
-    const filter = buildFilterSearch();
-
-    const params = search + filter;
-    executeSearchMessages(collectionId, params);
-  };
-
   const loadMoreMessages = () => {
-    //  TODO: set current "after" cursor position to state, possibly localStorage
-
-    console.log('pageInfo: ', pageInfo);
+    //  TODO: set current offset to localStorage?
     if (pageInfo.next) {
-      stepThroughPaginatedMessages(pageInfo.next).then(response => {
-        updateResults(response.data, true);
+      setLoading(true);
+      const offset = getOffsetFromUrl(pageInfo.next);
+      setFilterQuery({
+        ...query,
+        offset
       });
-    } else console.log('ALL OUT, SON');
+      Axios.get(pageInfo.next)
+        .then(response => {
+          updateResults(response.data, true);
+          setLoading(false);
+        })
+        .catch(error => {
+          setError(error);
+          setLoading(false);
+        });
+    } else {
+      // TODO: Show something indication user has reached the end?
+    }
+  };
+
+  const getOffsetFromUrl = url => {
+    const splitUrl = url.split('/');
+    const queryParams = splitUrl[splitUrl.length - 1].split('&');
+    const offsetString = queryParams.find(param => param.includes('offset'));
+    const newOffset = parseInt(offsetString.split('=')[1]);
+    return newOffset;
   };
 
   const context = {
-    collection,
-    setCollection,
+    filterQuery,
+    setFilterQuery,
     messages,
     messagesTotalCount,
-    queryMessages,
+    searchMessages,
     query,
     setQuery,
     loadMoreMessages,
     pageInfo,
+    facets,
     listPlaceholder,
     setListPlaceholder,
     messageCursor,
@@ -123,7 +143,7 @@ const MessagesMain = () => {
 
   return (
     <CollectionContext.Provider value={context}>
-      <StyledAnimatedSwitch>
+      <Switch>
         <PrivateRoute exact path={path}>
           <MessagesLayout />
         </PrivateRoute>
@@ -134,14 +154,9 @@ const MessagesMain = () => {
           <GenericNotFound />
         </Route>
         <Redirect to="/404" />
-      </StyledAnimatedSwitch>
+      </Switch>
     </CollectionContext.Provider>
   );
 };
-
-const StyledAnimatedSwitch = styled(AnimatedSwitch)`
-  display: flex;
-  flex: 1;
-`;
 
 export default React.memo(MessagesMain);
