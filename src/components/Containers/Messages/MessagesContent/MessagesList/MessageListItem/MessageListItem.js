@@ -72,7 +72,7 @@ const MessageListItem = ({ message, i }) => {
 };
 
 const MessageListItemStyled = styled.div`
-  height: 15rem;
+  height: 20rem;
   border-bottom: ${borderSeparator};
   padding: 2rem 0;
   margin: 0 3rem;
