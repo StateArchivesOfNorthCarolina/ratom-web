@@ -60,7 +60,7 @@ const CollectionsListItem = ({ collection, setCollection }) => {
           Unprocessed{' '}
           {parseInt(collection.messages_in_account) - parseInt(collection.processed_messages)}
           <p />
-          Modified Date {collection.message_last_modified}
+          Last Modified {collection.account_last_modified}
         </ProcessingStatus>
         <p>...</p>
       </RightContent>
@@ -92,18 +92,13 @@ const RightContent = styled.div`
 `;
 
 const MessageCounts = styled.div`
-  padding: 2rem;
   margin-right: 8rem;
   font-weight: lighter;
   color: ${props => props.theme.textColorDark};
   align-content: center;
 `;
 
-const ProcessingStatus = styled.div`
-  padding: 1rem;
-  margin-right: 8rem;
-  width: 60%;
-`;
+const ProcessingStatus = styled.div``;
 
 const IconStyled = styled(FontAwesomeIcon)`
   color: ${props => props.theme.textColorDark};
