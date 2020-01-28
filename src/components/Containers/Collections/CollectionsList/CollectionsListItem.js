@@ -11,6 +11,13 @@ import CollectionsListItemDetail from './CollectionsListItemDetail';
 // Styles
 import { standardPadding, borderSeparator } from '../../../../styles/styleVariables';
 
+export const statuses = {
+  CR: 'Created',
+  IM: 'Importing',
+  CM: 'Complete',
+  FA: 'Failed'
+};
+
 export const IconTextStack = ({ icon, item }) => {
   return (
     <>
@@ -28,14 +35,25 @@ const CollectionsListItem = ({ collection, setCollection }) => {
     >
       <LeftContent>
         <h5>{collection.title}</h5>
-        <p></p>
+        <br />
+        Account Status: {statuses[collection.account_status]}
+        <br />
+        Inclusive Dates: {collection.inclusive_dates}
       </LeftContent>
 
       <RightContent>
         <MessageCounts>
-          <IconTextStack icon={faEnvelope} item={collection.messages_in_account} />
+          <IconTextStack
+            icon={faEnvelope}
+            item={collection.messages_in_account}
+            data-cy="messages in_account"
+          />
           <p />
-          <IconTextStack icon={faFileAlt} item={collection.files_in_account} />
+          <IconTextStack
+            icon={faFileAlt}
+            item={collection.files_in_account}
+            data-cy="files_in_account"
+          />
         </MessageCounts>
 
         <ProcessingStatus>
