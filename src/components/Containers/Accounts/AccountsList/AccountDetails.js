@@ -3,12 +3,15 @@ import styled from 'styled-components';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faFileAlt } from '@fortawesome/free-regular-svg-icons';
+import { colorBlackLight, colorBlack } from '../../../../styles/styleVariables';
 
 // Util
 import { formatNumber } from '../../../../util/formatNumber';
 import dateToIso from '../../../../util/dateToIso';
-import { colorBlackLight, colorBlack } from '../../../../styles/styleVariables';
+
+// Children
 import Badge from '../../Messages/Badge';
+import DotMenu from '../../../Components/Widgets/DotMenu';
 
 export const STATUSES = {
   CR: 'Created',
@@ -47,6 +50,32 @@ const AccountDetails = ({ account, setAccount, asHeader }) => {
   const getUnprocessedAmount = () => {
     const diff = parseInt(account.messages_in_account) - parseInt(account.processed_messages);
     return formatNumber(diff);
+  };
+
+  const buildDotMenuActions = () => {
+    const actions = {
+      normal: [
+        {
+          display: 'View',
+          onClick: () => setAccount(account)
+        },
+        {
+          display: 'Add a File',
+          onClick: () => {
+            /* TODO: Implement */
+          }
+        }
+      ],
+      caution: [
+        {
+          display: 'Remove',
+          onClick: () => {
+            /* TODO: Implement */
+          }
+        }
+      ]
+    };
+    return actions;
   };
 
   const renderBadge = () => {
@@ -89,13 +118,7 @@ const AccountDetails = ({ account, setAccount, asHeader }) => {
           <h5>{getUnprocessedAmount()} Unprocessed</h5>
           <p>Last Modified {dateToIso(account.account_last_modified)}</p>
         </ProcessingStatus>
-        <DotMenu
-          data-cy="account-detail-dot-menu"
-          onClick={setAccount ? () => setAccount(account) : undefined}
-          visible={status !== 'Importing'}
-        >
-          . . .
-        </DotMenu>
+        <DotMenuStyled hidden={status === 'Importing'} actions={buildDotMenuActions()} />
       </RightContent>
     </AccountDetailsStyled>
   );
@@ -173,9 +196,9 @@ const IconStyled = styled(FontAwesomeIcon)`
   margin-right: 1rem;
 `;
 
-const DotMenu = styled.p`
-  cursor: pointer;
-  visibility: ${props => (props.visible ? 'visible' : 'hidden')};
+const DotMenuStyled = styled(DotMenu)`
+  visibility: ${props => (props.hidden ? 'hidden' : 'visible')};
+  align-self: center;
 `;
 
 export default AccountDetails;

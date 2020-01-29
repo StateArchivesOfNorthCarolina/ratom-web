@@ -16,7 +16,7 @@ const AccountsListItem = ({ account, setAccount }) => {
 };
 
 const AccountsListItemStyled = styled.div`
-  padding: 1.5rem;
+  padding: 1.5rem 3rem;
   border-bottom: ${borderSeparator};
 
   display: flex;
