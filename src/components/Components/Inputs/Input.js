@@ -7,7 +7,8 @@ import {
   faQuestion,
   faSearch,
   faChevronLeft,
-  faChevronRight
+  faChevronRight,
+  faPlus
 } from '@fortawesome/free-solid-svg-icons';
 import { lighten } from '../../../styles/styleUtils/lighten-darken';
 
@@ -16,6 +17,9 @@ const Input = ({ label, icon, onEnterKey, className, onIconClick, ...props }) =>
   switch (icon) {
     case 'search':
       derivedIcon = faSearch;
+      break;
+    case 'add':
+      derivedIcon = faPlus;
       break;
     case 'chevronLeft':
       derivedIcon = faChevronLeft;
@@ -48,7 +52,7 @@ const Input = ({ label, icon, onEnterKey, className, onIconClick, ...props }) =>
         {icon && (
           <IconStyled
             icon={derivedIcon}
-            onClick={handleIconClick}
+            onClick={props.value ? handleIconClick : undefined}
             data-cy="button_icon"
             focusable={true}
           />
@@ -75,7 +79,6 @@ const LabelStyled = styled.label`
 
 const InputStyled = styled.input`
   width: 100%;
-  /* height: 2.3rem; */
   padding: 1rem 2rem;
 `;
 
@@ -88,7 +91,7 @@ const IconStyled = styled(FontAwesomeIcon)`
   cursor: pointer;
 
   ${props => {
-    if (props.iconAsButton) {
+    if (props.onClick) {
       return css`
         &:hover {
           color: ${props => lighten(props.theme.colorPrimary)};

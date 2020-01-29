@@ -56,7 +56,7 @@ const SearchKeywords = ({ buildQuery, filterQuery, sendQuery, ...props }) => {
       <Input
         data-cy="keyword_search_input"
         type="text"
-        icon="search"
+        icon="add"
         onIconClick={addKeyword}
         label="Keyword Search"
         onKeyDown={handleDeleteKeyPressed}
