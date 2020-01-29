@@ -39,14 +39,14 @@ const GlobalStyle = createGlobalStyle`
     h4 {
         font-size: 1.5rem;
         font-weight: bold;
-        color: ${props => props.theme.textColorSecondary};
+        color: ${props => props.theme.textColorPrimary};
         line-height: 1.6;
     }
 
     h5 {
-        font-size: 1.5rem;
+        font-size: 1.2rem;
         font-weight: bold;
-        color: ${props => props.theme.textColorSecondary};
+        color: ${props => props.theme.textColorPrimary};
         line-height: 1.6;
     }
 

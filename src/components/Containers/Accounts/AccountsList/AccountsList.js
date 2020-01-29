@@ -9,11 +9,11 @@ import { LIST_ACCOUNTS } from '../../../../services/requests';
 import { useHistory } from 'react-router-dom';
 
 // Children
-import CollectionsListItem from './CollectionsListItem';
+import AccountsListItem from './AccountsListItem';
 import AnimatedList from '../../../Components/Animated/AnimatedList';
 import Spinner from '../../../Components/Loading/Spinner';
 
-const CollectionsList = props => {
+const AccountsList = props => {
   const history = useHistory();
   const [loading, setLoading] = useState(false);
   const [, setError] = useState();
@@ -32,24 +32,24 @@ const CollectionsList = props => {
       });
   }, []);
 
-  const setAccount = collection => {
-    history.push(`/collections/${collection.id}`);
+  const setAccount = account => {
+    history.push(`/accounts/${account.id}`);
   };
 
   return (
-    <CollectionsListStyled>
+    <AccountsListStyled>
       {loading ? (
         <Spinner />
       ) : (
         accounts &&
         accounts.map(account => (
-          <CollectionsListItem key={account.id} collection={account} setCollection={setAccount} />
+          <AccountsListItem key={account.id} account={account} setAccount={setAccount} />
         ))
       )}
-    </CollectionsListStyled>
+    </AccountsListStyled>
   );
 };
 
-const CollectionsListStyled = styled(AnimatedList)``;
+const AccountsListStyled = styled(AnimatedList)``;
 
-export default CollectionsList;
+export default AccountsList;

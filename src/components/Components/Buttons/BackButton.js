@@ -18,7 +18,7 @@ const BackButton = props => {
 };
 
 const BackButtonStyled = styled.span`
-  margin-left: 8rem;
+  margin-left: 4.5rem;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -28,7 +28,7 @@ const BackButtonStyled = styled.span`
     color: ${props => props.theme.colorPrimary};
     font-weight: bold;
     font-size: 1.5rem;
-    margin-left: 2rem;
+    margin-left: 1.5rem;
 
     &:hover {
       color: ${props => lighten(props.theme.colorPrimary)};

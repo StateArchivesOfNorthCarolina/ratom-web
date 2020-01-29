@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import { standardPadding } from '../../../styles/styleVariables';
 
 // Context
-import { CollectionContext } from '../../Containers/Messages/MessagesMain';
+import { AccountContext } from '../../Containers/Messages/MessagesMain';
 
 const Pagination = props => {
-  const { messages, messagesTotalCount } = useContext(CollectionContext);
+  const { messages, messagesTotalCount } = useContext(AccountContext);
 
   return (
     <PaginationStyled {...props}>

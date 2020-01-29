@@ -6,10 +6,10 @@ import SearchKeywords from './SearchKeywords';
 import FilterActions from './FilterActions';
 
 // Context
-import { CollectionContext } from '../MessagesMain';
+import { AccountContext } from '../MessagesMain';
 
 const FilterPanel = () => {
-  const { setQuery, filterQuery, setFilterQuery } = useContext(CollectionContext);
+  const { setQuery, filterQuery, setFilterQuery } = useContext(AccountContext);
 
   const sendQuery = () => {
     setQuery(filterQuery);
