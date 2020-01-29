@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const DropdownMenu = ({ actions, ...props }) => {
   return (
-    <DropdownMenuStyled {...props}>
+    <DropdownMenuStyled {...props} data-cy="dropdown-menu">
       {actions && actions.normal && (
         <NormalActions>
           {actions.normal.map(action => (

@@ -37,5 +37,17 @@ Cypress.Commands.add('goToMessagesList', () => {
     .first()
     .within(() => {
       cy.get('[data-cy="account-detail-dot-menu"]').click({ force: true });
+
+      cy.get('[data-cy="dropdown-menu"]')
+        .children()
+        .first()
+        .within(() => {
+          cy.contains('View').click({ force: true });
+        });
+      // .children()
+      // .first()
+      // .first()
+      // .children()
+      // .click({ force: true });
     });
 });

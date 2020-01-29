@@ -118,7 +118,11 @@ const AccountDetails = ({ account, setAccount, asHeader }) => {
           <h5>{getUnprocessedAmount()} Unprocessed</h5>
           <p>Last Modified {dateToIso(account.account_last_modified)}</p>
         </ProcessingStatus>
-        <DotMenuStyled hidden={status === 'Importing'} actions={buildDotMenuActions()} />
+        <DotMenuStyled
+          hidden={status === 'Importing'}
+          actions={buildDotMenuActions()}
+          data-cy="account-detail-dot-menu"
+        />
       </RightContent>
     </AccountDetailsStyled>
   );
