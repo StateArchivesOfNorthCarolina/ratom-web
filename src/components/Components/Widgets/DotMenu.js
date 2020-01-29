@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 // Style
@@ -11,13 +11,21 @@ import ClickableOverlay from '../ClickableOverlay';
 const DotMenu = ({ actions, hidden, ...props }) => {
   const [open, setOpen] = useState(false);
 
+  useEffect(() => {
+    function handleKeyPress(e) {
+      if (e.key === 'Escape') setOpen(false);
+    }
+    window.addEventListener('keyup', handleKeyPress);
+    return () => window.removeEventListener('keyup', handleKeyPress);
+  }, []);
+
   return (
     <>
       <DotMenuWrapper {...props}>
         <DotMenuStyled onClick={() => setOpen(!open)} open={open}>
           <IconStyled icon={faEllipsisH} open={open} />
         </DotMenuStyled>
-        <Menu open={open} actions={actions} />
+        {open && <Menu open={open} actions={actions} />}
       </DotMenuWrapper>
       <ClickableOverlay onClick={() => setOpen(false)} open={open} />
     </>
@@ -38,6 +46,7 @@ const DotMenuStyled = styled.div`
   border-radius: 4px;
   background-color: ${props => (props.open ? colorPrimary : colorWhite)};
   cursor: pointer;
+  transition: all 0.15s linear;
 `;
 
 const IconStyled = styled(FontAwesomeIcon)`

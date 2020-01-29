@@ -37,8 +37,13 @@ const DropdownMenu = ({ actions, ...props }) => {
 };
 
 const DropdownMenuStyled = styled.div`
-  display: ${props => (props.open ? 'flex' : 'none')};
+  height: ${props => (props.open ? 'auto' : 0)};
+  opacity: ${props => (props.open ? 1 : 0)};
+  display: flex;
   flex-direction: column;
+
+  transition: all 0.15s linear;
+
   min-width: 32rem;
 
   border-radius: 10px;
