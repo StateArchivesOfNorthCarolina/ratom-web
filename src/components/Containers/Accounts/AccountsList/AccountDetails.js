@@ -132,6 +132,7 @@ const HeaderMeta = styled.div`
 const RightContent = styled.div`
   display: flex;
   flex-direction: row;
+  margin-top: 1rem;
 `;
 
 const MessageCounts = styled.div`
