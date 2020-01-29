@@ -90,6 +90,7 @@ const AccountDetails = ({ account, setAccount, asHeader }) => {
           <p>Last Modified {dateToIso(account.account_last_modified)}</p>
         </ProcessingStatus>
         <DotMenu
+          data-cy="account-detail-dot-menu"
           onClick={setAccount ? () => setAccount(account) : undefined}
           visible={status !== 'Importing'}
         >

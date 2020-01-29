@@ -10,7 +10,6 @@ import { useHistory } from 'react-router-dom';
 
 // Children
 import AccountsListItem from './AccountsListItem';
-import AnimatedList from '../../../Components/Animated/AnimatedList';
 import Spinner from '../../../Components/Loading/Spinner';
 
 const AccountsList = props => {
@@ -39,7 +38,7 @@ const AccountsList = props => {
   return (
     <AccountsListStyled>
       {loading ? (
-        <Spinner />
+        <Spinner flex large />
       ) : (
         accounts &&
         accounts.map(account => (
@@ -50,6 +49,10 @@ const AccountsList = props => {
   );
 };
 
-const AccountsListStyled = styled(AnimatedList)``;
+const AccountsListStyled = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+`;
 
 export default AccountsList;

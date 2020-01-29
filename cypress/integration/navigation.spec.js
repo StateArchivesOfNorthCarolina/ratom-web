@@ -32,9 +32,7 @@ describe('Navigation and basic access control', () => {
 
     it('clicking on a `account` sends user to `Messages List`', () => {
       cy.wait(500); // Wait half a sec for the animations to finish.
-      cy.get('[data-cy="accounts_list_item"]')
-        .first()
-        .click();
+      cy.goToMessagesList();
 
       cy.location('pathname').should('match', accountsRegex);
     });
