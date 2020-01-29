@@ -28,7 +28,7 @@ const IconTextStack = ({ item, ...props }) => {
   );
 };
 
-const AccountDetails = ({ account, setAccount, asHeader }) => {
+const AccountDetails = ({ account, asHeader, actions }) => {
   const [status, setStatus] = useState();
   const [shouldBeGrey, setShouldBeGrey] = useState(false);
   const { account_status } = account;
@@ -50,32 +50,6 @@ const AccountDetails = ({ account, setAccount, asHeader }) => {
   const getUnprocessedAmount = () => {
     const diff = parseInt(account.messages_in_account) - parseInt(account.processed_messages);
     return formatNumber(diff);
-  };
-
-  const buildDotMenuActions = () => {
-    const actions = {
-      normal: [
-        {
-          display: 'View',
-          onClick: () => setAccount(account)
-        },
-        {
-          display: 'Add a File',
-          onClick: () => {
-            /* TODO: Implement */
-          }
-        }
-      ],
-      caution: [
-        {
-          display: 'Remove',
-          onClick: () => {
-            /* TODO: Implement */
-          }
-        }
-      ]
-    };
-    return actions;
   };
 
   const renderBadge = () => {
@@ -119,8 +93,8 @@ const AccountDetails = ({ account, setAccount, asHeader }) => {
           <p>Last Modified {dateToIso(account.account_last_modified)}</p>
         </ProcessingStatus>
         <DotMenuStyled
-          hidden={status === 'Importing'}
-          actions={buildDotMenuActions()}
+          hidden={!actions ? !actions : status === 'Importing'}
+          actions={actions}
           data-cy="account-detail-dot-menu"
         />
       </RightContent>

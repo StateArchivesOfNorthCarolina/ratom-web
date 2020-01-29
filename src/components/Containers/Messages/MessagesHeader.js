@@ -16,13 +16,33 @@ import Spinner from '../../Components/Loading/Spinner';
 const MessagesHeader = () => {
   const { account } = useContext(AccountContext);
   const history = useHistory();
+
+  const actions = {
+    normal: [
+      {
+        display: 'Do a Normal Thing',
+        onClick: () => {
+          alert('thing done.');
+        }
+      }
+    ],
+    caution: [
+      {
+        display: 'Do a Dangerous Thing',
+        onClick: () => {
+          alert('EEEEK.');
+        }
+      }
+    ]
+  };
+
   return (
     <MessagesHeaderStyled>
       <ButtonWrapper>
         <BackButton onClick={() => history.push('/')} />
       </ButtonWrapper>
       <ContentWrapper>
-        {account ? <AccountDetails account={account} asHeader /> : <Spinner />}
+        {account ? <AccountDetails account={account} actions={actions} asHeader /> : <Spinner />}
       </ContentWrapper>
     </MessagesHeaderStyled>
   );

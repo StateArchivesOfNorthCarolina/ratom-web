@@ -8,7 +8,7 @@ const ButtonStyled = styled.button`
   font-weight: bold;
   border-radius: ${borderRadius};
 
-  font-size: ${props => (props.small ? 'inherit' : '2rem')};
+  font-size: ${props => (props.small ? '1rem' : '1.5rem')};
 
   display: ${props => (props.block ? 'block' : 'inline-block')};
   background-color: ${props => {

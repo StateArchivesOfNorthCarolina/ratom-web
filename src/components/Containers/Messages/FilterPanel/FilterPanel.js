@@ -18,7 +18,6 @@ const FilterPanel = () => {
 
   return (
     <FilterPanelStyled>
-      <h4>Filter Panel</h4>
       <SearchKeywords buildQuery={setFilterQuery} filterQuery={filterQuery} sendQuery={sendQuery} />
       <FilterActions filterQuery={filterQuery} sendQuery={sendQuery} />
     </FilterPanelStyled>
