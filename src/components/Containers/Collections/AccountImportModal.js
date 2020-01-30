@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 // Axios
-import { useLazyAxios } from '../../Hooks/useAxios';
-import { createAccount } from '../../../services/requests';
+import Axios from '../../../services/axiosConfig';
+// import useAxios from '../../Hooks/useAxios';
+import { CREATE_ACCOUNT } from '../../../services/requests';
 
 // Deps
 import { useAlert } from 'react-alert';
@@ -22,22 +23,28 @@ const AccountImportModal = ({ closeModal, ...props }) => {
   const [description, setDescription] = useState('');
   const [url, setUrl] = useState('');
 
-  const [executeCreateAccount, { loading, error, data }] = useLazyAxios(createAccount, {
-    onCompleted(data) {
-      setName('');
-      setDescription('');
-      setUrl('');
-      alert.show('Your account is being imported. Check the Accounts List for progress updates.', {
-        type: 'success'
-      });
-      closeModal();
-    },
-    onError(error) {
-      // This is an error in intial creation of Account, not in import process
-      // TODO: What's in error? Would be nice to give the Account name in the alert
-      alert.show('An error occured while trying to create this account.', { type: 'error' });
-    }
-  });
+  // const [executeCreateAccount, { loading, error, data }] = useLazyAxios(createAccount, {
+  //   onCompleted(data) {
+  //     setName('');
+  //     setDescription('');
+  //     setUrl('');
+  //     alert.show('Your account is being imported. Check the Accounts List for progress updates.', {
+  //       type: 'success'
+  //     });
+  //     closeModal();
+  //   },
+  //   onError(error) {
+  //     // This is an error in intial creation of Account, not in import process
+  //     // TODO: What's in error? Would be nice to give the Account name in the alert
+  //     alert.show('An error occured while trying to create this account.', { type: 'error' });
+  //   }
+  // });
+
+  const _createAccout = account => {
+    Axios.post(CREATE_ACCOUNT, account).then(response => {
+      console.log('Response from create account: ', response);
+    });
+  };
 
   const getImportDisabled = () => {
     // TODO: can possibly do a bit more validation here once we know how this is reall going to work
@@ -46,9 +53,7 @@ const AccountImportModal = ({ closeModal, ...props }) => {
 
   const handleImportAccount = () => {
     // TODO: Do the importing business here
-    executeCreateAccount({
-      varibles: { name, description, url }
-    });
+    _createAccout({ name, description, url });
   };
 
   return (

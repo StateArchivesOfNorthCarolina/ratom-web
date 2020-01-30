@@ -29,21 +29,21 @@ const CollectionsMain = () => {
     }
   );
 
-  const [startImportStatusPolling, { error: pollingError }] = useLazyAxios('', {
-    // pollInterval: POLLING_INTERVAL,
-    // onCompleted(data) {
-    //   // TODO: update accounts with their status
-    //   // this query should return a list of accounts (still filtered by user-access)
-    //   // that have import_status of anything but "complete_read"
-    //   // here we need to update accounts in state accordingly
-    // },
-    // onError(error) {
-    //   // This is an error getting information about import status, NOT an import error itself.
-    //   alert.show('An error occured while trying to update import status of ?.', {
-    //     type: 'error'
-    //   });
-    // }
-  });
+  // const [startImportStatusPolling, { error: pollingError }] = useLazyAxios('', {
+  // pollInterval: POLLING_INTERVAL,
+  // onCompleted(data) {
+  //   // TODO: update accounts with their status
+  //   // this query should return a list of accounts (still filtered by user-access)
+  //   // that have import_status of anything but "complete_read"
+  //   // here we need to update accounts in state accordingly
+  // },
+  // onError(error) {
+  //   // This is an error getting information about import status, NOT an import error itself.
+  //   alert.show('An error occured while trying to update import status of ?.', {
+  //     type: 'error'
+  //   });
+  // }
+  // });
 
   useEffect(() => {
     // This catches both the mounting of the component
