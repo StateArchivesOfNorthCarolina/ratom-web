@@ -9,12 +9,14 @@ const ButtonStyled = styled.button`
   border-radius: ${borderRadius};
 
   opacity: ${props => (props.disabled ? 0.6 : 1)};
+  cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
 
   font-size: ${props => (props.small ? 'inherit' : '2rem')};
 
   display: ${props => (props.block ? 'block' : 'inline-block')};
   background-color: ${props => {
     if (props.positive) {
+      if (props.disabled) return props.theme.colorGrey;
       return props.theme.colorPrimary;
     }
 
@@ -23,6 +25,7 @@ const ButtonStyled = styled.button`
     }
 
     if (props.negative) {
+      if (props.disabled) return props.theme.colorGrey;
       return props.theme.colorCaution;
     }
 
@@ -49,6 +52,7 @@ const ButtonStyled = styled.button`
 
   &:hover {
     ${props => {
+      if (props.disabled) return '';
       if (props.positive) {
         return css`
           background-color: ${props => darken(props.theme.colorPrimary)};
@@ -75,6 +79,7 @@ const ButtonStyled = styled.button`
 
   &:active {
     ${props => {
+      if (props.disabled) return '';
       if (props.positive) {
         return css`
           background-color: ${props => darken(props.theme.colorPrimary)};

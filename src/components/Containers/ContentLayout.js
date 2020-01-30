@@ -6,7 +6,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute';
 
 // Children
-import AccountsLayout from './Accounts/AccountsLayout';
+import AccountsMain from './Accounts/AccountsMain';
 import MessagesMain from './Messages/MessagesMain';
 import GenericNotFound from './GenericNotFound';
 // import AnimatedSwitch from '../Components/Animated/AnimatedSwitch';
@@ -17,7 +17,7 @@ const ContentLayout = props => {
       {/* <AnimatedSwitch> */}
       <Switch>
         <PrivateRoute exact path="/">
-          <AccountsLayout />
+          <AccountsMain />
         </PrivateRoute>
 
         <PrivateRoute path="/accounts/:accountId">
