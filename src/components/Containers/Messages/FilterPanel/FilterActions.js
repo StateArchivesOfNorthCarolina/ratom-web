@@ -12,11 +12,11 @@ import Button from '../../../Components/Buttons/Button';
 import { CollectionContext } from '../MessagesMain';
 
 const FilterActions = ({ sendQuery }) => {
-  const { setQuery } = useContext(CollectionContext);
+  const { clearFilters } = useContext(CollectionContext);
 
   return (
     <FilterActionsStyled>
-      <Button neutral small onClick={() => setQuery(emptyQuery)}>
+      <Button neutral small onClick={clearFilters}>
         Reset
       </Button>
       <Button positive small onClick={sendQuery}>
