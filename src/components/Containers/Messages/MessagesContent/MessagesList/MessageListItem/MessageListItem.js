@@ -7,7 +7,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 
 // Context
 import { MessagesContext } from '../../MessagesContent';
-import { CollectionContext } from '../../../MessagesMain';
+import { AccountContext } from '../../../MessagesMain';
 
 // Children
 import MessageListItemContentRight from './MessageListItemContentRight';
@@ -17,7 +17,7 @@ const MessageListItem = ({ message, i }) => {
   const messageRef = useRef();
   const [highlightElement, setHighlightElement] = useState(false);
   const { checkMessage, checkedMessages } = useContext(MessagesContext);
-  const { listPlaceholder, setListPlaceholder } = useContext(CollectionContext);
+  const { listPlaceholder, setListPlaceholder } = useContext(AccountContext);
   const { pathname } = useLocation();
   const history = useHistory();
 
@@ -72,14 +72,15 @@ const MessageListItem = ({ message, i }) => {
 };
 
 const MessageListItemStyled = styled.div`
-  height: 20rem;
+  min-height: 26%;
+  max-height: 20rem;
   border-bottom: ${borderSeparator};
   padding: 2rem 0;
   margin: 0 3rem;
 
   display: flex;
   flex-direction: row;
-  align-items: center;
+  /* align-items: center; */
   justify-content: space-between;
 
   background: ${props => (props.messageChecked ? blueGradient : 'inherit')};

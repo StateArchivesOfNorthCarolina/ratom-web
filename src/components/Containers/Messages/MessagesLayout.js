@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 
 // Context
-import { CollectionContext } from './MessagesMain';
+import { AccountContext } from './MessagesMain';
 
 // Children
 import MessagesHeader from './MessagesHeader';
@@ -12,7 +12,7 @@ import NoSearch from './MessagesContent/NoSearch';
 import NoContent from './MessagesContent/NoContent';
 
 const MessagesLayout = () => {
-  const { messages } = useContext(CollectionContext);
+  const { messages } = useContext(AccountContext);
 
   const renderMainContent = () => {
     if (!messages) return <NoSearch />;

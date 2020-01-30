@@ -36,10 +36,14 @@ Axios.interceptors.response.use(
   error => {
     const { status } = error.response;
     // Only care about 401s so far, so pass through
-    if (status !== 401) return Promise.reject(error);
+    if (status !== 401) return handleNon401Response(error);
     return handle401Response(error);
   }
 );
+
+const handleNon401Response = async error => {
+  return Promise.reject(error);
+};
 
 const handle401Response = async error => {
   const { config } = error;
