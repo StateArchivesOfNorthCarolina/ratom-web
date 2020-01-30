@@ -2,38 +2,40 @@ import React from 'react';
 import styled from 'styled-components';
 import { colorBadgeBlue, colorBadgeGreen, colorBadgeRed } from '../../../styles/styleVariables';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { darken } from '../../../styles/styleUtils/lighten-darken';
 
 const Badge = ({ name, remove, ...props }) => {
   return (
     <BadgeStyled {...props} data-cy="badge">
       <p>{name}</p>
-      <IconStyled icon={faTimes} onClick={remove} data-cy="badge_close" />
+      {remove && (
+        <IconStyled onClick={remove} data-cy="badge_close">
+          x
+        </IconStyled>
+      )}
     </BadgeStyled>
   );
 };
 
 const BadgeStyled = styled.div`
   max-width: 100%;
-  height: 25px;
+  height: 1.6rem;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
 
   margin: 2px 0 0 2px;
-  padding: 1.5rem;
+  border-radius: 1px;
 
-  p {
-    max-width: 90%;
+  p:first-of-type {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    padding: 0 1.5rem;
 
     color: ${props => props.theme.textColorLight};
-    font-size: 1.5rem;
+    font-size: 1rem;
   }
 
   /* //! This is temporary! These are just guesses. vvv */
@@ -41,9 +43,9 @@ const BadgeStyled = styled.div`
     switch (props.type) {
       case 'normal':
         return colorBadgeBlue;
-      case 'restricted':
+      case 'caution':
         return colorBadgeRed;
-      case 'nlp':
+      case 'positive':
         return colorBadgeGreen;
       default:
         return colorBadgeBlue;
@@ -51,12 +53,13 @@ const BadgeStyled = styled.div`
   }};
 `;
 
-const IconStyled = styled(FontAwesomeIcon)`
+const IconStyled = styled.p`
   color: ${props => props.theme.textColorLight};
-  font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 1rem;
   margin-left: 1rem;
+  align-self: center;
   cursor: pointer;
+  padding-right: 0.6rem;
 
   &:hover {
     color: ${props => darken(props.theme.textColorLight)};

@@ -9,11 +9,10 @@ import { LIST_ACCOUNTS } from '../../../../services/requests';
 import { useHistory } from 'react-router-dom';
 
 // Children
-import CollectionsListItem from './CollectionsListItem';
-import AnimatedList from '../../../Components/Animated/AnimatedList';
+import AccountsListItem from './AccountsListItem';
 import Spinner from '../../../Components/Loading/Spinner';
 
-const CollectionsList = ({ loadingAccounts, accounts }) => {
+const AccountsList = props => {
   const history = useHistory();
   const [loading, setLoading] = useState(false);
   const [, setError] = useState();
@@ -32,24 +31,28 @@ const CollectionsList = ({ loadingAccounts, accounts }) => {
       });
   }, []);
 
-  const setAccount = collection => {
-    history.push(`/collections/${collection.id}`);
+  const setAccount = account => {
+    history.push(`/accounts/${account.id}`);
   };
 
   return (
-    <CollectionsListStyled>
-      {loadingAccounts ? (
-        <Spinner />
+    <AccountsListStyled>
+      {loading ? (
+        <Spinner flex large />
       ) : (
         accounts &&
         accounts.map(account => (
-          <CollectionsListItem key={account.id} collection={account} setCollection={setAccount} />
+          <AccountsListItem key={account.id} account={account} setAccount={setAccount} />
         ))
       )}
-    </CollectionsListStyled>
+    </AccountsListStyled>
   );
 };
 
-const CollectionsListStyled = styled(AnimatedList)``;
+const AccountsListStyled = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+`;
 
-export default CollectionsList;
+export default AccountsList;

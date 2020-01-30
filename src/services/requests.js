@@ -5,6 +5,7 @@ export const GET_USER = 'users/';
 //  Accounts
 export const LIST_ACCOUNTS = 'accounts/';
 export const CREATE_ACCOUNT = 'accounts/';
+export const SHOW_ACCOUNT = 'accounts/';
 
 //  Messages
 // TODO: How are we including accountId? As part of url or params? (accounts/<id>/messages/?params)

@@ -7,9 +7,14 @@ import Button from '../../../../../Components/Buttons/Button';
 const MessageListItemContentRight = ({ handleSelectMessage }) => {
   return (
     <ContentRight>
-      <Button small neutral onClick={handleSelectMessage} data-cy="messages_list_item_view_button">
+      <ButtonStyled
+        small
+        neutral
+        onClick={handleSelectMessage}
+        data-cy="messages_list_item_view_button"
+      >
         View
-      </Button>
+      </ButtonStyled>
     </ContentRight>
   );
 };
@@ -18,6 +23,10 @@ const ContentRight = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+`;
+
+const ButtonStyled = styled(Button)`
+  align-self: center;
 `;
 
 export default MessageListItemContentRight;

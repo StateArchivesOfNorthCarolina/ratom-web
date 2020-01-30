@@ -6,10 +6,10 @@ import styled from 'styled-components';
 // import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 // Context
-import { CollectionContext } from '../Messages/MessagesMain';
+import { AccountContext } from '../Messages/MessagesMain';
 
 const MessageStepper = props => {
-  const { listPlaceholder, messagesTotalCount } = useContext(CollectionContext);
+  const { listPlaceholder, messagesTotalCount } = useContext(AccountContext);
 
   // TODO: setting offset + 1 will give me the message I want.
   // TODO: will need to add that message to local State [messages].push(this new message)

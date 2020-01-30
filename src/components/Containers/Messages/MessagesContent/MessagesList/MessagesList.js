@@ -2,14 +2,14 @@ import React, { useContext, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 
 // Context
-import { CollectionContext } from '../../MessagesMain';
+import { AccountContext } from '../../MessagesMain';
 
 // Children
 import MessageListItem from './MessageListItem/MessageListItem';
 
 const MessagesList = () => {
   const messagesUL = useRef();
-  const { messages, loadMoreMessages } = useContext(CollectionContext);
+  const { messages, loadMoreMessages } = useContext(AccountContext);
 
   useEffect(() => {
     const element = messagesUL.current;

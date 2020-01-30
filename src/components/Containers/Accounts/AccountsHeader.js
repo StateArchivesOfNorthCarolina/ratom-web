@@ -3,20 +3,15 @@ import styled from 'styled-components';
 import { borderSeparator } from '../../../styles/styleVariables';
 import ActionButton from '../../Components/Buttons/ActionButton';
 
-const CollectionsHeader = ({ openImportModal }) => {
+const AccountsHeader = props => {
   return (
-    <CollectionsHeaderStyled>
-      <h2>My Collections</h2>
-      <ActionButton onClick={openImportModal}>Import Account</ActionButton>
-    </CollectionsHeaderStyled>
+    <AccountsHeaderStyled>
+      <h2>My Accounts</h2>
+    </AccountsHeaderStyled>
   );
 };
 
-const CollectionsHeaderStyled = styled.header`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+const AccountsHeaderStyled = styled.header`
   height: 9rem;
   width: 100%;
   padding: 1.2rem 1rem 1rem 1rem;
@@ -35,4 +30,4 @@ const CollectionsHeaderStyled = styled.header`
   }
 `;
 
-export default CollectionsHeader;
+export default AccountsHeader;

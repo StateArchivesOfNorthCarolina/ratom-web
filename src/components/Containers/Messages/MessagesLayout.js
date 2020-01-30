@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 
 // Context
-import { CollectionContext } from './MessagesMain';
+import { AccountContext } from './MessagesMain';
 
 // Children
 import MessagesHeader from './MessagesHeader';
@@ -11,7 +11,7 @@ import MessagesContent from './MessagesContent/MessagesContent';
 import NoSearch from './MessagesContent/NoSearch';
 
 const MessagesLayout = () => {
-  const { messages } = useContext(CollectionContext);
+  const { messages } = useContext(AccountContext);
   return (
     <MessagesLayoutStyled>
       <MessagesHeader />

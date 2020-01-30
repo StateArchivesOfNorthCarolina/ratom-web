@@ -2,13 +2,14 @@ import React, { useState, createContext, useEffect } from 'react';
 
 // Router
 import PrivateRoute from '../PrivateRoute';
-import { Switch, Route, Redirect, useRouteMatch } from 'react-router-dom';
+import { Switch, Route, Redirect, useRouteMatch, useParams } from 'react-router-dom';
 
 // Utiul
 import { isEmpty } from '../../../util/isEmpty';
 
 // Axios
-import { SEARCH_MESSAGES } from '../../../services/requests';
+import Axios from '../../../services/axiosConfig';
+import { SEARCH_MESSAGES, SHOW_ACCOUNT } from '../../../services/requests';
 import {
   setFilterQueryToLocalStorage,
   getFilterQueryFromLocalStorage
@@ -19,15 +20,14 @@ import emptyQuery from './emptyQuery';
 import MessagesLayout from './MessagesLayout';
 import MessageMain from '../Message/MessageMain';
 import GenericNotFound from '../GenericNotFound';
-import Axios from '../../../services/axiosConfig';
 
-export const CollectionContext = createContext(null);
+export const AccountContext = createContext(null);
 
 // TODO: Good candidate for a Reducer.
 
 const MessagesMain = () => {
-  // const [collection, setCollectionId] = useState();
-  // const { collectionId } = useParams();
+  const [account, setAccount] = useState();
+  const { accountId } = useParams();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
   const [messages, setMessages] = useState([]);
@@ -41,6 +41,12 @@ const MessagesMain = () => {
   const [facets, setFacets] = useState({});
 
   const { path } = useRouteMatch();
+
+  useEffect(() => {
+    Axios.get(`${SHOW_ACCOUNT}${accountId}/`).then(response => {
+      setAccount(response.data);
+    });
+  }, []);
 
   useEffect(() => {
     if (!isEmpty(query)) {
@@ -123,6 +129,7 @@ const MessagesMain = () => {
   };
 
   const context = {
+    account,
     filterQuery,
     setFilterQuery,
     messages,
@@ -142,7 +149,7 @@ const MessagesMain = () => {
   };
 
   return (
-    <CollectionContext.Provider value={context}>
+    <AccountContext.Provider value={context}>
       <Switch>
         <PrivateRoute exact path={path}>
           <MessagesLayout />
@@ -155,7 +162,7 @@ const MessagesMain = () => {
         </Route>
         <Redirect to="/404" />
       </Switch>
-    </CollectionContext.Provider>
+    </AccountContext.Provider>
   );
 };
 
