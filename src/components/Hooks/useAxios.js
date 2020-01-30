@@ -1,6 +1,7 @@
-import axios from 'axios';
+// import axios from 'axios';
 import Axios from '../../services/axiosConfig';
-import { useState, useEffect } from 'react';
+import { makeUseAxios } from 'axios-hooks';
+// import { useState, useEffect } from 'react';
 
 const useAxios = makeUseAxios({
   axios: Axios

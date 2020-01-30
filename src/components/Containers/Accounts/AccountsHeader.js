@@ -1,12 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 import { borderSeparator } from '../../../styles/styleVariables';
+
+// Children
 import ActionButton from '../../Components/Buttons/ActionButton';
 
-const AccountsHeader = props => {
+const AccountsHeader = ({ openImportModal }) => {
   return (
     <AccountsHeaderStyled>
       <h2>My Accounts</h2>
+      <ActionButton onClick={openImportModal}>New Account</ActionButton>
     </AccountsHeaderStyled>
   );
 };
@@ -19,6 +22,7 @@ const AccountsHeaderStyled = styled.header`
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   border-bottom: ${borderSeparator};
 
   h2 {

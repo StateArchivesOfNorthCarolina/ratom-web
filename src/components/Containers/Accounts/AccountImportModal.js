@@ -19,31 +19,53 @@ import Button from '../../Components/Buttons/Button';
 
 const AccountImportModal = ({ closeModal, ...props }) => {
   const alert = useAlert();
+  const [loading, setLoading] = useState(false);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [url, setUrl] = useState('');
 
   // const [executeCreateAccount, { loading, error, data }] = useLazyAxios(createAccount, {
   //   onCompleted(data) {
-  //     setName('');
-  //     setDescription('');
-  //     setUrl('');
-  //     alert.show('Your account is being imported. Check the Accounts List for progress updates.', {
-  //       type: 'success'
-  //     });
-  //     closeModal();
+  // setName('');
+  // setDescription('');
+  // setUrl('');
+  // alert.show('Your account is being imported. Check the Accounts List for progress updates.', {
+  //   type: 'success'
+  // });
+  // closeModal();
   //   },
   //   onError(error) {
-  //     // This is an error in intial creation of Account, not in import process
-  //     // TODO: What's in error? Would be nice to give the Account name in the alert
-  //     alert.show('An error occured while trying to create this account.', { type: 'error' });
+  // // This is an error in intial creation of Account, not in import process
+  // // TODO: What's in error? Would be nice to give the Account name in the alert
+  // alert.show('An error occured while trying to create this account.', { type: 'error' });
   //   }
   // });
 
   const _createAccout = account => {
-    Axios.post(CREATE_ACCOUNT, account).then(response => {
-      console.log('Response from create account: ', response);
-    });
+    setLoading(true);
+    Axios.post(CREATE_ACCOUNT, account)
+      .then(response => {
+        console.log('Response from create account: ', response);
+        setLoading(false);
+        setName('');
+        setDescription('');
+        setUrl('');
+        alert.show(
+          'Your account is being imported. Check the Accounts List for progress updates.',
+          {
+            type: 'success'
+          }
+        );
+        closeModal();
+      })
+      .catch(error => {
+        setLoading(false);
+        // This is an error in intial creation of Account, not in import process
+        // TODO: What's in error? Would be nice to give the Account name in the alert
+        alert.show('An error occured while trying to create this account.', {
+          type: 'error'
+        });
+      });
   };
 
   const getImportDisabled = () => {
