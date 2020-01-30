@@ -6,9 +6,9 @@ all:
       hosts:
         ratom-staging:
           env_name: staging
-          k8s_kube_context: microk8s
+          k8s_kube_context: ratom-staging
           k8s_domain_names:
-            - ratom-staging.caktus-built.com
+            - ratom-caktus-aks.caktus-built.com
           k8s_namespace: "ratom-{{ env_name }}"
           k8s_container_name: web
           k8s_container_image: govsanc/ratom-web
