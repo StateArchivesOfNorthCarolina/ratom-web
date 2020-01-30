@@ -36,7 +36,7 @@ const Login = () => {
   });
 
   useEffect(() => {
-    if (error && error.response.status === 401) {
+    if (error) {
       setUsername('');
       setPassword('');
     }
@@ -50,6 +50,7 @@ const Login = () => {
           label="Email Address"
           type="username"
           onChange={e => setUsername(e.target.value)}
+          value={username}
           data-cy="login_email"
           onEnterKey={handleSignIn}
         />
@@ -57,12 +58,19 @@ const Login = () => {
           label="Password"
           type="password"
           onChange={e => setPassword(e.target.value)}
+          value={password}
           data-cy="login_password"
           onEnterKey={handleSignIn}
         />
         <FormErrors errors={[error && error.response.data.detail]} />
 
-        <Button postitive block onClick={handleSignIn} disabled={error} data-cy="signin_button">
+        <Button
+          postitive
+          block
+          onClick={handleSignIn}
+          disabled={!username.trim() && !password.trim()}
+          data-cy="signin_button"
+        >
           {loading ? <Spinner /> : 'Sign in'}
         </Button>
       </LoginWrapper>
