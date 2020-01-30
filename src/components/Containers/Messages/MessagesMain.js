@@ -82,7 +82,6 @@ const MessagesMain = () => {
   };
 
   const setQuery = newQuery => {
-    console.log('setting query to: ', newQuery);
     setFilterQueryToLocalStorage(newQuery);
     setQueryLocally(newQuery);
   };
