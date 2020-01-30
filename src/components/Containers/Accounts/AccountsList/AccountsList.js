@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
+import { LIST_ITEM_VARIANTS, LIST_VARIANTS } from '../../../Components/Animated/animationConstants';
 
 // Axios
 import Axios from '../../../../services/axiosConfig';
@@ -36,23 +38,32 @@ const AccountsList = props => {
   };
 
   return (
-    <AccountsListStyled>
+    <AccountsListStyled initial="initial" animate="enter" exit="exit" variants={LIST_VARIANTS}>
       {loading ? (
-        <Spinner flex large />
+        <SpinnerStyled flex large />
       ) : (
         accounts &&
         accounts.map(account => (
-          <AccountsListItem key={account.id} account={account} setAccount={setAccount} />
+          <AccountsListItem
+            key={account.id}
+            account={account}
+            setAccount={setAccount}
+            variants={LIST_ITEM_VARIANTS}
+          />
         ))
       )}
     </AccountsListStyled>
   );
 };
 
-const AccountsListStyled = styled.div`
+const AccountsListStyled = styled(motion.div)`
   display: flex;
   flex-direction: column;
   flex: 1;
+`;
+
+const SpinnerStyled = styled(Spinner)`
+  margin-top: 5rem;
 `;
 
 export default AccountsList;

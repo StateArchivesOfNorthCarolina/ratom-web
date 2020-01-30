@@ -9,12 +9,10 @@ import PrivateRoute from './PrivateRoute';
 import AccountsMain from './Accounts/AccountsMain';
 import MessagesMain from './Messages/MessagesMain';
 import GenericNotFound from './GenericNotFound';
-// import AnimatedSwitch from '../Components/Animated/AnimatedSwitch';
 
 const ContentLayout = props => {
   return (
     <ContentLayoutStyled>
-      {/* <AnimatedSwitch> */}
       <Switch>
         <PrivateRoute exact path="/">
           <AccountsMain />
@@ -29,7 +27,6 @@ const ContentLayout = props => {
         </Route>
         <Redirect to="/404" />
       </Switch>
-      {/* </AnimatedSwitch> */}
     </ContentLayoutStyled>
   );
 };
