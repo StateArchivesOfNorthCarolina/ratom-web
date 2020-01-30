@@ -4,9 +4,6 @@ import React, { useState, createContext, useEffect } from 'react';
 import PrivateRoute from '../PrivateRoute';
 import { Switch, Route, Redirect, useRouteMatch } from 'react-router-dom';
 
-// Utiul
-import { isEmpty } from '../../../util/isEmpty';
-
 // Axios
 import { SEARCH_MESSAGES } from '../../../services/requests';
 import {
@@ -30,7 +27,7 @@ const MessagesMain = () => {
   // const { collectionId } = useParams();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState();
   const [query, setQueryLocally] = useState(getFilterQueryFromLocalStorage() || emptyQuery);
   const [filterQuery, setFilterQuery] = useState(getFilterQueryFromLocalStorage() || emptyQuery);
   const [messagesTotalCount, setMessagesTotalCount] = useState();
@@ -43,9 +40,7 @@ const MessagesMain = () => {
   const { path } = useRouteMatch();
 
   useEffect(() => {
-    if (!isEmpty(query)) {
-      searchMessages();
-    }
+    searchMessages();
   }, [query]);
 
   const searchMessages = () => {
@@ -122,9 +117,15 @@ const MessagesMain = () => {
     return newOffset;
   };
 
+  const clearFilters = () => {
+    setQuery(emptyQuery);
+    setFilterQuery(emptyQuery);
+  };
+
   const context = {
     filterQuery,
     setFilterQuery,
+    clearFilters,
     messages,
     messagesTotalCount,
     searchMessages,

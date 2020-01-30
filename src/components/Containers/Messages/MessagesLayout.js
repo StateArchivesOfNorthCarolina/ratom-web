@@ -9,15 +9,25 @@ import MessagesHeader from './MessagesHeader';
 import FilterPanel from './FilterPanel/FilterPanel';
 import MessagesContent from './MessagesContent/MessagesContent';
 import NoSearch from './MessagesContent/NoSearch';
+import NoContent from './MessagesContent/NoContent';
 
 const MessagesLayout = () => {
   const { messages } = useContext(CollectionContext);
+
+  const renderMainContent = () => {
+    if (!messages) return <NoSearch />;
+    if (messages) {
+      if (messages.length === 0) return <NoContent />;
+      return <MessagesContent />;
+    }
+  };
+
   return (
     <MessagesLayoutStyled>
       <MessagesHeader />
       <ContentWrapper>
         <FilterPanel />
-        {messages.length > 0 ? <MessagesContent /> : <NoSearch />}
+        {renderMainContent()}
       </ContentWrapper>
     </MessagesLayoutStyled>
   );

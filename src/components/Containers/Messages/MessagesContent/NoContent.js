@@ -2,23 +2,20 @@ import React from 'react';
 import styled from 'styled-components';
 import { borderSeparator } from '../../../../styles/styleVariables';
 
-const NoSearch = () => {
+const NoContent = () => {
   return (
-    <NoSearchStyled>
-      <h2>No search parameters given</h2>
-    </NoSearchStyled>
+    <NoContentStyled>
+      <h4>No messages match your query.</h4>
+    </NoContentStyled>
   );
 };
 
-const NoSearchStyled = styled.div`
+const NoContentStyled = styled.div`
   flex: 1;
   display: flex;
   justify-content: center;
+  align-items: center;
   border-left: ${borderSeparator};
-
-  h2 {
-    margin-top: 30rem;
-  }
 `;
 
-export default NoSearch;
+export default NoContent;
