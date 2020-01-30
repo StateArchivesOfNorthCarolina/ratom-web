@@ -6,15 +6,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { darken } from '../../../styles/styleUtils/lighten-darken';
 
-const Badge = ({ remove, ...props }) => {
-  let name = '';
-  if (props.name) {
-    name = props.name;
-  }
+const Badge = ({ name, remove, ...props }) => {
   return (
-    <BadgeStyled {...props}>
+    <BadgeStyled {...props} data-cy="badge">
       <p>{name}</p>
-      {remove && <IconStyled icon={faTimes} onClick={remove} />}
+      <IconStyled icon={faTimes} onClick={remove} data-cy="badge_close" />
     </BadgeStyled>
   );
 };

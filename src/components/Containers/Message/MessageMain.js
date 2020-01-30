@@ -1,6 +1,10 @@
 import React, { createContext } from 'react';
 import styled from 'styled-components';
 
+// Axios
+import useAxios from '../../Hooks/useAxios';
+import { SHOW_MESSAGE } from '../../../services/requests';
+
 // Router
 import { useParams } from 'react-router-dom';
 
@@ -9,16 +13,12 @@ import MessageHeader from './MessageHeader';
 import MessageDetail from './MessageDetail';
 import MessageFooter from './MessageFooter';
 import Spinner from '../../Components/Loading/Spinner';
-import { useAxios } from '../../Hooks/useAxios';
-import { showMessage } from '../../../services/requests';
 
 export const MessageContext = createContext();
 
 const MessageMain = () => {
   const { messageId } = useParams();
-  const { loading, error, data } = useAxios(showMessage, {
-    arguments: [messageId]
-  });
+  const [{ loading, data }] = useAxios(SHOW_MESSAGE + `${messageId}/`);
 
   const messageContext = {
     message: data || {}

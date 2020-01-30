@@ -3,28 +3,12 @@ import styled from 'styled-components';
 import MessageCheckbox from './MessageCheckbox';
 
 const MessageListItemContentLeft = ({ message, checked, checkMessage }) => {
-  // TODO: This eventually...prolly
-  // const getHighlights = () => {
-  //   if (message && message.hasOwnProperty('highlight')) {
-  //     return Object.keys(message.highlight).map(key => ({
-  //       type: key,
-  //       hightlights: message.highlight[key]
-  //     }));
-  //   }
-  //   return [];
-  // };
-
-  // TODO: remove vv once we've decided about how to show highlights
   const getHighlights = () => {
-    if (message && message.hasOwnProperty('highlight') && message.highlight) {
-      if (message.highlight.msg_body) {
-        return [
-          {
-            type: 'body',
-            highlights: [message.highlight.body[0]]
-          }
-        ];
-      }
+    if (message && message.hasOwnProperty('highlight')) {
+      return Object.keys(message.highlight).map(key => ({
+        type: key,
+        highlights: message.highlight[key]
+      }));
     }
     return [];
   };
@@ -61,6 +45,8 @@ const MessageListItemContentLeft = ({ message, checked, checkMessage }) => {
 const ContentLeft = styled.div`
   display: flex;
   flex-direction: row;
+  max-height: 15rem;
+  overflow-y: hidden;
 `;
 
 const InnerContent = styled.div`
@@ -77,7 +63,8 @@ const InnerContent = styled.div`
   }
 `;
 
-const MessageHighlights = styled.div``;
+const MessageHighlights = styled.div`
+`;
 
 const Highlight = styled.div`
   span {

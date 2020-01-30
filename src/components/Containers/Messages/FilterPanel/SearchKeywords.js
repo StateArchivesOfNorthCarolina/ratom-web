@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 // Components
@@ -8,20 +8,16 @@ import Input from '../../../Components/Inputs/Input';
 // Children
 import BadgesList from './BadgesList';
 
-// Context
-import { CollectionContext } from '../MessagesMain';
-
-const SearchKeywords = props => {
+const SearchKeywords = ({ buildQuery, filterQuery, sendQuery, ...props }) => {
   const [keyword, setKeyword] = useState('');
-  const { query, setQuery, queryMessages } = useContext(CollectionContext);
 
-  const { keywords } = query;
+  const { keywords } = filterQuery;
 
   const handleDeleteKeyPressed = e => {
     e.stopPropagation();
     if (e.key === 'Backspace' && e.shiftKey) removeKeyword();
     if (e.key === 'Enter' && e.shiftKey) {
-      queryMessages();
+      sendQuery();
     } else if (e.key === 'Enter') {
       addKeyword();
     }
@@ -30,42 +26,44 @@ const SearchKeywords = props => {
   const addKeyword = () => {
     if (keyword.trim()) {
       setKeyword('');
-      setQuery({
-        ...query,
-        keywords: [...query.keywords, keyword]
+      buildQuery({
+        ...filterQuery,
+        keywords: [...filterQuery.keywords, keyword]
       });
     }
   };
 
   const removeKeyword = keyword => {
-    const keywords = query.keywords.slice();
+    const keywords = filterQuery.keywords.slice();
     if (keyword) {
-      const keywordLoc = query.keywords.indexOf(keyword);
+      const keywordLoc = filterQuery.keywords.indexOf(keyword);
       keywords.splice(keywordLoc, 1);
-      setQuery({
-        ...query,
+      buildQuery({
+        ...filterQuery,
         keywords
       });
     } else {
       keywords.pop();
-      setQuery({
-        ...query,
+      buildQuery({
+        ...filterQuery,
         keywords
       });
     }
   };
 
   return (
-    <SearchKeywordsStyled {...props}>
+    <SearchKeywordsStyled {...props} data-cy="keyword_search">
       <Input
+        data-cy="keyword_search_input"
         type="text"
-        icon="search"
+        icon="add"
+        onIconClick={addKeyword}
         label="Keyword Search"
         onKeyDown={handleDeleteKeyPressed}
         onChange={e => setKeyword(e.target.value)}
         value={keyword}
       />
-      <BadgesList badges={keywords} onRemoveBadge={removeKeyword} />
+      <BadgesList badges={keywords} onRemoveBadge={removeKeyword} badgeType="keyword" />
     </SearchKeywordsStyled>
   );
 };

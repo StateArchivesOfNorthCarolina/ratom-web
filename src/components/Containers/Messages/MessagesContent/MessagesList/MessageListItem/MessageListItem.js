@@ -17,7 +17,7 @@ const MessageListItem = ({ message, i }) => {
   const messageRef = useRef();
   const [highlightElement, setHighlightElement] = useState(false);
   const { checkMessage, checkedMessages } = useContext(MessagesContext);
-  const { messages, listPlaceholder, setListPlaceholder } = useContext(CollectionContext);
+  const { listPlaceholder, setListPlaceholder } = useContext(CollectionContext);
   const { pathname } = useLocation();
   const history = useHistory();
 
@@ -28,7 +28,7 @@ const MessageListItem = ({ message, i }) => {
 
   useEffect(() => {
     let timeout;
-    if (listPlaceholder && listPlaceholder == i) {
+    if (listPlaceholder && listPlaceholder === i) {
       const element = messageRef.current;
       const intersectionObserver = new IntersectionObserver(entries => {
         let [entry] = entries;
@@ -45,10 +45,9 @@ const MessageListItem = ({ message, i }) => {
     }
 
     return () => clearTimeout(timeout);
-  }, [listPlaceholder]);
+  }, [listPlaceholder, i]);
 
   const handleSelectMessage = () => {
-    console.log('setting list placeholder to : ', i);
     setListPlaceholder(i);
     history.push(`${pathname}/messages/${message.id}`);
   };
@@ -73,7 +72,7 @@ const MessageListItem = ({ message, i }) => {
 };
 
 const MessageListItemStyled = styled.div`
-  height: 15rem;
+  height: 20rem;
   border-bottom: ${borderSeparator};
   padding: 2rem 0;
   margin: 0 3rem;

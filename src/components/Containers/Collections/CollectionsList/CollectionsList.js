@@ -1,5 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+
+// Axios
+import Axios from '../../../../services/axiosConfig';
+import { LIST_ACCOUNTS } from '../../../../services/requests';
 
 // Router
 import { useHistory } from 'react-router-dom';
@@ -11,6 +15,22 @@ import Spinner from '../../../Components/Loading/Spinner';
 
 const CollectionsList = ({ loadingAccounts, accounts }) => {
   const history = useHistory();
+  const [loading, setLoading] = useState(false);
+  const [, setError] = useState();
+  const [accounts, setAccounts] = useState();
+
+  useEffect(() => {
+    setLoading(true);
+    Axios.get(LIST_ACCOUNTS)
+      .then(response => {
+        setAccounts(response.data);
+        setLoading(false);
+      })
+      .catch(error => {
+        setError(error);
+        setLoading(false);
+      });
+  }, []);
 
   const setAccount = collection => {
     history.push(`/collections/${collection.id}`);
@@ -21,6 +41,7 @@ const CollectionsList = ({ loadingAccounts, accounts }) => {
       {loadingAccounts ? (
         <Spinner />
       ) : (
+        accounts &&
         accounts.map(account => (
           <CollectionsListItem key={account.id} collection={account} setCollection={setAccount} />
         ))
