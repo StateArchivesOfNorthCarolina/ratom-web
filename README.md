@@ -18,7 +18,7 @@
 
 ### Deployment
 
-For deployment documentation, please see the [ratom_api](https://github.com/caktus/ratom_api#staging-environment) repo.
+For deployment documentation, please see the [ratom_server](https://github.com/StateArchivesOfNorthCarolina/ratom-server#deployment) repo.
 
 ### Test
 
