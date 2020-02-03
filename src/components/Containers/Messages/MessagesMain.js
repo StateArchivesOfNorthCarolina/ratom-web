@@ -40,6 +40,12 @@ const MessagesMain = () => {
   const { path } = useRouteMatch();
 
   useEffect(() => {
+    Axios.get(`${SHOW_ACCOUNT}${accountId}/`).then(response => {
+      setAccount(response.data);
+    });
+  }, []);
+
+  useEffect(() => {
     searchMessages();
   }, [query]);
 
