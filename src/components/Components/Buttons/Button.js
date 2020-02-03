@@ -9,8 +9,7 @@ const ButtonStyled = styled.button`
   border-radius: ${borderRadius};
 
   opacity: ${props => (props.disabled ? 0.6 : 1)};
-
-  font-size: ${props => (props.small ? 'inherit' : '2rem')};
+  font-size: ${props => (props.small ? '1rem' : '1.5rem')};
 
   display: ${props => (props.block ? 'block' : 'inline-block')};
   background-color: ${props => {

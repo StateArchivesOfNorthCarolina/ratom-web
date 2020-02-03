@@ -3,12 +3,15 @@ import styled from 'styled-components';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faFileAlt } from '@fortawesome/free-regular-svg-icons';
+import { colorBlackLight, colorBlack } from '../../../../styles/styleVariables';
 
 // Util
 import { formatNumber } from '../../../../util/formatNumber';
 import dateToIso from '../../../../util/dateToIso';
-import { colorBlackLight, colorBlack } from '../../../../styles/styleVariables';
+
+// Children
 import Badge from '../../Messages/Badge';
+import DotMenu from '../../../Components/Widgets/DotMenu';
 
 export const STATUSES = {
   CR: 'Created',
@@ -25,7 +28,7 @@ const IconTextStack = ({ item, ...props }) => {
   );
 };
 
-const AccountDetails = ({ account, setAccount, asHeader }) => {
+const AccountDetails = ({ account, asHeader, actions }) => {
   const [status, setStatus] = useState();
   const [shouldBeGrey, setShouldBeGrey] = useState(false);
   const { account_status } = account;
@@ -89,13 +92,11 @@ const AccountDetails = ({ account, setAccount, asHeader }) => {
           <h5>{getUnprocessedAmount()} Unprocessed</h5>
           <p>Last Modified {dateToIso(account.account_last_modified)}</p>
         </ProcessingStatus>
-        <DotMenu
+        <DotMenuStyled
+          hidden={!actions ? !actions : status === 'Importing'}
+          actions={actions}
           data-cy="account-detail-dot-menu"
-          onClick={setAccount ? () => setAccount(account) : undefined}
-          visible={status !== 'Importing'}
-        >
-          . . .
-        </DotMenu>
+        />
       </RightContent>
     </AccountDetailsStyled>
   );
@@ -131,6 +132,7 @@ const HeaderMeta = styled.div`
 const RightContent = styled.div`
   display: flex;
   flex-direction: row;
+  margin-top: 1rem;
 `;
 
 const MessageCounts = styled.div`
@@ -173,9 +175,9 @@ const IconStyled = styled(FontAwesomeIcon)`
   margin-right: 1rem;
 `;
 
-const DotMenu = styled.p`
-  cursor: pointer;
-  visibility: ${props => (props.visible ? 'visible' : 'hidden')};
+const DotMenuStyled = styled(DotMenu)`
+  visibility: ${props => (props.hidden ? 'hidden' : 'visible')};
+  align-self: center;
 `;
 
 export default AccountDetails;
