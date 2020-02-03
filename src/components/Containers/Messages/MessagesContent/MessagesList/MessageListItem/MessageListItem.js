@@ -1,5 +1,6 @@
 import React, { useContext, useRef, useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
+import { motion } from 'framer-motion';
 import { borderSeparator, blueGradient } from '../../../../../../styles/styleVariables';
 
 // Router
@@ -13,7 +14,7 @@ import { AccountContext } from '../../../MessagesMain';
 import MessageListItemContentRight from './MessageListItemContentRight';
 import MessageListItemContentLeft from './MessageListItemContentLeft';
 
-const MessageListItem = ({ message, i }) => {
+const MessageListItem = ({ message, i, ...props }) => {
   const messageRef = useRef();
   const [highlightElement, setHighlightElement] = useState(false);
   const { checkMessage, checkedMessages } = useContext(MessagesContext);
@@ -56,6 +57,7 @@ const MessageListItem = ({ message, i }) => {
 
   return (
     <MessageListItemStyled
+      {...props}
       data-cy="messages_list_item"
       messageChecked={messageChecked}
       ref={messageRef}
@@ -71,7 +73,7 @@ const MessageListItem = ({ message, i }) => {
   );
 };
 
-const MessageListItemStyled = styled.div`
+const MessageListItemStyled = styled(motion.div)`
   min-height: 26%;
   max-height: 20rem;
   border-bottom: ${borderSeparator};

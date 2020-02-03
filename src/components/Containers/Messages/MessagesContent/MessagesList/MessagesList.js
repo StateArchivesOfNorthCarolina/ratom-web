@@ -1,4 +1,9 @@
 import React, { useContext, useRef, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import {
+  LIST_VARIANTS,
+  LIST_ITEM_VARIANTS
+} from '../../../../Components/Animated/animationConstants';
 import styled from 'styled-components';
 
 // Context
@@ -25,15 +30,21 @@ const MessagesList = () => {
   }, [loadMoreMessages, messagesUL]);
 
   return (
-    <MessagesListStyled ref={messagesUL}>
+    <MessagesListStyled
+      ref={messagesUL}
+      initial="initial"
+      animate="enter"
+      exit="exit"
+      variants={LIST_VARIANTS}
+    >
       {messages.map((message, i) => (
-        <MessageListItem key={message.id} message={message} i={i} />
+        <MessageListItem key={message.id} message={message} i={i} variants={LIST_ITEM_VARIANTS} />
       ))}
     </MessagesListStyled>
   );
 };
 
-const MessagesListStyled = styled.div`
+const MessagesListStyled = styled(motion.div)`
   /* flex: 1; */
   /* SUPER TEMP FIX... */
   height: 57vh;

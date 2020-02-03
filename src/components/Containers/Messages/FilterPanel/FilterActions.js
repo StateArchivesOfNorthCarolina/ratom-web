@@ -2,9 +2,6 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { borderSeparator } from '../../../../styles/styleVariables';
 
-// Util
-import emptyQuery from '../emptyQuery';
-
 // Components
 import Button from '../../../Components/Buttons/Button';
 
