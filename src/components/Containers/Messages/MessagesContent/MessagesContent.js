@@ -2,17 +2,19 @@ import React, { createContext, useState, useContext } from 'react';
 import styled from 'styled-components';
 import { borderSeparator, colorWhite } from '../../../../styles/styleVariables';
 
+// Context
+import { AccountContext } from '../MessagesMain';
+
 // Children
 import ResultsSummary from './ResultsSummary';
 import MessagesList from './MessagesList/MessagesList';
 import MessagesActions from './MessagesActions';
 import Pagination from '../../../Components/Pagination/Pagination';
-import { CollectionContext } from '../MessagesMain';
 
 export const MessagesContext = createContext(null);
 
 const MessagesContent = () => {
-  const { messages } = useContext(CollectionContext);
+  const { messages } = useContext(AccountContext);
   const [checkedMessages, setCheckedMessages] = useState([]);
 
   const checkAllMessages = all => {

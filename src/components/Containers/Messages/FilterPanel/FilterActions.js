@@ -9,10 +9,10 @@ import emptyQuery from '../emptyQuery';
 import Button from '../../../Components/Buttons/Button';
 
 // Context
-import { CollectionContext } from '../MessagesMain';
+import { AccountContext } from '../MessagesMain';
 
 const FilterActions = ({ sendQuery }) => {
-  const { clearFilters } = useContext(CollectionContext);
+  const { clearFilters } = useContext(AccountContext);
 
   return (
     <FilterActionsStyled>

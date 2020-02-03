@@ -1,5 +1,5 @@
 import React from 'react';
-import { withTheme } from 'styled-components';
+import styled, { withTheme, css } from 'styled-components';
 import Loader from 'react-loader-spinner';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
@@ -18,7 +18,21 @@ const Spinner = props => {
     color = props.theme.textColorLight;
   }
 
-  return <Loader type="Watch" color={color} height={height} width={width} />;
+  return (
+    <SpinnerStyled {...props}>
+      <Loader type="Watch" color={color} height={height} width={width} />
+    </SpinnerStyled>
+  );
 };
+
+const SpinnerStyled = styled.div`
+  ${props => {
+    if (props.flex)
+      return css`
+        flex: 1;
+        justify-content: center;
+      `;
+  }}
+`;
 
 export default withTheme(Spinner);

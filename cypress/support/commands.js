@@ -33,7 +33,9 @@ Cypress.Commands.add('login', () => {
 });
 
 Cypress.Commands.add('goToMessagesList', () => {
-  cy.get('[data-cy="collections_list_item"]')
+  cy.get('[data-cy="accounts_list_item"]')
     .first()
-    .click();
+    .within(() => {
+      cy.get('[data-cy="account-detail-dot-menu"]').click({ force: true });
+    });
 });

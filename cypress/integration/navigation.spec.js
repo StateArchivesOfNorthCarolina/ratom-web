@@ -1,8 +1,8 @@
 /* eslint-disable no-undef */
 import { AUTH_TOKEN, USER } from '../../src/constants/localStorageConstants';
 
-const accountsRegex = /collections\/(\d+)/;
-const messagesRegex = /collections\/(\d+)\/messages\/(\d+)/;
+const accountsRegex = /accounts\/(\d+)/;
+const messagesRegex = /accounts\/(\d+)\/messages\/(\d+)/;
 
 describe('Navigation and basic access control', () => {
   it('visiting "/" returns login page when localStorage is clear', () => {
@@ -23,18 +23,16 @@ describe('Navigation and basic access control', () => {
   });
 
   describe('after successful login', () => {
-    it('navigating to "/" when `localStorage` contains `token` displays collections list', () => {
+    it('navigating to "/" when `localStorage` contains `token` displays accounts list', () => {
       cy.login();
       cy.location('pathname').should('include', '/');
 
-      cy.contains('My Collections');
+      cy.contains('My Accounts');
     });
 
-    it('clicking on a `collection` sends user to `Messages List`', () => {
+    it('clicking on a `account` sends user to `Messages List`', () => {
       cy.wait(500); // Wait half a sec for the animations to finish.
-      cy.get('[data-cy="collections_list_item"]')
-        .first()
-        .click();
+      cy.goToMessagesList();
 
       cy.location('pathname').should('match', accountsRegex);
     });
@@ -56,7 +54,7 @@ describe('Navigation and basic access control', () => {
       cy.location('pathname').should('match', accountsRegex);
     });
 
-    it('clicking the `Back Button` from `Messages List` sends user back to `Collections List', () => {
+    it('clicking the `Back Button` from `Messages List` sends user back to `Accounts List', () => {
       cy.wait(500);
       cy.get('[data-cy="back_button"]').click();
 
@@ -70,23 +68,23 @@ describe('Explicit url access control', () => {
     cy.clearLocalStorage();
   });
 
-  it("unauthorized user attempting to access '/collections/1' is redirected to login", () => {
-    cy.visit('/collections/1');
+  it("unauthorized user attempting to access '/accounts/1' is redirected to login", () => {
+    cy.visit('/accounts/1');
     cy.get('[data-cy="signin_button"]');
-    cy.location('pathname').should('include', 'collections/1');
+    cy.location('pathname').should('include', 'accounts/1');
   });
 
-  it("unauthorized user attempting to access '/collections/1/messages/1' is redirected to login", () => {
-    cy.visit('/collections/1/messages/1');
+  it("unauthorized user attempting to access '/accounts/1/messages/1' is redirected to login", () => {
+    cy.visit('/accounts/1/messages/1');
     cy.get('[data-cy="signin_button"]');
-    cy.location('pathname').should('include', 'collections/1/messages/1');
+    cy.location('pathname').should('include', 'accounts/1/messages/1');
   });
 
-  it("authorizing from '/collections/1/messages/1' sends user to `Message Detail`, not '/'", () => {
+  it("authorizing from '/accounts/1/messages/1' sends user to `Message Detail`, not '/'", () => {
     localStorage.setItem(AUTH_TOKEN, '1234.abcd.4321');
     localStorage.setItem(USER, JSON.stringify({ id: 1, firstName: 'Test', lastName: 'User' }));
 
     cy.reload();
-    cy.location('pathname').should('include', '/collections/1/messages/1');
+    cy.location('pathname').should('include', '/accounts/1/messages/1');
   });
 });

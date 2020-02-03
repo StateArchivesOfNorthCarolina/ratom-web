@@ -2,15 +2,15 @@ import React from "react";
 import styled from "styled-components";
 import { borderSeparator } from "../../../styles/styleVariables";
 
-const CollectionsHeader = props => {
+const AccountsHeader = props => {
   return (
-    <CollectionsHeaderStyled>
-      <h2>My Collections</h2>
-    </CollectionsHeaderStyled>
+    <AccountsHeaderStyled>
+      <h2>My Accounts</h2>
+    </AccountsHeaderStyled>
   );
 };
 
-const CollectionsHeaderStyled = styled.header`
+const AccountsHeaderStyled = styled.header`
   height: 9rem;
   width: 100%;
   padding: 1.2rem 1rem 1rem 1rem;
@@ -21,4 +21,4 @@ const CollectionsHeaderStyled = styled.header`
   border-bottom: ${borderSeparator};
 `;
 
-export default CollectionsHeader;
+export default AccountsHeader;
