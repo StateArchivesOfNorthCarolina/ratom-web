@@ -15,6 +15,10 @@ all:
         k8s_container_port: 80
         k8s_container_ingress_paths:
           - /
+        # Only deploy web container from this repo
+        k8s_templates:
+          - name: web.yaml.j2
+            state: present
       hosts:
         caktus-ratom:
           env_name: staging
