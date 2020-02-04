@@ -6,6 +6,7 @@ const ActionButton = ({ children, ...props }) => {
 };
 
 const ActionButtonStyled = styled.button`
+  background-color: ${props => props.theme.primaryBackground};
   min-width: 20rem;
   border-radius: 4px;
   border: 2px solid ${props => props.theme.colorPrimary};
