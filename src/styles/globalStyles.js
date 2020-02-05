@@ -21,9 +21,8 @@ const GlobalStyle = createGlobalStyle`
     }
 
     h1 {
-        height: 40px;
         font-family: Montserrat;
-        font-size: 26px;
+        font-size: 2.6rem;
         font-weight: normal;
         font-stretch: normal;
         font-style: normal;
