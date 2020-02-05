@@ -7,6 +7,7 @@ const ButtonStyled = styled.button`
   padding: 1rem 2rem;
   font-weight: bold;
   border-radius: ${borderRadius};
+  background-color: white;
 
   opacity: ${props => (props.disabled ? 0.6 : 1)};
   font-size: ${props => (props.small ? '1rem' : '1.5rem')};
@@ -20,7 +21,7 @@ const ButtonStyled = styled.button`
     }
 
     if (props.neutral) {
-      return props.theme.colorWhite;
+      return props.theme.backgroundPrimary;
     }
 
     if (props.negative) {
