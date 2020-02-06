@@ -3,16 +3,13 @@ import styled from 'styled-components';
 
 // Components
 import Button from '../../../../../Components/Buttons/Button';
+import RecordStatusWidget from '../../../../../Components/Widgets/RecordStatusWidget';
 
 const MessageListItemContentRight = ({ handleSelectMessage }) => {
   return (
     <ContentRight>
-      <ButtonStyled
-        small
-        neutral
-        onClick={handleSelectMessage}
-        data-cy="messages_list_item_view_button"
-      >
+      <RecordStatusWidget value={'open_record'} onChange={() => {}} />
+      <ButtonStyled neutral onClick={handleSelectMessage} data-cy="messages_list_item_view_button">
         View
       </ButtonStyled>
     </ContentRight>
@@ -22,11 +19,12 @@ const MessageListItemContentRight = ({ handleSelectMessage }) => {
 const ContentRight = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  align-items: center;
+  margin-right: 2rem;
 `;
 
 const ButtonStyled = styled(Button)`
-  align-self: center;
+  margin-left: 4rem;
 `;
 
 export default MessageListItemContentRight;
