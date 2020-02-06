@@ -30,18 +30,18 @@ const RecordStatusWidget = ({ value = 'open_record', onChange }) => {
           onClick: () => handleSelectOption('open_record')
         },
         {
-          display: 'Non-record',
-          onClick: () => handleSelectOption('non-record')
-        }
-      ],
-      caution: [
-        {
           display: 'Redacted',
           onClick: () => handleSelectOption('redacted')
         },
         {
           display: 'Restricted',
           onClick: () => handleSelectOption('restricted')
+        }
+      ],
+      caution: [
+        {
+          display: 'Non-record',
+          onClick: () => handleSelectOption('non-record')
         }
       ]
     };
