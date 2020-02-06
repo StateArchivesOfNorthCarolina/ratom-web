@@ -17,7 +17,9 @@ const MessageListItemContentLeft = ({ message, checked, checkMessage }) => {
     <ContentLeft>
       <MessageCheckbox checked={checked} onChange={() => checkMessage(message.id)} />
       <InnerContent>
-        <h4>{message.subject}</h4>
+        <h4>
+          {message.subject} <span TEMPORARY>{message.score}</span>
+        </h4>
         <p>From: {message.msg_from}</p>
         <MessageHighlights>
           {getHighlights().map((h, i) => (
@@ -56,6 +58,17 @@ const InnerContent = styled.div`
 
   h4 {
     margin: 0;
+    min-width: 50%;
+    /* TEMP */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    span {
+      font-size: 1rem;
+      font-weight: normal;
+      color: lightgrey;
+    }
+    /* END TEMP */
   }
 
   > p {
@@ -63,8 +76,7 @@ const InnerContent = styled.div`
   }
 `;
 
-const MessageHighlights = styled.div`
-`;
+const MessageHighlights = styled.div``;
 
 const Highlight = styled.div`
   span {

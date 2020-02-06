@@ -17,6 +17,7 @@ import emptyQuery from './emptyQuery';
 import MessagesLayout from './MessagesLayout';
 import MessageMain from '../Message/MessageMain';
 import GenericNotFound from '../GenericNotFound';
+import keywordFilterBuilder from '../../../util/filterConstructors/keywordFilterBuilder';
 
 export const AccountContext = createContext(null);
 
@@ -80,9 +81,10 @@ const MessagesMain = () => {
   const constructQueryString = queryObj => {
     const { limit, offset, keywords, filters } = queryObj;
     const params = [];
+
     if (limit) params.push(`limit=${limit}`);
     if (offset) params.push(`offset=${offset}`);
-    if (keywords && keywords.length > 0) params.push(`search=${keywords.join('&search=')}`);
+    if (keywords && keywords.length > 0) params.push(keywordFilterBuilder(keywords));
     if (filters && filters.length > 0) params.push(''); // TODO: Implement
     return params.join('&');
   };
