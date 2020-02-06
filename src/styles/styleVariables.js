@@ -15,6 +15,8 @@ export const colorBadgeRed = '#df1642';
 
 export const colorCaution = 'red';
 
+export const colorHover = 'whitesmoke';
+
 /* FONT */
 export const fontPrimary = 'Montserrat, sans-serif';
 

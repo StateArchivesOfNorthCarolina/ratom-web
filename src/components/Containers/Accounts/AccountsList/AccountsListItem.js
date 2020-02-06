@@ -1,6 +1,9 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useContext } from 'react';
 import { motion } from 'framer-motion';
+import styled from 'styled-components';
+
+// Context
+import { AccountsContext } from '../AccountsMain';
 
 // Styles
 import { borderSeparator } from '../../../../styles/styleVariables';
@@ -8,7 +11,8 @@ import { borderSeparator } from '../../../../styles/styleVariables';
 // Children
 import AccountDetails from './AccountDetails';
 
-const AccountsListItem = ({ account, setAccount }) => {
+const AccountsListItem = ({ account, setAccount, ...props }) => {
+  const { selectAccount, setShowImportModal } = useContext(AccountsContext);
   const buildActions = () => {
     const actions = {
       normal: [
@@ -19,7 +23,8 @@ const AccountsListItem = ({ account, setAccount }) => {
         {
           display: 'Add a File',
           onClick: () => {
-            /* TODO: Implement */
+            selectAccount(account);
+            setShowImportModal(true);
           }
         }
       ],
@@ -36,13 +41,13 @@ const AccountsListItem = ({ account, setAccount }) => {
   };
 
   return (
-    <AccountsListItemStyled data-cy="accounts_list_item">
+    <AccountsListItemStyled {...props} data-cy="accounts_list_item">
       <AccountDetails account={account} actions={buildActions()} />
     </AccountsListItemStyled>
   );
 };
 
-const AccountsListItemStyled = styled.div`
+const AccountsListItemStyled = styled(motion.div)`
   padding: 1.5rem 3rem;
   border-bottom: ${borderSeparator};
 

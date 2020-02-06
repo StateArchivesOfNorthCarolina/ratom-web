@@ -31,8 +31,7 @@ const AppStyled = styled.div`
 const alertOptions = {
   timeout: ALERT_TIMEOUT,
   position: positions.TOP_CENTER,
-  transitions: transitions.FADE,
-  containerStyle: { top: '7rem' }
+  transitions: transitions.FADE
 };
 
 const App = () => {
@@ -41,7 +40,7 @@ const App = () => {
     <ThemeProvider theme={THEME}>
       <GlobalStyle />
       <BrowserRouter>
-        <AlertProvider template={Alert} alertOptions={alertOptions}>
+        <AlertProvider template={Alert} {...alertOptions}>
           <AuthProvider>
             <AppStyled>
               <PrivateRoute path="/" component={MainLayout} />

@@ -7,17 +7,11 @@ import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import { boxShadow, colorWhite, colorPrimary } from '../../../styles/styleVariables';
 import DropdownMenu from './DropdownMenu';
 import ClickableOverlay from '../ClickableOverlay';
+import useKeyPress from '../../Hooks/useKeyPress';
 
 const DotMenu = ({ actions, hidden, ...props }) => {
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    function handleKeyPress(e) {
-      if (e.key === 'Escape') setOpen(false);
-    }
-    window.addEventListener('keyup', handleKeyPress);
-    return () => window.removeEventListener('keyup', handleKeyPress);
-  }, []);
+  useKeyPress('Escape', () => setOpen(false));
 
   return (
     <>
@@ -25,7 +19,7 @@ const DotMenu = ({ actions, hidden, ...props }) => {
         <DotMenuStyled onClick={() => setOpen(!open)} open={open}>
           <IconStyled icon={faEllipsisH} open={open} />
         </DotMenuStyled>
-        {open && <Menu open={open} actions={actions} />}
+        {open && <Menu open={open} setOpen={setOpen} actions={actions} />}
       </DotMenuWrapper>
       <ClickableOverlay onClick={() => setOpen(false)} open={open} />
     </>
