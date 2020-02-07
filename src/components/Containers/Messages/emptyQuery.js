@@ -1,4 +1,5 @@
 export default {
   keywords: [],
-  filters: []
+  tags: [],
+  processedStatus: 'All'
 };

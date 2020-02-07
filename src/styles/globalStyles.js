@@ -32,47 +32,62 @@ const GlobalStyle = createGlobalStyle`
     }
 
     h2 {
+        font-family: Montserrat;
         font-size: 2rem;
         font-weight: bold;
-        color: ${props => props.theme.textColorPrimary};
+        color: ${vars.colorBlack};
         line-height: 1.6;
     }
 
     h3 {
+        font-family: Montserrat;
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: ${vars.colorBlackLight};
         line-height: 1.6;
+        margin: 0;
     }
     
     h4 {
+        font-family: Montserrat;
         font-size: 1.5rem;
         font-weight: bold;
-        color: ${props => props.theme.textColorPrimary};
+        color: ${vars.colorBlack};
         line-height: 1.6;
     }
 
     h5 {
+        font-family: Montserrat;
         font-size: 1.2rem;
         font-weight: bold;
-        color: ${props => props.theme.textColorPrimary};
+        color: ${vars.colorBlack};
         line-height: 1.6;
     }
 
     p {
+        font-family: Montserrat;
         margin: 0;
         font-size: 1.2rem;
         line-height: 1.6;
-        color: ${props => props.theme.textColorSecondary};
+        color: ${vars.colorBlackLight};
         line-height: 1.6;
     }
 
     ul, li {
+        font-family: Montserrat;
         padding: 0;
         margin: 0;
         list-style: none;
     }
 
+    button {
+        font-family: Montserrat;
+    }
+
     input, textarea {
+        font-family: Montserrat;
         font-size: 1.5rem;
-        color: ${props => props.theme.textColorSecondary}
+        color: ${vars.colorBlackLight}
     }
 `;
 

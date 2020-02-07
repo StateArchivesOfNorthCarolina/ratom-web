@@ -7,6 +7,7 @@ import FilterActions from './FilterActions';
 
 // Context
 import { AccountContext } from '../MessagesMain';
+import ProcessedStatusFilter from './ProcessedStatusFilter/ProcessedStatusFilter';
 
 const FilterPanel = () => {
   const { setQuery, filterQuery, setFilterQuery } = useContext(AccountContext);
@@ -19,6 +20,7 @@ const FilterPanel = () => {
   return (
     <FilterPanelStyled>
       <SearchKeywords buildQuery={setFilterQuery} filterQuery={filterQuery} sendQuery={sendQuery} />
+      <ProcessedStatusFilter buildQuery={setFilterQuery} filterQuery={filterQuery} />
       <FilterActions sendQuery={sendQuery} />
     </FilterPanelStyled>
   );

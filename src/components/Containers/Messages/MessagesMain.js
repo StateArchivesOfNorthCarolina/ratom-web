@@ -78,13 +78,21 @@ const MessagesMain = () => {
     }
   };
 
+  const getProcessedParam = processedStatus => {
+    let status = false;
+    if (processedStatus === 'All') return '';
+    if (processedStatus === 'Processed') status = true;
+    return `processed=${status}`;
+  };
+
   const constructQueryString = queryObj => {
-    const { limit, offset, keywords, filters } = queryObj;
+    const { limit, offset, keywords, tags, processedStatus } = queryObj;
     const params = [];
     if (limit) params.push(`limit=${limit}`);
     if (offset) params.push(`offset=${offset}`);
     if (keywords && keywords.length > 0) params.push(`search=${keywords.join('&search=')}`);
-    if (filters && filters.length > 0) params.push(''); // TODO: Implement
+    if (tags && tags.length > 0) params.push(''); // TODO: Implement
+    if (processedStatus) params.push(getProcessedParam(processedStatus));
     return params.join('&');
   };
 
