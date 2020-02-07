@@ -27,7 +27,7 @@
 Cypress.Commands.add('login', () => {
   cy.clearLocalStorage();
   cy.visit('/');
-  cy.get('[data-cy="login_email"]').type('test_user');
+  cy.get('[data-cy="login_email"]').type('test@user.com');
   cy.get('[data-cy="login_password"]').type('testing');
   cy.get('[data-cy="signin_button"]').click();
 });

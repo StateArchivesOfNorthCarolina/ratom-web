@@ -13,9 +13,10 @@ import Input from '../../Components/Inputs/Input';
 import Button from '../../Components/Buttons/Button';
 import Spinner from '../../Components/Loading/Spinner';
 import FormErrors from '../../Components/Form/FormErrors';
+import Logo from '../../Components/Logo';
 
 const Login = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { onLogin } = useAuthContext();
 
@@ -24,7 +25,7 @@ const Login = () => {
   const handleSignIn = () => {
     executeLogin({
       method: 'post',
-      data: { username, password }
+      data: { email, password }
     });
   };
 
@@ -37,42 +38,45 @@ const Login = () => {
 
   useEffect(() => {
     if (error) {
-      setUsername('');
+      setEmail('');
       setPassword('');
     }
   }, [error]);
 
   return (
     <LoginStyled>
-      <h1>Login!</h1>
+      <Logo large />
       <LoginWrapper>
-        <Input
-          label="Email Address"
-          type="username"
-          onChange={e => setUsername(e.target.value)}
-          value={username}
-          data-cy="login_email"
-          onEnterKey={handleSignIn}
-        />
-        <Input
-          label="Password"
-          type="password"
-          onChange={e => setPassword(e.target.value)}
-          value={password}
-          data-cy="login_password"
-          onEnterKey={handleSignIn}
-        />
-        <FormErrors errors={[error && error.response.data.detail]} />
+        <h4>Sign in to RATOM</h4>
+        <div>
+          <InputStyled
+            label="Email Address"
+            type="email"
+            onChange={e => setEmail(e.target.value)}
+            value={email}
+            data-cy="login_email"
+            onEnterKey={handleSignIn}
+          />
+          <Input
+            label="Password"
+            type="password"
+            onChange={e => setPassword(e.target.value)}
+            value={password}
+            data-cy="login_password"
+            onEnterKey={handleSignIn}
+          />
+          <FormErrors errors={[error && error.response.data.detail]} />
+        </div>
 
-        <Button
+        <ButtonStyled
           postitive
           block
           onClick={handleSignIn}
-          disabled={!username.trim() && !password.trim()}
+          disabled={!email.trim() && !password.trim()}
           data-cy="signin_button"
         >
           {loading ? <Spinner /> : 'Sign in'}
-        </Button>
+        </ButtonStyled>
       </LoginWrapper>
     </LoginStyled>
   );
@@ -81,20 +85,35 @@ const Login = () => {
 export default Login;
 
 const LoginStyled = styled.main`
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
 
   h1 {
+    margin-top: 4rem;
   }
 `;
 
 const LoginWrapper = styled.div`
   width: 40rem;
-  min-height: 30rem;
+  min-height: 40rem;
   padding: 4rem;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+
+  h4 {
+    margin: 4rem 0;
+    text-align: center;
+  }
+`;
+
+const InputStyled = styled(Input)`
+  margin-bottom: 3rem;
+`;
+
+const ButtonStyled = styled(Button)`
+  margin-top: 3rem;
 `;

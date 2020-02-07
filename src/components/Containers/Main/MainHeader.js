@@ -1,7 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { boxShadow, standardPadding } from "../../../styles/styleVariables";
-import Logo from "../../Components/Logo";
+import React from 'react';
+import styled from 'styled-components';
+import { boxShadow, standardPadding } from '../../../styles/styleVariables';
+import Logo from '../../Components/Logo';
+import { useAuthContext } from '../../Context/auth-provider';
 
 /**
  * MainHeader needs to know:
@@ -13,9 +14,11 @@ import Logo from "../../Components/Logo";
  */
 
 const MainHeader = props => {
+  const { onLogout } = useAuthContext();
   return (
     <MainHeaderStyled>
       <Logo />
+      <p onClick={onLogout}>Logout [temp]</p>
     </MainHeaderStyled>
   );
 };
@@ -27,6 +30,7 @@ const MainHeaderStyled = styled.header`
 
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   align-items: center;
   padding: ${standardPadding};
 `;
