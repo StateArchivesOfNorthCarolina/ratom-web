@@ -20,7 +20,7 @@ import Button from '../../Components/Buttons/Button';
 const AccountImportModal = ({ closeModal, ...props }) => {
   const alert = useAlert();
   const [loading, setLoading] = useState(false);
-  const [name, setName] = useState('');
+  const [title, setName] = useState('');
   const [description, setDescription] = useState('');
   const [url, setUrl] = useState('');
 
@@ -70,12 +70,12 @@ const AccountImportModal = ({ closeModal, ...props }) => {
 
   const getImportDisabled = () => {
     // TODO: can possibly do a bit more validation here once we know how this is reall going to work
-    return loading || !(name && description && url);
+    return loading || !(title && description && url);
   };
 
   const handleImportAccount = () => {
     // TODO: Do the importing business here
-    _createAccout({ name, description, url });
+    _createAccout({ title, description, url });
   };
 
   return (
@@ -90,7 +90,7 @@ const AccountImportModal = ({ closeModal, ...props }) => {
           <div>
             <InputStyled
               label="Name the account"
-              value={name}
+              value={title}
               onChange={e => setName(e.target.value)}
             />
             <TextAreaStyled
