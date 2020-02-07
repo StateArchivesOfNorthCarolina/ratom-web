@@ -1,5 +1,11 @@
 ansible_connection: local
 k8s_namespace: "ratom-{{ env_name }}"
+# Only deploy web container from this repo
+k8s_templates:
+  - name: web.yaml.j2
+    state: present
+
+# App
 k8s_container_name: web
 k8s_container_image: govsanc/ratom-web
 k8s_container_image_tag: latest
@@ -11,7 +17,3 @@ k8s_container_resources:
 k8s_container_port: 80
 k8s_container_ingress_paths:
   - /
-# Only deploy web container from this repo
-k8s_templates:
-  - name: web.yaml.j2
-    state: present
