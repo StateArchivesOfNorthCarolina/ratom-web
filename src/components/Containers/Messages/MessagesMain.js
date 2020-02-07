@@ -23,8 +23,8 @@ export const AccountContext = createContext(null);
 // TODO: Good candidate for a Reducer.
 
 const MessagesMain = () => {
-  const [account, setAccount] = useState();
   const { accountId } = useParams();
+  const [account, setAccount] = useState();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
   const [messages, setMessages] = useState();
@@ -51,8 +51,9 @@ const MessagesMain = () => {
 
   const searchMessages = () => {
     setLoading(true);
+    const accountParam = `account=${accountId}&`;
     const queryParams = constructQueryString(query);
-    const url = SEARCH_MESSAGES + queryParams;
+    const url = SEARCH_MESSAGES + accountParam + queryParams;
     Axios.get(url)
       .then(response => {
         updateResults(response.data);
