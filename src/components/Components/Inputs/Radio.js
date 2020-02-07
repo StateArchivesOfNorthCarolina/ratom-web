@@ -17,7 +17,7 @@ const Radio = ({ name, options, selected, onChange, ...props }) => {
           />
           <OptionLabel htmlFor={option.accessor}>
             {option.name}
-            {option.extra && <span>({option.extra})</span>}
+            {option.extra && <span data-cy="processed_status_count">({option.extra})</span>}
           </OptionLabel>
         </Option>
       ))}

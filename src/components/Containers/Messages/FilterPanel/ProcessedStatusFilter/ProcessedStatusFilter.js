@@ -52,7 +52,7 @@ const ProcessedStatusFilter = props => {
   }, [facets._filter_processed]);
 
   return (
-    <ProcessedStatusFilterStyled>
+    <ProcessedStatusFilterStyled data-cy="processed_status_widget">
       <h3>Message processed status</h3>
       <RadioStyled
         options={options}
