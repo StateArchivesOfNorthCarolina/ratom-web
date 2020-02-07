@@ -1,7 +1,7 @@
 import React, { useContext, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
-  LIST_VARIANTS,
+  FAST_LIST_VARIANTS,
   LIST_ITEM_VARIANTS
 } from '../../../../Components/Animated/animationConstants';
 import styled from 'styled-components';
@@ -35,7 +35,7 @@ const MessagesList = () => {
       initial="initial"
       animate="enter"
       exit="exit"
-      variants={LIST_VARIANTS}
+      variants={FAST_LIST_VARIANTS}
     >
       {messages.map((message, i) => (
         <MessageListItem key={message.id} message={message} i={i} variants={LIST_ITEM_VARIANTS} />
