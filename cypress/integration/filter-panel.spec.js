@@ -1,16 +1,27 @@
-import { FILTER_QUERY } from '../../src/constants/localStorageConstants';
-
 describe('Filter panel behavior', () => {
+  const accountId = 1;
+  const accountParam = `account=${accountId}&`;
   before(() => {
     cy.login();
+    cy.server();
+    cy.route('GET', `/api/v1/messages/?${accountParam}`).as('queryMessages');
+  });
+
+  describe('Limit to account', () => {
+    it('having selected an account to view, filtering messages returns only messages from that account', () => {
+      cy.goToMessagesList();
+      cy.url().should('include', `/accounts/${accountId}`);
+      cy.wait('@queryMessages');
+      cy.get('@queryMessages').should(request => {
+        const queryParams = request.url.split('?')[1];
+        expect(queryParams).to.eq(accountParam);
+      });
+    });
   });
 
   describe('Keyword search', () => {
     const keywordSearchTerm = 'test';
-    const expectedQueryParams = 'search=' + keywordSearchTerm;
-    before(() => {
-      cy.goToMessagesList();
-    });
+    const expectedQueryParams = accountParam + 'search=' + keywordSearchTerm;
 
     it('typing a keyword into the input and clicking the button adds a keyword to the list', () => {
       cy.get('[data-cy="keyword_search"]').within(() => {
@@ -59,11 +70,11 @@ describe('Filter panel behavior', () => {
       cy.server();
       // Despite how this looks-- this actually sets up a "listener" for requests
       // made that fit the options given.
-      cy.route('GET', `/api/v1/messages/?search=${keywordSearchTerm}`).as('queryMessages');
+      cy.route('GET', `/api/v1/messages/?${expectedQueryParams}`).as('filterMessages');
       // hitting shift+enter actually executes the query
       cy.get('[data-cy="keyword_search_input"]').type('{shift}{enter}');
-      cy.wait('@queryMessages');
-      cy.get('@queryMessages').should(request => {
+      cy.wait('@filterMessages');
+      cy.get('@filterMessages').should(request => {
         const queryParams = request.url.split('?')[1];
         expect(queryParams).to.eq(expectedQueryParams);
       });
