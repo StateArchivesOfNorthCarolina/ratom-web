@@ -64,7 +64,7 @@ const AccountImportModal = ({ closeModal, isVisible }) => {
 
   const _updateAccount = account => {
     setLoading(true);
-    Axios.put(UPDATE_ACCOUNT + account.id, account)
+    Axios.put(`${UPDATE_ACCOUNT}${accountSelected.id}/`, account)
       .then(response => {
         console.log('Response from update account: ', response);
         alert.show(`${filename} is being imported. Check the Accounts List for progress updates.`, {
