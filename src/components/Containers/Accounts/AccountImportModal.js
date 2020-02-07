@@ -20,7 +20,7 @@ import Button from '../../Components/Buttons/Button';
 const AccountImportModal = ({ closeModal, ...props }) => {
   const alert = useAlert();
   const [loading, setLoading] = useState(false);
-  const [title, setName] = useState('');
+  const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [url, setUrl] = useState('');
 
@@ -47,7 +47,7 @@ const AccountImportModal = ({ closeModal, ...props }) => {
       .then(response => {
         console.log('Response from create account: ', response);
         setLoading(false);
-        setName('');
+        setTitle('');
         setDescription('');
         setUrl('');
         alert.show(
@@ -91,7 +91,7 @@ const AccountImportModal = ({ closeModal, ...props }) => {
             <InputStyled
               label="Name the account"
               value={title}
-              onChange={e => setName(e.target.value)}
+              onChange={e => setTitle(e.target.value)}
             />
             <TextAreaStyled
               label="Provide a description"
