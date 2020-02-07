@@ -45,10 +45,10 @@ const Login = () => {
 
   return (
     <LoginStyled>
-      <Logo large />
+      <LogoStyled large />
       <LoginWrapper>
         <h4>Sign in to RATOM</h4>
-        <div>
+        <InputsWrapper>
           <InputStyled
             label="Email Address"
             type="email"
@@ -66,7 +66,7 @@ const Login = () => {
             onEnterKey={handleSignIn}
           />
           <FormErrors errors={[error && error.response.data.detail]} />
-        </div>
+        </InputsWrapper>
 
         <ButtonStyled
           postitive
@@ -84,16 +84,16 @@ const Login = () => {
 
 export default Login;
 
+const LogoStyled = styled(Logo)`
+  margin-top: 14rem;
+`;
+
 const LoginStyled = styled.main`
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-
-  h1 {
-    margin-top: 4rem;
-  }
 `;
 
 const LoginWrapper = styled.div`
@@ -108,6 +108,10 @@ const LoginWrapper = styled.div`
     margin: 4rem 0;
     text-align: center;
   }
+`;
+
+const InputsWrapper = styled.div`
+  margin-top: 4rem;
 `;
 
 const InputStyled = styled(Input)`
