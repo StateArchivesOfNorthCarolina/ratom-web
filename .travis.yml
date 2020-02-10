@@ -2,11 +2,16 @@ language: python
 
 cache: pip
 
+cache:
+  pip: true
+  directories:
+    - ~/.cache
+
 services:
   - docker
 
 python:
-  - "3.7"
+  - '3.7'
 
 env:
   global:
@@ -15,13 +20,15 @@ env:
 
 install:
   - pip install -r deployment/requirements.txt
+  - npm ci
 
 before_script:
   # Build container for this commit before tests run
   - docker build --pull -t govsanc/ratom-web .
+  - npm run start:ci -- --silent &
 
 script:
-  - echo 0
+  - npm run cypress:run
 
 before_deploy:
   # Install kubectl using Google SDK
