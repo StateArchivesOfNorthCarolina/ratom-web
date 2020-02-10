@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
+import { colorPrimary } from '../../../styles/styleVariables';
 
 // Context
 import { MessageContext } from './MessageMain';
@@ -10,10 +11,10 @@ const MessageDetail = () => {
   return (
     <MessageDetailStyled>
       <MessageContent>
-        <h3>{message.subject}</h3>
-        <p>{message.msg_to}</p>
-        <p>{message.msg_from}</p>
-        <p>{message.body}</p>
+        <Subject dangerouslySetInnerHTML={{ __html: message.highlighted_subject }} />
+        <ToText>{message.msg_to}</ToText>
+        <FromText>{message.msg_from}</FromText>
+        <BodyText dangerouslySetInnerHTML={{ __html: message.highlighted_body }} />
       </MessageContent>
     </MessageDetailStyled>
   );
@@ -30,6 +31,22 @@ const MessageDetailStyled = styled.div`
 const MessageContent = styled.div`
   display: flex;
   flex-direction: column;
+`;
+
+const Subject = styled.h3`
+  strong {
+    color: ${colorPrimary};
+  }
+`;
+
+const ToText = styled.p``;
+
+const FromText = styled.p``;
+
+const BodyText = styled.p`
+  strong {
+    color: ${colorPrimary};
+  }
 `;
 
 export default MessageDetail;

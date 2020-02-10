@@ -1,8 +1,11 @@
-import React, { createContext } from 'react';
+import React, { useState, createContext, useContext, useEffect } from 'react';
 import styled from 'styled-components';
 
+// Context
+import { AccountContext } from '../Messages/MessagesMain';
+
 // Axios
-import useAxios from '../../Hooks/useAxios';
+import Axios from '../../../services/axiosConfig';
 import { SHOW_MESSAGE } from '../../../services/requests';
 
 // Router
@@ -17,11 +20,31 @@ import Spinner from '../../Components/Loading/Spinner';
 export const MessageContext = createContext();
 
 const MessageMain = () => {
+  const { query } = useContext(AccountContext);
   const { messageId } = useParams();
-  const [{ loading, data }] = useAxios(SHOW_MESSAGE + `${messageId}/`);
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState({});
+
+  useEffect(() => {
+    setLoading(true);
+    const { keywords } = query;
+    const url =
+      keywords && keywords.length > 0
+        ? `${SHOW_MESSAGE}${messageId}/?highlights=${keywords.join(',')}`
+        : `${SHOW_MESSAGE}${messageId}/`;
+    Axios.get(url)
+      .then(response => {
+        console.log(response);
+        setMessage(response.data);
+        setLoading(false);
+      })
+      .catch(error => {
+        setLoading(false);
+      });
+  }, [messageId]);
 
   const messageContext = {
-    message: data || {}
+    message
   };
 
   return (

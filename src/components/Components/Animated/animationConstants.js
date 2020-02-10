@@ -6,6 +6,11 @@ export const LIST_VARIANTS = {
   exit: { transition: { staggerChildren: 0.1 } }
 };
 
+export const FAST_LIST_VARIANTS = {
+  enter: { transition: { staggerChildren: 0.03 } },
+  exit: { transition: { staggerChildren: 0.03 } }
+};
+
 export const LIST_ITEM_VARIANTS = {
   initial: { y: 15, opacity: 0 },
   enter: { y: 0, opacity: 1, transition: DEFAULT_TRANSITION },

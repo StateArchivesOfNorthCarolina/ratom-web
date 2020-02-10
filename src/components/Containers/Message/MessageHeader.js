@@ -7,17 +7,29 @@ import { useHistory } from 'react-router-dom';
 
 // Components
 import BackButton from '../../Components/Buttons/BackButton';
+import MessageStepper from './MessageStepper';
+import RecordStatusWidget from '../../Components/Widgets/RecordStatusWidget';
 
 const MessageHeader = () => {
   const history = useHistory();
   return (
     <MessageHeaderStyled>
-      <BackButton onClick={() => history.goBack()} />
+      <ContentLeft>
+        <BackButton onClick={() => history.goBack()} />
+      </ContentLeft>
+      <ContentCenter>
+        <MessageStepper />
+      </ContentCenter>
+      <ContentRight>
+        <RecordStatusWidget value={'open_record'} onChange={() => {}} />
+      </ContentRight>
     </MessageHeaderStyled>
   );
 };
 
 const MessageHeaderStyled = styled.header`
+  position: relative;
+
   height: 8.5rem;
   width: 100%;
   padding: ${standardPadding};
@@ -26,6 +38,19 @@ const MessageHeaderStyled = styled.header`
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
+`;
+
+const ContentLeft = styled.div`
+  position: absolute;
+  left: 3rem;
+`;
+
+const ContentCenter = styled.div``;
+
+const ContentRight = styled.div`
+  position: absolute;
+  right: 3rem;
 `;
 
 export default MessageHeader;
