@@ -1,0 +1,5 @@
+k8s_kube_context: caktus-ratom
+k8s_domain_names:
+  - ratom-caktus-aks.caktus-built.com
+k8s_auth_host: https://caktus-rat-ratom-group-6f7c54-330fa609.hcp.eastus.azmk8s.io:443
+k8s_auth_ssl_ca_cert: "certs/caktus-ratom.pem"

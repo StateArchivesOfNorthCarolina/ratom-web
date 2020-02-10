@@ -27,7 +27,7 @@
 Cypress.Commands.add('login', () => {
   cy.clearLocalStorage();
   cy.visit('/');
-  cy.get('[data-cy="login_email"]').type('test_user');
+  cy.get('[data-cy="login_email"]').type('test@user.com');
   cy.get('[data-cy="login_password"]').type('testing');
   cy.get('[data-cy="signin_button"]').click();
 });
@@ -36,18 +36,8 @@ Cypress.Commands.add('goToMessagesList', () => {
   cy.get('[data-cy="accounts_list_item"]')
     .first()
     .within(() => {
-      cy.get('[data-cy="account-detail-dot-menu"]').click({ force: true });
-
-      cy.get('[data-cy="dropdown-menu"]')
-        .children()
-        .first()
-        .within(() => {
-          cy.contains('View').click({ force: true });
-        });
-      // .children()
-      // .first()
-      // .first()
-      // .children()
-      // .click({ force: true });
+      cy.get('[data-cy="account-detail-dot-menu"]').click();
+      cy.wait(200);
+      cy.contains('View').click({ force: true });
     });
 });

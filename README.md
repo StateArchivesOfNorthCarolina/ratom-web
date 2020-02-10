@@ -18,12 +18,12 @@
 
 ### Deployment
 
-For deployment documentation, please see the [ratom_api](https://github.com/caktus/ratom_api#staging-environment) repo.
+For deployment documentation, please see the [ratom_server](https://github.com/StateArchivesOfNorthCarolina/ratom-server#deployment) repo.
 
 ### Test
 
 1. make sure cypress is installed (`npm i` should do the trick)
-2. if not already present, make sure there is a user `test_user` with password `testing`
+2. if not already present, make sure there is a user `test@user.com` with password `testing`
 3. npm run cypress:open
 
 To create new tests, open /cypress/integration and add a yourtests.spec.js file.
