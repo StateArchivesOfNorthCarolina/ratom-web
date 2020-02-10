@@ -31,7 +31,7 @@
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
     "cypress:run:record": "cypress run --record",
-    "start:ci": "http-server -p 8888 -c-1",
+    "start:ci": "http-server -p 3000 -c-1",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
