@@ -17,7 +17,7 @@ import emptyQuery from './emptyQuery';
 import MessagesLayout from './MessagesLayout';
 import MessageMain from '../Message/MessageMain';
 import GenericNotFound from '../GenericNotFound';
-import keywordFilterBuilder from '../../../util/filterConstructors/keywordFilterBuilder';
+import keywordFilterBuilderAND from '../../../util/filterConstructors/keywordFilterBuilderAND';
 
 export const AccountContext = createContext(null);
 
@@ -84,7 +84,7 @@ const MessagesMain = () => {
 
     if (limit) params.push(`limit=${limit}`);
     if (offset) params.push(`offset=${offset}`);
-    if (keywords && keywords.length > 0) params.push(keywordFilterBuilder(keywords));
+    if (keywords && keywords.length > 0) params.push(keywordFilterBuilderAND(keywords));
     if (filters && filters.length > 0) params.push(''); // TODO: Implement
     return params.join('&');
   };
