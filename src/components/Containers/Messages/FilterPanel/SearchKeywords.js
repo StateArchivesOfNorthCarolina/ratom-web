@@ -53,12 +53,12 @@ const SearchKeywords = ({ buildQuery, filterQuery, sendQuery, ...props }) => {
 
   return (
     <SearchKeywordsStyled {...props} data-cy="keyword_search">
+      <h3>Keywords</h3>
       <Input
         data-cy="keyword_search_input"
         type="text"
         icon="add"
         onIconClick={addKeyword}
-        label="Keyword Filter"
         onKeyDown={handleDeleteKeyPressed}
         onChange={e => setKeyword(e.target.value)}
         value={keyword}

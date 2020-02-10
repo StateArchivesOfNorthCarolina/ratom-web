@@ -19,7 +19,7 @@ describe('Filter panel behavior', () => {
     });
   });
 
-  describe('Keyword search', () => {
+  describe('Keyword filter', () => {
     const keywordSearchTerm = 'test';
     const expectedQueryParams = accountParam + 'search=' + keywordSearchTerm;
 
@@ -77,6 +77,48 @@ describe('Filter panel behavior', () => {
       cy.get('@filterMessages').should(request => {
         const queryParams = request.url.split('?')[1];
         expect(queryParams).to.eq(expectedQueryParams);
+      });
+    });
+  });
+
+  describe('Processed status filter', () => {
+    // grab '[data-cy="processed_status_count"]'
+    it('contains the correct status filters, and filters work', () => {
+      let unprocessedAmount;
+      cy.get('[data-cy="processed_status_widget"]').within(() => {
+        cy.contains('All');
+        cy.contains('Processed');
+        cy.contains('Unprocessed').within(() => {
+          cy.get('[data-cy="processed_status_count"]').should($span => {
+            // should have text
+            const text = $span.text();
+            expect(text);
+
+            // text should have a number
+            const matches = text.match(/(\d+)/);
+            expect(matches);
+            console.log('previous amount: ', matches[0]);
+            unprocessedAmount = matches[0];
+          });
+        });
+      });
+
+      cy.get('[data-cy="keyword_search_input"]').type('try');
+      cy.get('[data-cy="keyword_search_input"]').type('{enter}');
+      cy.get('[data-cy="keyword_search_input"]').type('{shift}{enter}');
+      cy.wait(500);
+
+      cy.get('[data-cy="processed_status_widget"]').within(() => {
+        cy.contains('Unprocessed').within(() => {
+          cy.get('[data-cy="processed_status_count"]').should($span => {
+            const text = $span.text();
+            expect(text);
+            const matches = text.match(/(\d+)/);
+            expect(matches);
+            // eventually, expect this to be less than, but for now not equal is fine.
+            expect(matches[0]).not.to.equal(unprocessedAmount);
+          });
+        });
       });
     });
   });
