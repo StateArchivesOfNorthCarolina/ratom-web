@@ -1,13 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
+import { colorBlackLight } from '../../../styles/styleVariables';
+
+// Context
+import { AccountsContext } from './AccountsMain';
 
 // Axios
 import Axios from '../../../services/axiosConfig';
-// import useAxios from '../../Hooks/useAxios';
-import { CREATE_ACCOUNT } from '../../../services/requests';
+import { CREATE_ACCOUNT, UPDATE_ACCOUNT } from '../../../services/requests';
 
 // Deps
 import { useAlert } from 'react-alert';
+
+// Hooks
+import useKeyPress from '../../Hooks/useKeyPress';
 
 // Children
 import AnimatedModal from '../../Components/Animated/AnimatedModal';
@@ -17,52 +23,60 @@ import Input from '../../Components/Inputs/Input';
 import TextArea from '../../Components/Inputs/TextArea';
 import Button from '../../Components/Buttons/Button';
 
-const AccountImportModal = ({ closeModal, ...props }) => {
+const AccountImportModal = ({ closeModal, isVisible }) => {
+  const { accountSelected, selectAccount } = useContext(AccountsContext);
   const alert = useAlert();
   const [loading, setLoading] = useState(false);
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [url, setUrl] = useState('');
+  const [title, setTitle] = useState();
+  // const [description, setDescription] = useState();
+  const [filename, setFilename] = useState();
+  useKeyPress('Escape', () => {
+    setLoading(false);
+    setTitle('');
+    // setDescription('');
+    setFilename('');
+    selectAccount();
+    closeModal();
+  });
 
-  // const [executeCreateAccount, { loading, error, data }] = useLazyAxios(createAccount, {
-  //   onCompleted(data) {
-  // setName('');
-  // setDescription('');
-  // setUrl('');
-  // alert.show('Your account is being imported. Check the Accounts List for progress updates.', {
-  //   type: 'success'
-  // });
-  // closeModal();
-  //   },
-  //   onError(error) {
-  // // This is an error in intial creation of Account, not in import process
-  // // TODO: What's in error? Would be nice to give the Account name in the alert
-  // alert.show('An error occured while trying to create this account.', { type: 'error' });
-  //   }
-  // });
-
-  const _createAccout = account => {
+  const _createAccount = account => {
     setLoading(true);
     Axios.post(CREATE_ACCOUNT, account)
       .then(response => {
         console.log('Response from create account: ', response);
-        setLoading(false);
-        setName('');
-        setDescription('');
-        setUrl('');
         alert.show(
-          'Your account is being imported. Check the Accounts List for progress updates.',
+          `${title} has been created, and ${filename} is being imported. Check the Accounts List for progress updates.`,
           {
             type: 'success'
           }
         );
-        closeModal();
+        closeImportModal();
       })
       .catch(error => {
         setLoading(false);
         // This is an error in intial creation of Account, not in import process
-        // TODO: What's in error? Would be nice to give the Account name in the alert
+        // TODO: What's in error? Would be nice to give the Account title in the alert
         alert.show('An error occured while trying to create this account.', {
+          type: 'error'
+        });
+      });
+  };
+
+  const _updateAccount = account => {
+    setLoading(true);
+    Axios.put(`${UPDATE_ACCOUNT}${accountSelected.id}/`, account)
+      .then(response => {
+        console.log('Response from update account: ', response);
+        alert.show(`${filename} is being imported. Check the Accounts List for progress updates.`, {
+          type: 'success'
+        });
+        closeImportModal();
+      })
+      .catch(error => {
+        setLoading(false);
+        // This is an error in intial creation of Account, not in import process
+        // TODO: What's in error? Would be nice to give the Account title in the alert
+        alert.show('An error occured while trying to add a file to this account.', {
           type: 'error'
         });
       });
@@ -70,40 +84,58 @@ const AccountImportModal = ({ closeModal, ...props }) => {
 
   const getImportDisabled = () => {
     // TODO: can possibly do a bit more validation here once we know how this is reall going to work
-    return loading || !(name && description && url);
+    return loading || (accountSelected ? !filename : !title || !filename);
   };
 
   const handleImportAccount = () => {
     // TODO: Do the importing business here
-    _createAccout({ name, description, url });
+    if (accountSelected) _updateAccount({ filename });
+    else _createAccount({ title, filename });
+  };
+
+  const closeImportModal = () => {
+    setLoading(false);
+    setTitle('');
+    // setDescription('');
+    setFilename('');
+    selectAccount();
+    closeModal();
   };
 
   return (
-    <AccountImportModalStyled {...props}>
+    <AccountImportModalStyled closeModal={closeImportModal} isVisible={isVisible}>
       <ModalHeader>
         <Logo />
-        <CloseButton onClick={closeModal} />
+        <CloseButton onClick={closeImportModal} />
       </ModalHeader>
       <ModalBody>
-        <h1>Import a new account</h1>
+        {accountSelected ? (
+          <h1>
+            Add a new file to <span>{accountSelected.title}</span>
+          </h1>
+        ) : (
+          <h1>Create a new account</h1>
+        )}
         <form>
+          {!accountSelected && (
+            <div>
+              <InputStyled
+                label="Name the account"
+                value={title}
+                onChange={e => setTitle(e.target.value)}
+              />
+              {/* <TextAreaStyled
+                label="Provide a description"
+                value={description}
+                onChange={e => setDescription(e.target.value)}
+              /> */}
+            </div>
+          )}
           <div>
             <InputStyled
-              label="Name the account"
-              value={name}
-              onChange={e => setName(e.target.value)}
-            />
-            <TextAreaStyled
-              label="Provide a description"
-              value={description}
-              onChange={e => setDescription(e.target.value)}
-            />
-          </div>
-          <div>
-            <InputStyled
-              label="Enter a URL to a .pst file"
-              value={url}
-              onChange={e => setUrl(e.target.value)}
+              label="Enter the name of the file to import"
+              value={filename}
+              onChange={e => setFilename(e.target.value)}
             />
           </div>
         </form>
@@ -138,21 +170,28 @@ const ModalBody = styled.main`
   display: flex;
   flex-direction: column;
 
+  h1 {
+    span {
+      color: ${colorBlackLight};
+    }
+  }
+
   form {
     flex: 1;
     display: flex;
     flex-direction: row;
+    justify-content: space-around;
     flex-wrap: wrap;
     padding: 4rem;
 
     & > div {
-      width: 50%;
+      width: 50rem;
     }
   }
 `;
 
 const InputStyled = styled(Input)`
-  max-width: 50rem;
+  /* max-width: 50rem; */
   margin-bottom: 2rem;
 `;
 

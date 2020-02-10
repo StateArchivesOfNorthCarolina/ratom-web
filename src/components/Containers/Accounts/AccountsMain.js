@@ -1,8 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 import styled from 'styled-components';
-
-// Deps
-import { useAlert } from 'react-alert';
 
 // Axios
 import Axios from '../../../services/axiosConfig';
@@ -13,11 +10,13 @@ import AccountsList from './AccountsList/AccountsList';
 import AccountImportModal from './AccountImportModal';
 import { LIST_ACCOUNTS } from '../../../services/requests';
 
+export const AccountsContext = createContext();
+
 const AccountsMain = () => {
-  const alert = useAlert();
   const [showImportModal, setShowImportModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [accounts, setAccounts] = useState([]);
+  const [accountSelected, setAccountSelected] = useState();
 
   const loadAccounts = () => {
     setLoading(true);
@@ -39,14 +38,26 @@ const AccountsMain = () => {
     }
   }, [showImportModal]);
 
+  const selectAccount = newAccountSelected => {
+    setAccountSelected(newAccountSelected);
+  };
+
+  const accountsContext = {
+    accountSelected,
+    selectAccount,
+    setShowImportModal
+  };
+
   return (
     <AccountsMainStyled>
-      <AccountsHeader openImportModal={() => setShowImportModal(true)} />
-      <AccountsList accounts={accounts} loadingAccounts={loading} />
-      <AccountImportModal
-        isVisible={showImportModal}
-        closeModal={() => setShowImportModal(false)}
-      />
+      <AccountsContext.Provider value={accountsContext}>
+        <AccountsHeader openImportModal={() => setShowImportModal(true)} />
+        <AccountsList accounts={accounts} loadingAccounts={loading} />
+        <AccountImportModal
+          isVisible={showImportModal}
+          closeModal={() => setShowImportModal(false)}
+        />
+      </AccountsContext.Provider>
     </AccountsMainStyled>
   );
 };

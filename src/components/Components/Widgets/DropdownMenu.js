@@ -5,18 +5,23 @@ import {
   colorCaution,
   colorWhite,
   boxShadow,
-  colorBlack
+  colorBlack,
+  colorHover
 } from '../../../styles/styleVariables';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const DropdownMenu = ({ actions, ...props }) => {
+const DropdownMenu = ({ actions, setOpen, ...props }) => {
+  const handleClick = onClick => {
+    setOpen(false);
+    onClick();
+  };
   return (
     <DropdownMenuStyled {...props} data-cy="dropdown-menu">
       {actions && actions.normal && (
         <NormalActions>
           {actions.normal.map(action => (
-            <ActionItem key={action.display}>
-              <ActionItemText onClick={action.onClick}>{action.display}</ActionItemText>
+            <ActionItem key={action.display} onClick={() => handleClick(action.onClick)}>
+              <ActionItemText>{action.display}</ActionItemText>
               {action.icon && <ActionItemIcon icon={action.icon} onClick={action.onIconClick} />}
             </ActionItem>
           ))}
@@ -25,8 +30,8 @@ const DropdownMenu = ({ actions, ...props }) => {
       {actions && actions.caution && (
         <CautionActions>
           {actions.caution.map(action => (
-            <ActionItem key={action.display}>
-              <ActionItemText onClick={action.onClick}>{action.display}</ActionItemText>
+            <ActionItem key={action.display} onClick={() => handleClick(action.onClick)}>
+              <ActionItemText>{action.display}</ActionItemText>
               {action.icon && <ActionItemIcon icon={action.icon} onClick={action.onIconClick} />}
             </ActionItem>
           ))}
@@ -56,7 +61,6 @@ const DropdownMenuStyled = styled.div`
     padding: 0 1.5rem;
     font-size: 1.5rem;
     color: ${colorBlack};
-    cursor: pointer;
   }
 `;
 
@@ -76,6 +80,11 @@ const ActionItem = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${colorHover};
+  }
 `;
 
 const ActionItemText = styled.p``;
