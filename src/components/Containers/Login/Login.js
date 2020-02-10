@@ -23,9 +23,10 @@ const Login = () => {
   const [{ loading, error, data }, executeLogin] = useAxios(LOGIN, { manual: true });
 
   const handleSignIn = () => {
+    const emailLower = email.toLowerCase();
     executeLogin({
       method: 'post',
-      data: { email, password }
+      data: { email: emailLower, password }
     });
   };
 
