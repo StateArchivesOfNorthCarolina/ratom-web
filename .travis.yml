@@ -6,7 +6,7 @@ services:
   - docker
 
 python:
-  - "3.7"
+  - '3.7'
 
 env:
   global:
@@ -19,9 +19,11 @@ install:
 before_script:
   # Build container for this commit before tests run
   - docker build --pull -t govsanc/ratom-web .
+  - npm i -D cypress
+  - npm run start
 
 script:
-  - echo 0
+  - cypress run
 
 before_deploy:
   # Install kubectl using Google SDK
