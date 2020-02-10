@@ -27,13 +27,13 @@ const AccountImportModal = ({ closeModal, isVisible }) => {
   const { accountSelected, selectAccount } = useContext(AccountsContext);
   const alert = useAlert();
   const [loading, setLoading] = useState(false);
-  const [name, setName] = useState();
-  const [description, setDescription] = useState();
+  const [title, setTitle] = useState();
+  // const [description, setDescription] = useState();
   const [filename, setFilename] = useState();
   useKeyPress('Escape', () => {
     setLoading(false);
-    setName('');
-    setDescription('');
+    setTitle('');
+    // setDescription('');
     setFilename('');
     selectAccount();
     closeModal();
@@ -45,7 +45,7 @@ const AccountImportModal = ({ closeModal, isVisible }) => {
       .then(response => {
         console.log('Response from create account: ', response);
         alert.show(
-          `${name} has been created, and ${filename} is being imported. Check the Accounts List for progress updates.`,
+          `${title} has been created, and ${filename} is being imported. Check the Accounts List for progress updates.`,
           {
             type: 'success'
           }
@@ -55,7 +55,7 @@ const AccountImportModal = ({ closeModal, isVisible }) => {
       .catch(error => {
         setLoading(false);
         // This is an error in intial creation of Account, not in import process
-        // TODO: What's in error? Would be nice to give the Account name in the alert
+        // TODO: What's in error? Would be nice to give the Account title in the alert
         alert.show('An error occured while trying to create this account.', {
           type: 'error'
         });
@@ -75,7 +75,7 @@ const AccountImportModal = ({ closeModal, isVisible }) => {
       .catch(error => {
         setLoading(false);
         // This is an error in intial creation of Account, not in import process
-        // TODO: What's in error? Would be nice to give the Account name in the alert
+        // TODO: What's in error? Would be nice to give the Account title in the alert
         alert.show('An error occured while trying to add a file to this account.', {
           type: 'error'
         });
@@ -84,19 +84,19 @@ const AccountImportModal = ({ closeModal, isVisible }) => {
 
   const getImportDisabled = () => {
     // TODO: can possibly do a bit more validation here once we know how this is reall going to work
-    return loading || (accountSelected ? !filename : !name || !filename);
+    return loading || (accountSelected ? !filename : !title || !filename);
   };
 
   const handleImportAccount = () => {
     // TODO: Do the importing business here
     if (accountSelected) _updateAccount({ filename });
-    else _createAccount({ name, description, filename });
+    else _createAccount({ title, filename });
   };
 
   const closeImportModal = () => {
     setLoading(false);
-    setName('');
-    setDescription('');
+    setTitle('');
+    // setDescription('');
     setFilename('');
     selectAccount();
     closeModal();
@@ -121,14 +121,14 @@ const AccountImportModal = ({ closeModal, isVisible }) => {
             <div>
               <InputStyled
                 label="Name the account"
-                value={name}
-                onChange={e => setName(e.target.value)}
+                value={title}
+                onChange={e => setTitle(e.target.value)}
               />
-              <TextAreaStyled
+              {/* <TextAreaStyled
                 label="Provide a description"
                 value={description}
                 onChange={e => setDescription(e.target.value)}
-              />
+              /> */}
             </div>
           )}
           <div>
