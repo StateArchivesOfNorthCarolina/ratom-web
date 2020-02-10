@@ -13,6 +13,7 @@
     "babel-eslint": "^10.0.3",
     "date-fns": "^2.7.0",
     "framer-motion": "^1.8.3",
+    "http-server": "^0.12.1",
     "lodash.isempty": "^4.4.0",
     "react": "^16.11.0",
     "react-alert": "^6.0.0",
@@ -28,6 +29,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "cypress:run:record": "cypress run --record",
+    "start:ci": "http-server -p 8888 -c-1",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
