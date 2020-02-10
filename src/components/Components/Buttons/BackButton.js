@@ -18,7 +18,6 @@ const BackButton = props => {
 };
 
 const BackButtonStyled = styled.span`
-  margin-left: 4.5rem;
   display: flex;
   flex-direction: row;
   align-items: center;

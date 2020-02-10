@@ -137,6 +137,15 @@ const MessagesMain = () => {
     setFilterQuery(emptyQuery);
   };
 
+  const handleChangeRecordStatus = (records, status) => {
+    if (Array.isArray(records)) {
+      // TODO: implement bulk record status updates
+    } else {
+      // const record = records;
+      // TODO: Do PUT to update message, run query again in case it needs updating
+    }
+  };
+
   const context = {
     account,
     filterQuery,

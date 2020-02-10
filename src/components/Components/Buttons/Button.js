@@ -10,7 +10,7 @@ const ButtonStyled = styled.button`
   background-color: white;
 
   opacity: ${props => (props.disabled ? 0.6 : 1)};
-  font-size: ${props => (props.small ? '1rem' : '1.5rem')};
+  font-size: ${props => (props.small ? '1rem' : '1.6rem')};
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
 
   display: ${props => (props.block ? 'block' : 'inline-block')};
