@@ -88,8 +88,8 @@ const MessagesMain = () => {
   const constructQueryString = queryObj => {
     const { limit, offset, keywords, tags, processedStatus } = queryObj;
     const params = [];
-    if (limit) params.push(`limit=${limit}`);
-    if (offset) params.push(`offset=${offset}`);
+    // if (limit) params.push(`limit=${limit}`);
+    // if (offset) params.push(`offset=${offset}`);
     if (keywords && keywords.length > 0) params.push(`search=${keywords.join('&search=')}`);
     if (tags && tags.length > 0) params.push(''); // TODO: Implement
     if (processedStatus) params.push(getProcessedParam(processedStatus));
@@ -105,11 +105,11 @@ const MessagesMain = () => {
     //  TODO: set current offset to localStorage?
     if (pageInfo.next) {
       setLoading(true);
-      const offset = getOffsetFromUrl(pageInfo.next);
-      setFilterQuery({
-        ...query,
-        offset
-      });
+      // const offset = getOffsetFromUrl(pageInfo.next);
+      // setFilterQuery({
+      //   ...query,
+      //   offset
+      // });
       Axios.get(pageInfo.next)
         .then(response => {
           updateResults(response.data, true);
@@ -124,13 +124,13 @@ const MessagesMain = () => {
     }
   };
 
-  const getOffsetFromUrl = url => {
-    const splitUrl = url.split('/');
-    const queryParams = splitUrl[splitUrl.length - 1].split('&');
-    const offsetString = queryParams.find(param => param.includes('offset'));
-    const newOffset = parseInt(offsetString.split('=')[1]);
-    return newOffset;
-  };
+  // const getOffsetFromUrl = url => {
+  //   const splitUrl = url.split('/');
+  //   const queryParams = splitUrl[splitUrl.length - 1].split('&');
+  //   const offsetString = queryParams.find(param => param.includes('offset'));
+  //   const newOffset = parseInt(offsetString.split('=')[1]);
+  //   return newOffset;
+  // };
 
   const clearFilters = () => {
     setQuery(emptyQuery);
