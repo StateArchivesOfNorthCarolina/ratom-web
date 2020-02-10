@@ -58,7 +58,7 @@ const SearchKeywords = ({ buildQuery, filterQuery, sendQuery, ...props }) => {
         type="text"
         icon="add"
         onIconClick={addKeyword}
-        label="Keyword Search"
+        label="Keyword Filter"
         onKeyDown={handleDeleteKeyPressed}
         onChange={e => setKeyword(e.target.value)}
         value={keyword}
