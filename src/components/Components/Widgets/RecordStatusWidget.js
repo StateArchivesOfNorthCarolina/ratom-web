@@ -111,7 +111,7 @@ const RecordStatusWidget = ({ messageId, audit, afterChange, ...props }) => {
 
   return (
     <>
-      <RecordStatusWidgetWrapper {...props}>
+      <RecordStatusWidgetWrapper {...props} data-cy="record_status_widget">
         <RecordStatusWidgetStyled color={getColorFromStatus()} onClick={() => setOpen(true)}>
           <Status color={getColorFromStatus()}>{mapStatusToDisplayStatus()}</Status>
           <Selection icon={faChevronDown} color={getColorFromStatus()} />

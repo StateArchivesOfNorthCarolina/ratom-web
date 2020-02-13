@@ -20,7 +20,11 @@ const DropdownMenu = ({ actions, setOpen, ...props }) => {
       {actions && actions.normal && (
         <NormalActions>
           {actions.normal.map(action => (
-            <ActionItem key={action.display} onClick={() => handleClick(action.onClick)}>
+            <ActionItem
+              data-cy="dropdown_action_item"
+              key={action.display}
+              onClick={() => handleClick(action.onClick)}
+            >
               <ActionItemText>{action.display}</ActionItemText>
               {action.icon && <ActionItemIcon icon={action.icon} onClick={action.onIconClick} />}
             </ActionItem>
@@ -30,7 +34,11 @@ const DropdownMenu = ({ actions, setOpen, ...props }) => {
       {actions && actions.caution && (
         <CautionActions>
           {actions.caution.map(action => (
-            <ActionItem key={action.display} onClick={() => handleClick(action.onClick)}>
+            <ActionItem
+              data-cy="dropdown_action_item"
+              key={action.display}
+              onClick={() => handleClick(action.onClick)}
+            >
               <ActionItemText>{action.display}</ActionItemText>
               {action.icon && <ActionItemIcon icon={action.icon} onClick={action.onIconClick} />}
             </ActionItem>
