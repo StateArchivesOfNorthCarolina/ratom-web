@@ -55,7 +55,7 @@ const DropdownMenuStyled = styled.div`
   background-color: ${colorWhite};
   box-shadow: ${boxShadow};
 
-  p {
+  & p {
     margin: 1rem 0;
     white-space: nowrap;
     padding: 0 1.5rem;

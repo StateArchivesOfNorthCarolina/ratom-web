@@ -2,14 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { standardPadding, borderSeparator } from '../../../styles/styleVariables';
 import MessageStepper from './MessageStepper';
-import MessageStatusDropdown from './MessageStatusDropdown';
 
 const MessageFooter = () => {
   return (
     <MessageFooterStyled>
       <ContentWrapper>
         <MessageStepper />
-        <MessageStatusDropdown />
       </ContentWrapper>
     </MessageFooterStyled>
   );

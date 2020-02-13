@@ -43,12 +43,8 @@ const AccountImportModal = ({ closeModal, isVisible }) => {
     setLoading(true);
     Axios.post(CREATE_ACCOUNT, account)
       .then(response => {
-        console.log('Response from create account: ', response);
-        alert.show(
-          `${title} has been created, and ${filename} is being imported. Check the Accounts List for progress updates.`,
-          {
-            type: 'success'
-          }
+        alert.success(
+          `${title} has been created, and ${filename} is being imported. Check the Accounts List for progress updates.`
         );
         closeImportModal();
       })
@@ -66,10 +62,9 @@ const AccountImportModal = ({ closeModal, isVisible }) => {
     setLoading(true);
     Axios.put(`${UPDATE_ACCOUNT}${accountSelected.id}/`, account)
       .then(response => {
-        console.log('Response from update account: ', response);
-        alert.show(`${filename} is being imported. Check the Accounts List for progress updates.`, {
-          type: 'success'
-        });
+        alert.success(
+          `${filename} is being imported. Check the Accounts List for progress updates.`
+        );
         closeImportModal();
       })
       .catch(error => {

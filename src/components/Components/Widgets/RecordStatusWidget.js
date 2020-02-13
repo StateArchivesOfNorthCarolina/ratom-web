@@ -1,36 +1,75 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import {
-  colorBadgeBlue,
-  colorBadgeGreen,
-  colorBadgeRed,
-  colorPrimary
-} from '../../../styles/styleVariables';
+import { colorBadgeBlue, colorBadgeGreen, colorBadgeRed } from '../../../styles/styleVariables';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+// Axios
+import Axios from '../../../services/axiosConfig';
 
 // Children
 import DropdownMenu from './DropdownMenu';
 import ClickableOverlay from '../ClickableOverlay';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { UPDATE_MESSAGE } from '../../../services/requests';
 
-// TODO: Remove this default value vvvv
-const RecordStatusWidget = ({ value = 'open_record', onChange }) => {
+const RecordStatusWidget = ({ messageId, audit, afterChange, ...props }) => {
   const [open, setOpen] = useState(false);
+  const [status, setStatus] = useState();
+
+  useEffect(() => {
+    const newStatus = mapAuditToOption(audit);
+    setStatus(newStatus);
+  }, [audit]);
 
   const handleSelectOption = option => {
     setOpen(false);
-    if (option !== value) onChange(option);
+    if (option !== status) {
+      setStatus(option);
+      updateMessageStatus(option);
+    }
+  };
+
+  const mapAuditToOption = aud => {
+    if (aud.is_record === false) return 'non-record';
+    if (aud.is_restricted) return 'restricted';
+    if (aud.needs_redaction) return 'redacted';
+    return 'open_record';
+  };
+
+  const mapOptionToAudit = option => {
+    const newAudit = {
+      is_record: true,
+      is_restricted: false,
+      needs_redaction: false
+    };
+    if (option === 'non-record') newAudit.is_record = false;
+    if (option === 'restricted') newAudit.is_restricted = true;
+    if (option === 'redacted') newAudit.needs_redaction = true;
+    return newAudit;
+  };
+
+  const updateMessageStatus = option => {
+    const newAudit = mapOptionToAudit(option);
+    Axios.put(`${UPDATE_MESSAGE}${messageId}/`, newAudit)
+      .then(_response => {
+        afterChange(true, option);
+      })
+      .catch(error => {
+        console.warn(error.message);
+        afterChange(false, option);
+        setStatus(mapAuditToOption(audit));
+      });
   };
 
   const buildActions = () => {
     return {
       normal: [
         {
-          display: 'Open Record',
+          display: 'Open record',
           onClick: () => handleSelectOption('open_record')
         },
         {
-          display: 'Redacted',
+          display: 'Needs redaction',
           onClick: () => handleSelectOption('redacted')
         },
         {
@@ -47,18 +86,18 @@ const RecordStatusWidget = ({ value = 'open_record', onChange }) => {
     };
   };
 
-  const mapValueToDisplayValue = () => {
+  const mapStatusToDisplayStatus = () => {
     const mapping = {
       open_record: 'Open record',
       'non-record': 'Non-record',
-      redacted: 'Redacted',
+      redacted: 'Needs redaction',
       restricted: 'Restricted'
     };
-    return mapping[value];
+    return mapping[status];
   };
 
-  const getColorFromValue = () => {
-    switch (value) {
+  const getColorFromStatus = () => {
+    switch (status) {
       case 'open_record':
         return colorBadgeGreen;
       case 'non-record':
@@ -72,12 +111,12 @@ const RecordStatusWidget = ({ value = 'open_record', onChange }) => {
 
   return (
     <>
-      <RecordStatusWidgetWrapper>
-        <RecordStatusWidgetStyled color={getColorFromValue()} onClick={() => setOpen(true)}>
-          <Status color={getColorFromValue()}>{mapValueToDisplayValue()}</Status>
-          <Selection icon={faChevronDown} color={getColorFromValue()} />
+      <RecordStatusWidgetWrapper {...props}>
+        <RecordStatusWidgetStyled color={getColorFromStatus()} onClick={() => setOpen(true)}>
+          <Status color={getColorFromStatus()}>{mapStatusToDisplayStatus()}</Status>
+          <Selection icon={faChevronDown} color={getColorFromStatus()} />
         </RecordStatusWidgetStyled>
-        {open && <Menu open={open} actions={buildActions()} />}
+        {open && <Menu open={open} setOpen={setOpen} actions={buildActions()} />}
       </RecordStatusWidgetWrapper>
       <ClickableOverlay onClick={() => setOpen(false)} open={open} />
     </>

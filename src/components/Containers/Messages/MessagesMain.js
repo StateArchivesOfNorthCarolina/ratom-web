@@ -68,6 +68,7 @@ const MessagesMain = () => {
   };
 
   const updateResults = (data, merge) => {
+    console.log('data from query: ', data);
     const { results, facets, next, previous, count } = data;
     setFacets(facets);
     setPageInfo({ next, previous, count });
