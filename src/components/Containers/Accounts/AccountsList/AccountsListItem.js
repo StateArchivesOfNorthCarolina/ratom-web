@@ -1,6 +1,9 @@
 import React, { useContext } from 'react';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
+import Axios from '../../../../services/axiosConfig';
+import { RESTART_FILE } from '../../../../services/requests';
+import { useAlert } from 'react-alert';
 
 // Context
 import { AccountsContext } from '../AccountsMain';
@@ -13,6 +16,7 @@ import AccountDetails from './AccountDetails';
 
 const AccountsListItem = ({ account, setAccount, ...props }) => {
   const { selectAccount, setShowImportModal } = useContext(AccountsContext);
+  const alert = useAlert();
   const buildActions = () => {
     const actions = {
       normal: [
@@ -33,11 +37,33 @@ const AccountsListItem = ({ account, setAccount, ...props }) => {
           display: 'Remove',
           onClick: () => {
             /* TODO: Implement */
+          },
+        },
+        {
+          display: 'Restart',
+          onClick: () => {
+            selectAccount(account);
+            _updateFile(account);
           }
         }
       ]
     };
     return actions;
+  };
+
+  const _updateFile = account => {
+    Axios.post(RESTART_FILE, account)
+      .then(response => {
+        console.log('Response from restart file: ', response);
+        alert.show(`The failed file has been restarted`, {
+          type: 'success'
+        });
+      })
+      .catch(error => {
+        alert.show('An error occurred while trying to add a file to this account.', {
+          type: 'error'
+        });
+      });
   };
 
   return (
