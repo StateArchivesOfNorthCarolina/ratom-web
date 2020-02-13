@@ -18,6 +18,7 @@ const AccountsListItem = ({ account, setAccount, ...props }) => {
   const { selectAccount, setShowImportModal } = useContext(AccountsContext);
   const alert = useAlert();
   const buildActions = () => {
+    console.log('account: ', account);
     const actions = {
       normal: [
         {
@@ -37,17 +38,20 @@ const AccountsListItem = ({ account, setAccount, ...props }) => {
           display: 'Remove',
           onClick: () => {
             /* TODO: Implement */
-          },
-        },
-        {
-          display: 'Restart',
-          onClick: () => {
-            selectAccount(account);
-            _updateFile(account);
           }
         }
       ]
     };
+
+    if (account.account_status === 'FA') {
+      actions.caution.push({
+        display: 'Restart',
+        onClick: () => {
+          selectAccount(account);
+          _updateFile(account);
+        }
+      });
+    }
     return actions;
   };
 
@@ -55,14 +59,10 @@ const AccountsListItem = ({ account, setAccount, ...props }) => {
     Axios.post(RESTART_FILE, account)
       .then(response => {
         console.log('Response from restart file: ', response);
-        alert.show(`The failed file has been restarted`, {
-          type: 'success'
-        });
+        alert.success('The failed file has been restarted');
       })
       .catch(error => {
-        alert.show('An error occurred while trying to add a file to this account.', {
-          type: 'error'
-        });
+        alert.error('An error occurred while trying to add a file to this account.');
       });
   };
 
