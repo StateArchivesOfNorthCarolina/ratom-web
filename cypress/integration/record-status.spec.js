@@ -1,11 +1,3 @@
-// describe('Filter panel behavior', () => {
-//   const accountId = 1;
-//   const accountParam = `account=${accountId}&`;
-//   before(() => {
-//     cy.login();
-//     cy.server();
-//     cy.route('GET', `/api/v1/messages/?${accountParam}`).as('queryMessages');
-//   });
 describe('Functionality around record status', () => {
   before(() => {
     cy.login();
