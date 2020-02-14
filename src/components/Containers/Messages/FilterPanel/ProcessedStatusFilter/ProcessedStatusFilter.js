@@ -67,7 +67,6 @@ const ProcessedStatusFilter = props => {
 const ProcessedStatusFilterStyled = styled(FilterPanelItem)`
   display: flex;
   flex-direction: column;
-  height: 18rem;
 
   h3 {
     margin-bottom: 1.5rem;
@@ -78,7 +77,6 @@ const RadioStyled = styled(Radio)`
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   margin: 1rem 0;
 `;
 

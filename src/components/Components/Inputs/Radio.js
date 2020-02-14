@@ -27,7 +27,11 @@ const Radio = ({ name, options, selected, onChange, ...props }) => {
 
 const RadioWrapper = styled.div``;
 
-const Option = styled.div``;
+const Option = styled.div`
+  &:not(:last-child) {
+    margin-bottom: 2rem;
+  }
+`;
 
 const OptionInput = styled.input`
   &:checked,
@@ -85,6 +89,7 @@ const OptionInput = styled.input`
 `;
 
 const OptionLabel = styled.label`
+  display: flex;
   color: ${colorBlack};
 
   span {
