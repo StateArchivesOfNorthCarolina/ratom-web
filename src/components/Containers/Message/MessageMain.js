@@ -1,9 +1,12 @@
-import React, { createContext } from 'react';
+import React, { useEffect, createContext, useState } from 'react';
 import styled from 'styled-components';
 
 // Axios
-import useAxios from '../../Hooks/useAxios';
+import Axios from '../../../services/axiosConfig';
 import { SHOW_MESSAGE } from '../../../services/requests';
+
+// Deps
+import { useAlert } from 'react-alert';
 
 // Router
 import { useParams } from 'react-router-dom';
@@ -17,17 +20,31 @@ import Spinner from '../../Components/Loading/Spinner';
 export const MessageContext = createContext();
 
 const MessageMain = () => {
+  const alert = useAlert();
   const { messageId } = useParams();
-  const [{ loading, data }] = useAxios(SHOW_MESSAGE + `${messageId}/`);
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState(false);
 
-  const messageContext = {
-    message: data || {}
-  };
+  useEffect(() => {
+    setLoading(true);
+    Axios.get(SHOW_MESSAGE + `${messageId}/`)
+      .then(response => {
+        setMessage(response.data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.warn('Error: ', error && error.message);
+        setLoading(false);
+        alert.error('An error occured while fetching this message, please try again.');
+      });
+  }, []);
+
+  const messageContext = { message };
 
   return (
     <MessageContext.Provider value={messageContext}>
       <MessageMainStyled>
-        {loading ? (
+        {loading || !message ? (
           <Spinner />
         ) : (
           <>
