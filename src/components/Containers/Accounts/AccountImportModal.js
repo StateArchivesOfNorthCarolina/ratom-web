@@ -111,32 +111,29 @@ const AccountImportModal = ({ closeModal, isVisible }) => {
         ) : (
           <h1>Create a new account</h1>
         )}
-        <form>
-          {!accountSelected && (
+        <FormStyled>
+          <FormInner>
+            {!accountSelected && (
+              <div>
+                <Input
+                  label="Name the account"
+                  value={title}
+                  onChange={e => setTitle(e.target.value)}
+                />
+              </div>
+            )}
             <div>
-              <InputStyled
-                label="Name the account"
-                value={title}
-                onChange={e => setTitle(e.target.value)}
+              <Input
+                label="Enter the name of the file to import"
+                value={filename}
+                onChange={e => setFilename(e.target.value)}
               />
-              {/* <TextAreaStyled
-                label="Provide a description"
-                value={description}
-                onChange={e => setDescription(e.target.value)}
-              /> */}
             </div>
-          )}
-          <div>
-            <InputStyled
-              label="Enter the name of the file to import"
-              value={filename}
-              onChange={e => setFilename(e.target.value)}
-            />
-          </div>
-        </form>
-        <ButtonStyled positive disabled={getImportDisabled()} onClick={handleImportAccount}>
-          Import Account
-        </ButtonStyled>
+          </FormInner>
+          <ButtonStyled positive disabled={getImportDisabled()} onClick={handleImportAccount}>
+            Import File
+          </ButtonStyled>
+        </FormStyled>
       </ModalBody>
     </AccountImportModalStyled>
   );
@@ -170,29 +167,26 @@ const ModalBody = styled.main`
       color: ${colorBlackLight};
     }
   }
+`;
 
-  form {
-    flex: 1;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    padding: 4rem;
+const FormStyled = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: center;
+`;
 
-    & > div {
-      width: 50rem;
+const FormInner = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 4rem;
+
+  & > div {
+    width: 50rem;
+    &:not(:last-child) {
+      margin-bottom: 5rem;
     }
   }
-`;
-
-const InputStyled = styled(Input)`
-  /* max-width: 50rem; */
-  margin-bottom: 2rem;
-`;
-
-const TextAreaStyled = styled(TextArea)`
-  max-width: 50rem;
-  min-height: 20rem;
 `;
 
 const ButtonStyled = styled(Button)`
