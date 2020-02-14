@@ -79,7 +79,7 @@ const RecordStatusWidget = ({ messageId, audit, afterChange, ...props }) => {
       ],
       caution: [
         {
-          display: 'Non-record',
+          display: 'Mark as non-record',
           onClick: () => handleSelectOption('non-record')
         }
       ]
