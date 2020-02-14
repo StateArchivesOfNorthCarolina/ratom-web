@@ -1,6 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { standardPadding, borderSeparator } from '../../../styles/styleVariables';
+
+// Deps
+import { useAlert } from 'react-alert';
+
+// Context
+import { MessageContext } from './MessageMain';
 
 // Router
 import { useHistory } from 'react-router-dom';
@@ -11,7 +17,18 @@ import MessageStepper from './MessageStepper';
 import RecordStatusWidget from '../../Components/Widgets/RecordStatusWidget';
 
 const MessageHeader = () => {
+  const alert = useAlert();
+  const { message } = useContext(MessageContext);
   const history = useHistory();
+
+  const handleStatusChange = (success, _status) => {
+    if (success) {
+      alert.show('Message updated.', { type: 'success' });
+    } else {
+      alert.show('There was an error ', { type: 'error' });
+    }
+  };
+
   return (
     <MessageHeaderStyled>
       <ContentLeft>
@@ -21,7 +38,11 @@ const MessageHeader = () => {
         <MessageStepper />
       </ContentCenter>
       <ContentRight>
-        <RecordStatusWidget value={'open_record'} onChange={() => {}} />
+        <RecordStatusWidget
+          messageId={message.id}
+          audit={message.audit}
+          afterChange={handleStatusChange}
+        />
       </ContentRight>
     </MessageHeaderStyled>
   );

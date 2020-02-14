@@ -15,3 +15,4 @@ export const RESTART_FILE = 'files/';
 // TODO: How are we including accountId? As part of url or params? (accounts/<id>/messages/?params)
 export const SEARCH_MESSAGES = 'messages/?';
 export const SHOW_MESSAGE = 'messages/';
+export const UPDATE_MESSAGE = 'messages/';

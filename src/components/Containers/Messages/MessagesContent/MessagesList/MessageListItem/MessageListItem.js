@@ -68,7 +68,7 @@ const MessageListItem = ({ message, i, ...props }) => {
         checked={messageChecked}
         checkMessage={checkMessage}
       />
-      <MessageListItemContentRight handleSelectMessage={handleSelectMessage} />
+      <MessageListItemContentRight message={message} handleSelectMessage={handleSelectMessage} />
     </MessageListItemStyled>
   );
 };
@@ -95,7 +95,7 @@ const MessageListItemStyled = styled(motion.div)`
       : ''};
 
   h4,
-  p {
+  > p {
     font-size: 1.2rem;
   }
 `;

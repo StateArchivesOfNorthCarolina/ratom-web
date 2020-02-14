@@ -38,18 +38,35 @@ const ProcessedStatusFilter = props => {
     });
   };
 
+  const _getUnfacetedValue = facetedValue => {
+    const total = facets._filter_processed.doc_count;
+    return total - parseInt(facetedValue, 10);
+  };
+
   useEffect(() => {
     if (facets && facets._filter_processed) {
       const processedFacetsIncoming = facets._filter_processed.processed.buckets;
       const newProcessedFacets = { ...processedFacets };
-      for (let i = 0; i < processedFacetsIncoming.length; i++) {
-        const facet = processedFacetsIncoming[i];
-        if (facet.key_as_string === 'false') newProcessedFacets.Unprocessed = facet.doc_count;
-        if (facet.key_as_string === 'true') newProcessedFacets.Processed = facet.doc_count;
+
+      const trues = processedFacetsIncoming.find(fac => fac.key_as_string === 'true');
+      const falses = processedFacetsIncoming.find(fac => fac.key_as_string === 'false');
+
+      if (trues && falses) {
+        newProcessedFacets.Processed = trues.doc_count;
+        newProcessedFacets.Unprocessed = falses.doc_count;
       }
+      if (falses && !trues) {
+        newProcessedFacets.Unprocessed = falses.doc_count;
+        newProcessedFacets.Processed = _getUnfacetedValue(falses.doc_count);
+      }
+      if (trues && !falses) {
+        newProcessedFacets.Processed = trues.doc_count;
+        newProcessedFacets.Unprocessed = _getUnfacetedValue(trues.doc_count);
+      }
+
       setProcessedFacets(newProcessedFacets);
     }
-  }, [facets._filter_processed]);
+  }, [facets]);
 
   return (
     <ProcessedStatusFilterStyled data-cy="processed_status_widget">
