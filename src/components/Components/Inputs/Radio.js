@@ -66,8 +66,8 @@ const OptionInput = styled.input`
   &:checked + label:after,
   &:not(:checked) + label:after {
     content: '';
-    width: 11px;
-    height: 11px;
+    width: 10px;
+    height: 10px;
     background: ${colorPrimary};
     position: absolute;
     top: 4px;
