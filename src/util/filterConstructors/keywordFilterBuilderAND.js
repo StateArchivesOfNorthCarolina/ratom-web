@@ -1,8 +1,6 @@
 const keywordFilterBuilderAND = keywords => {
-  const keywordsJoined = keywords.join('__');
-  const bodyIn = `body__in=${keywordsJoined}`;
-  const subjectIn = `subject__in=${keywordsJoined}`;
-  return `${bodyIn}&${subjectIn}`;
+  const keywordsJoined = keywords.join('+');
+  return `search_simple_query_string=${keywordsJoined}`;
 };
 
 export default keywordFilterBuilderAND;
