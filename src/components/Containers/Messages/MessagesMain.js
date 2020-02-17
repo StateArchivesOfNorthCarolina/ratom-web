@@ -2,7 +2,7 @@ import React, { useState, createContext, useEffect } from 'react';
 
 // Router
 import PrivateRoute from '../PrivateRoute';
-import { Switch, Route, Redirect, useRouteMatch, useParams } from 'react-router-dom';
+import { Switch, Route, Redirect, useRouteMatch, useParams, useLocation } from 'react-router-dom';
 
 // Axios
 import Axios from '../../../services/axiosConfig';
@@ -23,7 +23,7 @@ export const AccountContext = createContext(null);
 
 // TODO: Good candidate for a Reducer.
 
-const MessagesMain = () => {
+const MessagesMain = props => {
   const { accountId } = useParams();
   const [account, setAccount] = useState();
   const [loading, setLoading] = useState(false);
@@ -38,17 +38,22 @@ const MessagesMain = () => {
   const [pageInfo, setPageInfo] = useState({});
   const [facets, setFacets] = useState({});
 
+  const { state: routerState } = useLocation();
   const { path } = useRouteMatch();
 
   useEffect(() => {
-    Axios.get(`${SHOW_ACCOUNT}${accountId}/`).then(response => {
-      setAccount(response.data);
-    });
-  }, []);
+    if (!routerState || routerState.reset !== false) {
+      Axios.get(`${SHOW_ACCOUNT}${accountId}/`).then(response => {
+        setAccount(response.data);
+      });
+    }
+  }, [routerState]);
 
   useEffect(() => {
-    searchMessages();
-  }, [query]);
+    if (!routerState || routerState.reset !== false) {
+      searchMessages();
+    }
+  }, [query, routerState]);
 
   const searchMessages = () => {
     setLoading(true);
@@ -135,15 +140,6 @@ const MessagesMain = () => {
   const clearFilters = () => {
     setQuery(emptyQuery);
     setFilterQuery(emptyQuery);
-  };
-
-  const handleChangeRecordStatus = (records, status) => {
-    if (Array.isArray(records)) {
-      // TODO: implement bulk record status updates
-    } else {
-      // const record = records;
-      // TODO: Do PUT to update message, run query again in case it needs updating
-    }
   };
 
   const context = {

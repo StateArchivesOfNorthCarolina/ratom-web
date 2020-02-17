@@ -34,7 +34,7 @@ const AccountsList = props => {
   }, []);
 
   const setAccount = account => {
-    history.push(`/accounts/${account.id}`);
+    history.push(`/accounts/${account.id}`, { reset: true });
   };
 
   return (

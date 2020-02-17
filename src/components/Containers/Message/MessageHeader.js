@@ -9,7 +9,7 @@ import { useAlert } from 'react-alert';
 import { MessageContext } from './MessageMain';
 
 // Router
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 // Components
 import BackButton from '../../Components/Buttons/BackButton';
@@ -19,6 +19,7 @@ import RecordStatusWidget from '../../Components/Widgets/RecordStatusWidget';
 const MessageHeader = () => {
   const alert = useAlert();
   const { message } = useContext(MessageContext);
+  const { pathname } = useLocation();
   const history = useHistory();
 
   const handleStatusChange = (success, _status) => {
@@ -32,7 +33,9 @@ const MessageHeader = () => {
   return (
     <MessageHeaderStyled>
       <ContentLeft>
-        <BackButton onClick={() => history.goBack()} />
+        <BackButton
+          onClick={() => history.replace(pathname.split('/messages')[0], { reset: true })}
+        />
       </ContentLeft>
       <ContentCenter>
         <MessageStepper />

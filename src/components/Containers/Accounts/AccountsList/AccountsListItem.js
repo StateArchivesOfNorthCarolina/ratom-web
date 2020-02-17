@@ -18,7 +18,6 @@ const AccountsListItem = ({ account, setAccount, ...props }) => {
   const { selectAccount, setShowImportModal } = useContext(AccountsContext);
   const alert = useAlert();
   const buildActions = () => {
-    console.log('account: ', account);
     const actions = {
       normal: [
         {
@@ -58,7 +57,6 @@ const AccountsListItem = ({ account, setAccount, ...props }) => {
   const _updateFile = account => {
     Axios.post(RESTART_FILE, account)
       .then(response => {
-        console.log('Response from restart file: ', response);
         alert.success('The failed file has been restarted');
       })
       .catch(error => {
