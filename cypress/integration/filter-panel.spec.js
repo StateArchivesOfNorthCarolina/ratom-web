@@ -27,17 +27,17 @@ describe('Filter panel behavior', () => {
       cy.get('[data-cy="keyword_search"]').within(() => {
         cy.get('[data-cy="keyword_search_input"]').type(keywordSearchTerm);
         cy.get('[data-cy="button_icon"]').click();
-        cy.get('[data-cy="badge"]').contains(keywordSearchTerm);
+        cy.get('[data-cy="keyword"]').contains(keywordSearchTerm);
       });
     });
 
-    it('clicking the "x" on a badge removes it from the list', () => {
+    it('clicking the "x" on a keyword removes it from the list', () => {
       cy.get('[data-cy="keyword_search"]').within(() => {
-        cy.get('[data-cy="badge_list"]')
+        cy.get('[data-cy="keyword_list"]')
           .children()
           .should('have.length', 1);
-        cy.get('[data-cy="badge_close"]').click();
-        cy.get('[data-cy="badge_list"]')
+        cy.get('[data-cy="keyword_close"]').click();
+        cy.get('[data-cy="keyword_list"]')
           .children()
           .should('have.length', 0);
       });
@@ -46,8 +46,8 @@ describe('Filter panel behavior', () => {
     it('typing a keyword into the input and hitting enter adds one keyword to the list', () => {
       cy.get('[data-cy="keyword_search"]').within(() => {
         cy.get('[data-cy="keyword_search_input"]').type(`${keywordSearchTerm} {enter}`);
-        cy.get('[data-cy="badge"]').contains(keywordSearchTerm);
-        cy.get('[data-cy="badge_list"]')
+        cy.get('[data-cy="keyword"]').contains(keywordSearchTerm);
+        cy.get('[data-cy="keyword_list"]')
           .children()
           .should('have.length', 1);
       });
@@ -56,11 +56,11 @@ describe('Filter panel behavior', () => {
     it('pressing shift+backspace while focus is in keyword search removes last keyword entered', () => {
       cy.get('[data-cy="keyword_search"]').within(() => {
         cy.get('[data-cy="keyword_search_input"]').type(`${keywordSearchTerm} again {enter}`);
-        cy.get('[data-cy="badge_list"]')
+        cy.get('[data-cy="keyword_list"]')
           .children()
           .should('have.length', 2);
         cy.get('[data-cy="keyword_search_input"]').type('{shift}{backspace}');
-        cy.get('[data-cy="badge_list"]')
+        cy.get('[data-cy="keyword_list"]')
           .children()
           .should('have.length', 1);
       });

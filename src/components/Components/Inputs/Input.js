@@ -47,7 +47,7 @@ const Input = ({ label, icon, onEnterKey, className, onIconClick, ...props }) =>
   return (
     <FieldSetStyled className={className}>
       <LabelStyled>{label}</LabelStyled>
-      <div>
+      <div style={{ position: 'relative' }}>
         <InputStyled {...props} type={props.type || 'text'} onKeyPress={handleKeyPressed} />
         {icon && (
           <IconStyled
@@ -84,9 +84,10 @@ const InputStyled = styled.input`
 `;
 
 const IconStyled = styled(FontAwesomeIcon)`
-  position: relative;
-  right: 4rem;
-  top: 0.7rem;
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
   font-size: 2.5rem;
   color: ${props => props.theme.colorPrimary};
   cursor: pointer;

@@ -6,7 +6,7 @@ import { FilterPanelItem } from './FilterPanelItem';
 import Input from '../../../Components/Inputs/Input';
 
 // Children
-import BadgesList from './BadgesList';
+import Keyword from '../Keyword';
 
 const SearchKeywords = ({ buildQuery, filterQuery, sendQuery, ...props }) => {
   const [keyword, setKeyword] = useState('');
@@ -63,11 +63,32 @@ const SearchKeywords = ({ buildQuery, filterQuery, sendQuery, ...props }) => {
         onChange={e => setKeyword(e.target.value)}
         value={keyword}
       />
-      <BadgesList badges={keywords} onRemoveBadge={removeKeyword} badgeType="keyword" />
+      <BadgesListStyled data-cy="keyword_list">
+        {keywords.map((keyword, i) => {
+          let name = keyword;
+          if (keyword.name) name = keyword.name;
+          return (
+            <Keyword
+              name={name}
+              key={`${i}_${name}`}
+              type={keyword.type || 'normal'}
+              remove={() => removeKeyword(name)}
+            />
+          );
+        })}
+      </BadgesListStyled>
+      {/* <BadgesList badges={keywords} onRemoveBadge={removeKeyword} badgeType="keyword" /> */}
     </SearchKeywordsStyled>
   );
 };
 
 const SearchKeywordsStyled = styled(FilterPanelItem)``;
+
+const BadgesListStyled = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+`;
 
 export default SearchKeywords;
