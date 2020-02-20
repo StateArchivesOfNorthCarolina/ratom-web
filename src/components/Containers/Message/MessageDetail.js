@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 // Context
 import { MessageContext } from './MessageMain';
+import ParsedMessageBody from './ParsedMessageBody';
 
 const MessageDetail = () => {
   const { message } = useContext(MessageContext);
@@ -13,7 +14,7 @@ const MessageDetail = () => {
         <h3>{message.subject}</h3>
         <p>{message.msg_to}</p>
         <p>{message.msg_from}</p>
-        <p>{message.body}</p>
+        <ParsedMessageBody message={message} />
       </MessageContent>
     </MessageDetailStyled>
   );
