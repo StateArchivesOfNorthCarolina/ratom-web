@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { colorBadgeBlue, colorBadgeGreen, colorBadgeRed } from '../../../styles/styleVariables';
+import {
+  colorBadgeBlue,
+  colorBadgeGreen,
+  colorBadgeRed,
+  colorGrey,
+  colorBlackLight,
+  colorPrimary
+} from '../../../styles/styleVariables';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // Axios
@@ -30,10 +37,10 @@ const RecordStatusWidget = ({ messageId, audit, afterChange, ...props }) => {
   };
 
   const mapAuditToOption = aud => {
-    if (aud.is_record === false) return 'non-record';
     if (aud.is_restricted) return 'restricted';
     if (aud.needs_redaction) return 'redacted';
-    return 'open_record';
+    if (aud.is_record === false) return 'non-record';
+    if (aud.is_record && aud.processed) return 'open_record';
   };
 
   const mapOptionToAudit = option => {
@@ -87,6 +94,7 @@ const RecordStatusWidget = ({ messageId, audit, afterChange, ...props }) => {
   };
 
   const mapStatusToDisplayStatus = () => {
+    if (!status) return 'Status';
     const mapping = {
       open_record: 'Open record',
       'non-record': 'Non-record',
@@ -106,6 +114,8 @@ const RecordStatusWidget = ({ messageId, audit, afterChange, ...props }) => {
         return colorBadgeRed;
       case 'restricted':
         return colorBadgeRed;
+      default:
+        return colorGrey;
     }
   };
 
@@ -113,8 +123,10 @@ const RecordStatusWidget = ({ messageId, audit, afterChange, ...props }) => {
     <>
       <RecordStatusWidgetWrapper {...props} data-cy="record_status_widget">
         <RecordStatusWidgetStyled color={getColorFromStatus()} onClick={() => setOpen(true)}>
-          <Status color={getColorFromStatus()}>{mapStatusToDisplayStatus()}</Status>
-          <Selection icon={faChevronDown} color={getColorFromStatus()} />
+          <Status status={status} color={getColorFromStatus()}>
+            {mapStatusToDisplayStatus()}
+          </Status>
+          <Selection status={status} icon={faChevronDown} color={getColorFromStatus()} />
         </RecordStatusWidgetStyled>
         {open && <Menu open={open} setOpen={setOpen} actions={buildActions()} />}
       </RecordStatusWidgetWrapper>
@@ -144,13 +156,14 @@ const RecordStatusWidgetStyled = styled.div`
 `;
 
 const Status = styled.div`
-  color: ${props => props.color};
+  color: ${props => (props.status ? props.color : colorBlackLight)};
   font-size: 1.6rem;
   font-weight: normal;
   padding: 1rem;
 `;
 
 const Selection = styled(FontAwesomeIcon)`
+  color: ${props => (props.status ? props.color : colorPrimary)};
   padding-right: 1rem;
   font-size: 2.5rem;
 `;
