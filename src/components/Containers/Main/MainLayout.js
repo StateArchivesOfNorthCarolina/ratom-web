@@ -1,6 +1,6 @@
-import React from "react";
-import MainHeader from "./MainHeader";
-import ContentLayout from "../ContentLayout";
+import React from 'react';
+import MainHeader from './MainHeader';
+import ContentLayout from '../ContentLayout';
 
 const MainLayout = () => {
   return (

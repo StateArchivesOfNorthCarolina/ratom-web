@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { standardPadding, borderSeparator } from '../../../styles/styleVariables';
+import { standardPadding, borderSeparator, colorWhite } from '../../../styles/styleVariables';
 import MessageStepper from './MessageStepper';
 
 const MessageFooter = () => {
@@ -18,9 +18,7 @@ const MessageFooterStyled = styled.footer`
   width: 100%;
   padding: ${standardPadding};
   border-top: ${borderSeparator};
-
-  position: fixed;
-  bottom: 0;
+  background-color: ${colorWhite};
   display: flex;
   align-items: center;
 `;
