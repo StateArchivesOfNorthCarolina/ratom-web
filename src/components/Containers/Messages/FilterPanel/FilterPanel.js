@@ -2,12 +2,13 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 
 // Children
-import SearchKeywords from './SearchKeywords';
+import KeywordFilter from './KeywordFilter/KeywordFilter';
 import FilterActions from './FilterActions';
 
 // Context
 import { AccountContext } from '../MessagesMain';
 import ProcessedStatusFilter from './ProcessedStatusFilter/ProcessedStatusFilter';
+import EmailFilter from './EmailFilter/EmailFilter';
 
 const FilterPanel = () => {
   const { setQuery, filterQuery, setFilterQuery } = useContext(AccountContext);
@@ -19,8 +20,9 @@ const FilterPanel = () => {
 
   return (
     <FilterPanelStyled>
-      <SearchKeywords buildQuery={setFilterQuery} filterQuery={filterQuery} sendQuery={sendQuery} />
+      <KeywordFilter buildQuery={setFilterQuery} filterQuery={filterQuery} sendQuery={sendQuery} />
       <ProcessedStatusFilter buildQuery={setFilterQuery} filterQuery={filterQuery} />
+      <EmailFilter buildQuery={setFilterQuery} filterQuery={filterQuery} sendQuery={sendQuery} />
       <FilterActions sendQuery={sendQuery} />
     </FilterPanelStyled>
   );

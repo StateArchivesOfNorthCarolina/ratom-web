@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 // import { colorBadgeBlue, colorBadgeGreen, colorBadgeRed } from '../../../styles/styleVariables';
 
-import { darken } from '../../../styles/styleUtils/lighten-darken';
-import { colorBlackLight } from '../../../styles/styleVariables';
+import { darken } from '../../../../../styles/styleUtils/lighten-darken';
+import { colorBlackLight } from '../../../../../styles/styleVariables';
 
 const Keyword = ({ name, remove, ...props }) => {
   return (

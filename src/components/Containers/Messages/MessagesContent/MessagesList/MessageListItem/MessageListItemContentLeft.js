@@ -20,7 +20,8 @@ const MessageListItemContentLeft = ({ message, checked, checkMessage }) => {
         <h4>
           {message.subject} <span TEMPORARY>{message.score}</span>
         </h4>
-        <p>From: {message.msg_from}</p>
+        <MsgTo>From: {message.msg_from}</MsgTo>
+        <MsgTo>To: {message.msg_to}</MsgTo>
         <MessageHighlights>
           {getHighlights().map((h, i) => (
             <Highlight key={i}>
@@ -45,6 +46,7 @@ const MessageListItemContentLeft = ({ message, checked, checkMessage }) => {
 };
 
 const ContentLeft = styled.div`
+  flex: 1;
   display: flex;
   flex-direction: row;
   max-height: 15rem;
@@ -74,6 +76,13 @@ const InnerContent = styled.div`
   > p {
     margin: 0.5rem 0;
   }
+`;
+
+const MsgTo = styled.p`
+  max-width: 50vw;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const MessageHighlights = styled.div``;
