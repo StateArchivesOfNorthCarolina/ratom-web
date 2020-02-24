@@ -15,11 +15,11 @@ const MessagesLayout = () => {
   const { messages } = useContext(AccountContext);
 
   const renderMainContent = () => {
-    if (!messages) return <NoSearch />;
     if (messages) {
       if (messages.length === 0) return <NoContent />;
       return <MessagesContent />;
     }
+    return <NoSearch />;
   };
 
   return (

@@ -1,14 +1,21 @@
 {
-    "extends": [
-        "airbnb",
-        "prettier"
+  "extends": ["airbnb", "prettier"],
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": ["error"],
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [".js", ".jsx"]
+      }
     ],
-    "plugins": [
-        "prettier"
-    ],
-    "rules": {
-        "prettier/prettier": [
-            "error"
-        ]
-    },
+    "prefer-template": "off",
+    "react/prop-types": "off",
+    "dot-notation": "off",
+    "no-use-before-define": "off",
+    "no-underscore-dangle": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "import/no-cycle": "off"
+  }
 }

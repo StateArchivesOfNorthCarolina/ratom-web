@@ -6,7 +6,7 @@ import { faEnvelope, faFileAlt } from '@fortawesome/free-regular-svg-icons';
 import { colorBlackLight, colorBlack } from '../../../../styles/styleVariables';
 
 // Util
-import { formatNumber } from '../../../../util/formatNumber';
+import formatNumber from '../../../../util/formatNumber';
 import dateToIso from '../../../../util/dateToIso';
 
 // Children
@@ -23,7 +23,8 @@ export const STATUSES = {
 const IconTextStack = ({ item, ...props }) => {
   return (
     <IconTextStyled {...props}>
-      <IconStyled {...props} /> <span>{item}</span>
+      <IconStyled {...props} />
+      <span>{item}</span>
     </IconTextStyled>
   );
 };
@@ -31,11 +32,11 @@ const IconTextStack = ({ item, ...props }) => {
 const AccountDetails = ({ account, asHeader, actions }) => {
   const [status, setStatus] = useState();
   const [shouldBeGrey, setShouldBeGrey] = useState(false);
-  const { account_status } = account;
+  const { account_status: accountStatus } = account;
 
   useEffect(() => {
-    setStatus(STATUSES[account_status]);
-  }, [account_status]);
+    setStatus(STATUSES[accountStatus]);
+  }, [accountStatus]);
 
   useEffect(() => {
     setShouldBeGrey(asHeader || status === 'Importing' || status === 'Failed');
@@ -48,7 +49,8 @@ const AccountDetails = ({ account, asHeader, actions }) => {
   };
 
   const getUnprocessedAmount = () => {
-    const diff = parseInt(account.messages_in_account) - parseInt(account.processed_messages);
+    const diff =
+      parseInt(account.messages_in_account, 10) - parseInt(account.processed_messages, 10);
     return formatNumber(diff);
   };
 
