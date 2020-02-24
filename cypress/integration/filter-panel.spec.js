@@ -123,5 +123,12 @@ describe('Filter panel behavior', () => {
         });
       });
     });
+
+    describe('Email address search', () => {
+      before(() => {
+        cy.get('[data-cy="keyword_search_input"]').type('{shift}{backspace} {shift}{backspace}');
+      });
+      it('entering strings in to email address search using hotkey adds to list', () => {});
+    });
   });
 });
