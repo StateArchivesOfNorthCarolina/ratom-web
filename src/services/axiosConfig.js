@@ -1,5 +1,5 @@
 import axios from 'axios';
-import * as authManager from '../localStorageUtils/authManager.js';
+import * as authManager from '../localStorageUtils/authManager';
 
 export const API_VERSION = 'v1';
 
@@ -76,10 +76,11 @@ const handle401Response = async error => {
       authManager.removeUserFromLocalStorage();
       // TODO: Show user something a bit more friendly than just punting them back to login
 
-      window.location = '/';
-      return Promise.reject(`Token Refresh Error: ${refreshError.message}`);
+      window.location = '/'; //eslint-disable-line
+      return Promise.reject(new Error(`Token Refresh Error: ${refreshError.message}`));
     }
   }
+  return Promise.reject(error);
 };
 
 export default Axios;

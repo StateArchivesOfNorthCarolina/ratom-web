@@ -16,7 +16,7 @@ const FilterActions = ({ sendQuery }) => {
       <Button neutral small onClick={clearFilters}>
         Reset
       </Button>
-      <Button positive small onClick={sendQuery}>
+      <Button positive small onClick={sendQuery} data-cy="apply-search-button">
         Apply
       </Button>
     </FilterActionsStyled>

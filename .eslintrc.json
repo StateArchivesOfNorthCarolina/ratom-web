@@ -5,6 +5,21 @@
     "cypress/globals": true
   },
   "rules": {
-    "prettier/prettier": ["error"]
+    "prettier/prettier": ["error"],
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [".js", ".jsx"]
+      }
+    ],
+    "prefer-template": "off",
+    "react/prop-types": "off",
+    "dot-notation": "off",
+    "no-use-before-define": "off",
+    "no-underscore-dangle": "off",
+    "no-plusplus": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "import/no-cycle": "off"
   }
 }

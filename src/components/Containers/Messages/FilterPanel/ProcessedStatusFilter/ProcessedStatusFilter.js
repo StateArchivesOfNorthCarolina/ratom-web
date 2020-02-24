@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { AccountContext } from '../../MessagesMain';
 
 // Utils
-import { formatNumber } from '../../../../../util/formatNumber';
+import formatNumber from '../../../../../util/formatNumber';
 
 // Children
 import { FilterPanelItem } from '../FilterPanelItem';
@@ -15,7 +15,7 @@ const ALL = 'All';
 const PROCESSED = 'Processed';
 const UNPROCESSED = 'Unprocessed';
 
-const ProcessedStatusFilter = props => {
+const ProcessedStatusFilter = () => {
   const { setFilterQuery, filterQuery, facets } = useContext(AccountContext);
   const { processedStatus } = filterQuery;
   const [selected, setSelected] = useState(processedStatus);

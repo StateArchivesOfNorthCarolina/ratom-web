@@ -56,3 +56,24 @@ Cypress.Commands.add('goToMessagesList', () => {
     cy.contains('View').click({ force: true });
   });
 });
+
+Cypress.Commands.add('enterKeywordFilters', keywords => {
+  cy.get('[data-cy="keyword_search"]').within(() => {
+    for (let i = 0; i < keywords.length; i++) {
+      const keyword = keywords[i];
+      cy.get('[data-cy="keyword_search_input"]').type(`${keyword} {enter}`);
+    }
+  });
+});
+
+Cypress.Commands.add('applySearch', () => {
+  cy.get('[data-cy="apply-search-button"]').click();
+});
+
+Cypress.Commands.add('selectFirstMessage', () => {
+  cy.get('[data-cy="messages_list_item"]')
+    .first()
+    .within(() => {
+      cy.contains('View').click();
+    });
+});

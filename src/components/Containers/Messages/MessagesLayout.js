@@ -15,11 +15,11 @@ const MessagesLayout = () => {
   const { messages } = useContext(AccountContext);
 
   const renderMainContent = () => {
-    if (!messages) return <NoSearch />;
     if (messages) {
       if (messages.length === 0) return <NoContent />;
       return <MessagesContent />;
     }
+    return <NoSearch />;
   };
 
   return (
@@ -34,8 +34,11 @@ const MessagesLayout = () => {
 };
 
 const MessagesLayoutStyled = styled.section`
-  width: 100%;
   flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: hidden;
 `;
 
 const ContentWrapper = styled.div`
@@ -43,6 +46,7 @@ const ContentWrapper = styled.div`
   flex: 1;
   display: flex;
   flex-direction: row;
+  overflow-y: hidden;
 `;
 
 export default MessagesLayout;
