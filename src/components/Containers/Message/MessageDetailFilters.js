@@ -11,8 +11,8 @@ const MessageDetailFilters = props => {
   console.log('query in message detail: ', query);
   return (
     <MessageDetailFiltersStyled>
-      {query.keywords.length > 0 && (
-        <Keywords>
+      {query.keywords && query.keywords.length > 0 && (
+        <Keywords data-cy="message-detail-filter__keywords">
           <h3>Keywords</h3>
           <div>
             {query.keywords.map(keyword => (
@@ -23,14 +23,14 @@ const MessageDetailFilters = props => {
       )}
 
       {query.processedStatus && query.processedStatus !== 'All' && (
-        <ProcessedStatus>
+        <ProcessedStatus data-cy="message-detail-filter__processed">
           <h3>Message processed status</h3>
           <p>{query.processedStatus}</p>
         </ProcessedStatus>
       )}
 
-      {query.tags.length > 0 && (
-        <Tags>
+      {query.tags && query.tags.length > 0 && (
+        <Tags data-cy="message-detail-filter__tags">
           <h3>Labels</h3>
           <div>
             {query.tags.map(tag => (
@@ -40,8 +40,8 @@ const MessageDetailFilters = props => {
         </Tags>
       )}
 
-      {query.addresses.length > 0 && (
-        <Addresses>
+      {query.addresses && query.addresses.length > 0 && (
+        <Addresses data-cy="message-detail-filter__addresses">
           <h3>Email addresses</h3>
           <div>
             {query.addresses.map(address => (
