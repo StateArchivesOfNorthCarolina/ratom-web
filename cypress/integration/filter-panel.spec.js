@@ -128,7 +128,16 @@ describe('Filter panel behavior', () => {
       before(() => {
         cy.get('[data-cy="keyword_search_input"]').type('{shift}{backspace} {shift}{backspace}');
       });
-      it('entering strings in to email address search using hotkey adds to list', () => {});
+      it('entering strings in to email address search using hotkey adds to list', () => {
+        cy.get('[data-cy="address_list"]')
+          .children()
+          .should('have.length', 0);
+        cy.get('[data-cy="address_search_input]').type('nc.gov {shift}{enter}');
+        cy.get('[data-cy="address_list"]')
+          .children()
+          .should('have.length', 1);
+        cy.get('[data-cy="address_list"]').contains('nc.gov');
+      });
     });
   });
 });
