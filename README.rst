@@ -30,6 +30,10 @@ Next setup a virtualenv with python 3.7::
 
     $ virtualenv -p `which python3.7` $(WORKON_HOME)/ratom_web
 
+Install the requirements::
+
+    $ pip install -r requirements.txt
+
 Finally install node packages and start the server
 
 1. npm i
