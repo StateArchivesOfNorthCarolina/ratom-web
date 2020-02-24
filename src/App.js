@@ -22,18 +22,6 @@ import { ALERT_TIMEOUT } from './constants/applicationConstants';
 
 const THEME = defaultTheme;
 
-const AppStyled = styled.div`
-  /* min-height: 100vh; */
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-`;
-const alertOptions = {
-  timeout: ALERT_TIMEOUT,
-  position: positions.TOP_CENTER,
-  transitions: transitions.FADE
-};
-
 const App = () => {
   return (
     // Pancakes anybody?
@@ -50,6 +38,19 @@ const App = () => {
       </BrowserRouter>
     </ThemeProvider>
   );
+};
+
+const AppStyled = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  height: 100vh;
+  overflow-y: hidden;
+`;
+const alertOptions = {
+  timeout: ALERT_TIMEOUT,
+  position: positions.TOP_CENTER,
+  transitions: transitions.FADE
 };
 
 export default App;

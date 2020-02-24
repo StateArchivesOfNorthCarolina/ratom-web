@@ -16,6 +16,7 @@ import MessageHeader from './MessageHeader';
 import MessageDetail from './MessageDetail';
 import MessageFooter from './MessageFooter';
 import Spinner from '../../Components/Loading/Spinner';
+import MessageDetailFilters from './MessageDetailFilters';
 
 export const MessageContext = createContext();
 
@@ -49,7 +50,10 @@ const MessageMain = () => {
         ) : (
           <>
             <MessageHeader />
-            <MessageDetail />
+            <MessageContent>
+              <MessageDetailFilters />
+              <MessageDetail />
+            </MessageContent>
             <MessageFooter />
           </>
         )}
@@ -59,8 +63,17 @@ const MessageMain = () => {
 };
 
 const MessageMainStyled = styled.div`
+  flex: 1;
   display: flex;
   flex-direction: column;
+  overflow-y: hidden;
+`;
+
+const MessageContent = styled.div`
+  flex: 1;
+  display: flex;
+  overflow-y: hidden;
+  width: 100%;
 `;
 
 export default MessageMain;

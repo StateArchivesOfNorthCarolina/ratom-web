@@ -8,7 +8,7 @@ export const CREATE_ACCOUNT = 'accounts/';
 export const SHOW_ACCOUNT = 'accounts/';
 export const UPDATE_ACCOUNT = 'accounts/';
 
-//Files
+// Files
 export const RESTART_FILE = 'files/';
 
 //  Messages

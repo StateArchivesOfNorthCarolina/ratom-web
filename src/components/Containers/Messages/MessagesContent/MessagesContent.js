@@ -61,12 +61,12 @@ const MessagesContentStyled = styled.div`
   display: flex;
   flex-direction: column;
   border-left: ${borderSeparator};
+  overflow-y: hidden;
 `;
 
 const FixedToBottom = styled.div`
+  height: 14rem;
   width: 100%;
-  /* position: fixed; */
-  /* bottom: 0; */
   background-color: ${colorWhite};
 `;
 

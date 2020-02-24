@@ -45,9 +45,9 @@ const MessagesList = () => {
 };
 
 const MessagesListStyled = styled(motion.div)`
-  /* flex: 1; */
+  flex: 1;
   /* SUPER TEMP FIX... */
-  height: 57vh;
+  /* height: 57vh; */
   overflow: scroll;
   width: 100%;
   padding: 3rem 3rem 0 3rem;
