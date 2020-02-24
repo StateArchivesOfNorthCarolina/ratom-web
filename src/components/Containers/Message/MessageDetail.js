@@ -18,7 +18,7 @@ const MessageDetail = () => {
   const formatSentDate = sent_date => {
     try {
       const date = format(new Date(sent_date), 'MMM d, yyyy');
-      const time = format(new Date(sent_date), 'h:mmb');
+      const time = format(new Date(sent_date), 'h:mm a');
       return { date, time };
     } catch (error) {
       console.warn('Failed to format bad date. Error: ', error);
