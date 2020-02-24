@@ -67,7 +67,7 @@ const AccountDetails = ({ account, asHeader, actions }) => {
   return (
     <AccountDetailsStyled>
       <LeftContent shouldBeGrey={shouldBeGrey}>
-        <h4>{account.title}</h4>
+        <h4 data-cy="account-detail-account-title" id={account.id}>{account.title}</h4>
         <HeaderMeta shouldBeGrey={shouldBeGrey}>
           <p>Inclusive Dates: {getInclusiveDates()}</p>
           <div>{renderBadge()}</div>

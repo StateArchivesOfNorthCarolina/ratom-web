@@ -26,19 +26,17 @@ describe('Navigation and basic access control', () => {
     it('navigating to "/" when `localStorage` contains `token` displays accounts list', () => {
       cy.login();
       cy.location('pathname').should('include', '/');
-
       cy.contains('My Accounts');
     });
 
     it('clicking on a `account` sends user to `Messages List`', () => {
-      cy.wait(500); // Wait half a sec for the animations to finish.
+      // Wait half a sec for the animations to finish.
       cy.goToMessagesList();
-
       cy.location('pathname').should('match', accountsRegex);
     });
 
     it('clicking a `message` sends user to `Message Detail`', () => {
-      cy.get('[data-cy="keyword_search_input"]').type('test {enter} {shift}{enter}');
+      cy.get('[data-cy="keyword_search_input"]').type('computer {enter} {shift}{enter}');
       cy.wait(500);
       cy.get('[data-cy="messages_list_item_view_button"]')
         .first()
