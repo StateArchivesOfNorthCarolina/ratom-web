@@ -1,7 +1,4 @@
 describe('Filter panel behavior', () => {
-  let accountId;
-  let accountParam;
-
   before(() => {
     cy.login();
     cy.server();
@@ -10,11 +7,11 @@ describe('Filter panel behavior', () => {
 
   describe('Limit to account', () => {
     it('having selected an account to view, filtering messages returns only messages from that account', () => {
-      accountId = Cypress.env('accountId');
-      accountParam = Cypress.env('accountParam');
+      const accountId = Cypress.env('accountId');
+      const accountParam = Cypress.env('accountParam');
       cy.route('GET', `/api/v1/messages/?${accountParam}`).as('queryMessages');
       cy.goToMessagesList();
-      cy.url().should('include', `/accounts/${Cypress.env('accountId')}`);
+      cy.url().should('include', `/accounts/${accountId}`);
       cy.wait('@queryMessages');
       cy.get('@queryMessages').should(request => {
         const queryParams = request.url.split('?')[1];
@@ -102,7 +99,7 @@ describe('Filter panel behavior', () => {
               const matches = text.match(/(\d+)/);
               expect(matches);
               console.log('previous amount: ', matches[0]);
-              unprocessedAmount = matches[0];
+              unprocessedAmount = matches[0]; //eslint-disable-line
             });
           });
         });
