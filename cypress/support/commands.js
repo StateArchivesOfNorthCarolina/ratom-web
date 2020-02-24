@@ -32,12 +32,27 @@ Cypress.Commands.add('login', () => {
   cy.get('[data-cy="signin_button"]').click();
 });
 
-Cypress.Commands.add('goToMessagesList', () => {
-  cy.get('[data-cy="accounts_list_item"]')
-    .first()
-    .within(() => {
-      cy.get('[data-cy="account-detail-dot-menu"]').click();
-      cy.wait(200);
-      cy.contains('View').click({ force: true });
+Cypress.Commands.add('initialize_account', () => {
+  cy.contains('Bill Rapp [Sample Data]')
+    .parent()
+    .parent()
+    .as('b_rapp');
+  cy.get('@b_rapp').within(() => {
+    cy.get('[data-cy=account-detail-account-title]').then($h4 => {
+      Cypress.env('accountId', $h4.attr('id'));
+      Cypress.env('accountParam', `account=${$h4.attr('id')}&`);
     });
+  });
+});
+
+Cypress.Commands.add('goToMessagesList', () => {
+  cy.contains('Bill Rapp [Sample Data]')
+    .parent()
+    .parent()
+    .as('b_rapp');
+  cy.get('@b_rapp').within(() => {
+    cy.get('[data-cy="account-detail-dot-menu"]').click();
+    cy.wait(200);
+    cy.contains('View').click({ force: true });
+  });
 });

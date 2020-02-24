@@ -11,7 +11,7 @@ describe('Functionality around record status', () => {
   it('selecting a status from record status widget changes messasge detail record status', () => {
     cy.get('[data-cy="keyword_search"]').within(() => {
       cy.get('[data-cy="keyword_search_input"]')
-        .type('money {enter}')
+        .type('computer {enter}')
         .type('{shift} {enter}');
     });
 
@@ -20,7 +20,7 @@ describe('Functionality around record status', () => {
       .within(() => {
         cy.get('[data-cy="record_status_widget"]').click();
         cy.get('[data-cy="dropdown_action_item"]')
-          .contains('Non-record')
+          .contains('non-record')
           .click();
         cy.get('[data-cy="messages_list_item_view_button"]').click();
       });
