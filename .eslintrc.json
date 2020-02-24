@@ -20,6 +20,7 @@
     "no-plusplus": "off",
     "react/jsx-props-no-spreading": "off",
     "react/jsx-one-expression-per-line": "off",
+    "react/no-array-index-key": "off",
     "import/no-cycle": "off"
   }
 }

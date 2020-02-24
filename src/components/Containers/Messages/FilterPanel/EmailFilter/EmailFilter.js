@@ -6,10 +6,10 @@ import { FilterPanelItem } from '../FilterPanelItem';
 import Keyword from '../KeywordFilter/Keyword';
 import Input from '../../../../Components/Inputs/Input';
 
-const EmailFilter = ({ buildQuery, filterQuery, sendQuery, ...props }) => {
+const EmailFilter = ({ buildQuery, filterQuery, sendQuery }) => {
   const [address, setAddress] = useState('');
 
-  const { addresses } = filterQuery;
+  // const { addresses } = filterQuery;
 
   const handleDeleteKeyPressed = e => {
     e.stopPropagation();
@@ -31,10 +31,10 @@ const EmailFilter = ({ buildQuery, filterQuery, sendQuery, ...props }) => {
     }
   };
 
-  const removeAddress = address => {
+  const removeAddress = addressId => {
     const addresses = filterQuery.addresses.slice();
-    if (address) {
-      const addressLoc = filterQuery.addresses.indexOf(address);
+    if (addressId) {
+      const addressLoc = filterQuery.addresses.indexOf(addressId);
       addresses.splice(addressLoc, 1);
       buildQuery({
         ...filterQuery,
@@ -61,9 +61,9 @@ const EmailFilter = ({ buildQuery, filterQuery, sendQuery, ...props }) => {
         value={address}
       />
       <BadgesListStyled data-cy="address_list">
-        {addresses.map((address, i) => {
-          let name = address;
-          if (address.name) name = address.name;
+        {filterQuery.addresses.map((addy, i) => {
+          let name = addy;
+          if (addy.name) name = addy.name;
           return <Keyword name={name} key={`${i}_${name}`} remove={() => removeAddress(name)} />;
         })}
       </BadgesListStyled>
