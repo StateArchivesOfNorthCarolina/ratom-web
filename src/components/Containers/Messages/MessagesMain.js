@@ -18,6 +18,7 @@ import MessagesLayout from './MessagesLayout';
 import MessageMain from '../Message/MessageMain';
 import GenericNotFound from '../GenericNotFound';
 import keywordFilterBuilderAND from '../../../util/filterConstructors/keywordFilterBuilderAND';
+import dateRangeFilterBuilderAND from '../../../util/filterConstructors/dateRangeFilterBuilderAND';
 
 export const AccountContext = createContext(null);
 
@@ -92,10 +93,10 @@ const MessagesMain = props => {
   };
 
   const constructQueryString = queryObj => {
-    const { keywords, tags, processedStatus } = queryObj;
+    const { keywords, tags, dateRange, processedStatus } = queryObj;
     const params = [];
-
     if (keywords && keywords.length > 0) params.push(keywordFilterBuilderAND(keywords));
+    if (dateRange && dateRange.length > 0) params.push(dateRangeFilterBuilderAND(dateRange));
     if (tags && tags.length > 0) params.push(''); // TODO: Implement
     if (processedStatus) params.push(getProcessedParam(processedStatus));
     return params.join('&');
