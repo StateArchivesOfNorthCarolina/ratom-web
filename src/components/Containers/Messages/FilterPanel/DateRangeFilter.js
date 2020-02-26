@@ -20,27 +20,23 @@ const DateRangeFilter = ({ buildQuery, filterQuery }) => {
     buildQuery({ ...filterQuery, dateRange: [fd, td] });
   };
 
-  const setOriginalDates = (fd, td) => {
-    buildQuery({ ...filterQuery, origDates: [fd, td] });
-  };
-
   const addFromDate = date => {
+    setError();
     if (dateToIso(date) <= dateToIso(toDate)) {
       setFromDate(date);
       setDates(date, toDate);
       return;
     }
-    setFromDate(originalFromDate);
     setError('The "From" date may not be after the "To" date');
   };
 
   const addToDate = date => {
+    setError();
     if (dateToIso(date) >= dateToIso(fromDate)) {
       setToDate(date);
       setDates(fromDate, date);
       return;
     }
-    setToDate(originalToDate);
     setError('The "To" date may not be before the "From" date');
   };
 
@@ -51,14 +47,11 @@ const DateRangeFilter = ({ buildQuery, filterQuery }) => {
       setToDate(fromTo[1]);
       setOriginalFromDate(fromTo[0]);
       setOriginalToDate(fromTo[1]);
-      setOriginalDates(fromTo[0], fromTo[1]);
     }
 
     if (filterQuery['dateRange'].length > 0) {
       setFromDate(filterQuery['dateRange'][0]);
       setToDate(filterQuery['dateRange'][1]);
-      setOriginalFromDate(filterQuery['origDates'][0]);
-      setOriginalToDate(filterQuery['origDates'][1]);
     }
   }, [account]);
 
@@ -68,19 +61,17 @@ const DateRangeFilter = ({ buildQuery, filterQuery }) => {
       <Input
         data-cy="date_from_input"
         type="date"
-        icon="calendar"
         onChange={e => addFromDate(e.target.value)}
         min={originalFromDate}
-        max={originalToDate}
+        max={toDate || originalToDate}
         value={fromDate}
       />
       <h3>To:</h3>
       <Input
         data-cy="date_to_input"
         type="date"
-        icon="calendar"
         onChange={e => addToDate(e.target.value)}
-        min={originalFromDate}
+        min={fromDate || originalFromDate}
         max={originalToDate}
         value={toDate}
       />
