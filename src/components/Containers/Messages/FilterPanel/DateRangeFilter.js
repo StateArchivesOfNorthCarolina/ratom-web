@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
-import moment from 'moment';
+import dateToIso from '../../../../util/dateToIso';
 
 // Components
 import { AccountContext } from '../MessagesMain';
@@ -34,10 +34,7 @@ const DateRangeFilter = ({ buildQuery, filterQuery }) => {
 
   useEffect(() => {
     if (account && originalFromDate === undefined && originalToDate === undefined) {
-      const fromTo = [
-        moment(account.inclusive_dates[0]).format('YYYY-MM-DD'),
-        moment(account.inclusive_dates[1]).format('YYYY-MM-DD')
-      ];
+      const fromTo = [dateToIso(account.inclusive_dates[0]), dateToIso(account.inclusive_dates[1])];
       setFromDate(fromTo[0]);
       setToDate(fromTo[1]);
       setOriginalFromDate(fromTo[0]);
