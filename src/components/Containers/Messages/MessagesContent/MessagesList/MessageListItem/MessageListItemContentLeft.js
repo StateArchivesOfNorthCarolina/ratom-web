@@ -67,6 +67,7 @@ const MessageListItemContentLeft = ({ message, checked, checkMessage }) => {
 };
 
 const ContentLeft = styled.div`
+  flex: 1;
   display: flex;
   flex-direction: row;
   max-height: 15rem;
@@ -85,7 +86,6 @@ const Content = styled.div`
     /* TEMP */
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     span {
       font-size: 1rem;
       font-weight: normal;
@@ -114,23 +114,21 @@ const InnerContent = styled.div`
   flex: 1;
   display: flex;
   flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
 `;
 
 const MessageMeta = styled.div`
   display: flex;
   flex-direction: column;
-  flex: 1;
+  width: 65%;
 `;
 
 const MessageLabels = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  width: 20rem;
-  flex: 2;
-  height: 10rem;
-  // align-items: flex-start;
-  // justify-content: flex-start;
+  width: 35%;
 `;
 
 export default MessageListItemContentLeft;
