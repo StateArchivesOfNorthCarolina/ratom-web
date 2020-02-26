@@ -6,6 +6,7 @@ import dateToIso from '../../../../util/dateToIso';
 import { AccountContext } from '../MessagesMain';
 import { FilterPanelItem } from './FilterPanelItem';
 import Input from '../../../Components/Inputs/Input';
+import FormErrors from '../../../Components/Form/FormErrors';
 
 const DateRangeFilter = ({ buildQuery, filterQuery }) => {
   const { account } = useContext(AccountContext);
@@ -13,6 +14,7 @@ const DateRangeFilter = ({ buildQuery, filterQuery }) => {
   const [toDate, setToDate] = useState();
   const [originalFromDate, setOriginalFromDate] = useState();
   const [originalToDate, setOriginalToDate] = useState();
+  const [error, setError] = useState();
 
   const setDates = (fd, td) => {
     buildQuery({ ...filterQuery, dateRange: [fd, td] });
@@ -23,13 +25,20 @@ const DateRangeFilter = ({ buildQuery, filterQuery }) => {
   };
 
   const addFromDate = date => {
-    setFromDate(date);
-    setDates(date, toDate);
+    debugger;
+    if (dateToIso(date) <= dateToIso(toDate)) {
+      setFromDate(date);
+      setDates(date, toDate);
+    }
+    setError('The "From" date may not be after the "To" date');
   };
 
   const addToDate = date => {
-    setToDate(date);
-    setDates(fromDate, date);
+    if (dateToIso(date) <= dateToIso(toDate)) {
+      setToDate(date);
+      setDates(fromDate, date);
+    }
+    setError('The "To" date may not be before the "From" date');
   };
 
   useEffect(() => {
@@ -72,6 +81,7 @@ const DateRangeFilter = ({ buildQuery, filterQuery }) => {
         max={originalToDate}
         value={toDate}
       />
+      <FormErrors errors={[error]} />
     </DateRangeFilterStyled>
   );
 };
