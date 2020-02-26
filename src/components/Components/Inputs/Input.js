@@ -54,7 +54,7 @@ const Input = ({ label, icon, onEnterKey, className, onIconClick, ...props }) =>
             icon={derivedIcon}
             onClick={props.value ? handleIconClick : undefined}
             data-cy="button_icon"
-            focusable={true}
+            focusable
           />
         )}
       </div>

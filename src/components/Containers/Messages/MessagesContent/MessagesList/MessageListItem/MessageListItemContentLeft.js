@@ -17,7 +17,7 @@ const MessageListItemContentLeft = ({ message, checked, checkMessage }) => {
     <ContentLeft>
       <MessageCheckbox checked={checked} onChange={() => checkMessage(message.id)} />
       <InnerContent>
-        <h4>
+        <h4 data-cy="message-list-item__subject">
           {message.subject} <span TEMPORARY>{message.score}</span>
         </h4>
         <MsgTo>From: {message.msg_from}</MsgTo>
@@ -33,7 +33,7 @@ const MessageListItemContentLeft = ({ message, checked, checkMessage }) => {
                     dangerouslySetInnerHTML={{
                       __html: m
                     }}
-                  ></span>
+                  />
                   ...
                 </p>
               ))}

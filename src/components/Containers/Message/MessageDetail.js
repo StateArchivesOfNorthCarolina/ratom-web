@@ -1,24 +1,21 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 
+// Deps
+import { format } from 'date-fns';
+
 // Context
 import { MessageContext } from './MessageMain';
-import { format } from 'date-fns';
-import {
-  colorGrey,
-  colorBlack,
-  colorPrimary,
-  colorBlackLight
-} from '../../../styles/styleVariables';
+import { colorPrimary, colorBlackLight } from '../../../styles/styleVariables';
 import Attachment from './Attachment';
 
 const MessageDetail = () => {
   const { message } = useContext(MessageContext);
 
-  const formatSentDate = sent_date => {
+  const formatSentDate = sentDate => {
     try {
-      const date = format(new Date(sent_date), 'MMM d, yyyy');
-      const time = format(new Date(sent_date), 'h:mm a');
+      const date = format(new Date(sentDate), 'MMM d, yyyy');
+      const time = format(new Date(sentDate), 'h:mm a');
       return { date, time };
     } catch (error) {
       console.warn('Failed to format bad date. Error: ', error);
@@ -56,9 +53,10 @@ const MessageDetail = () => {
             <p>{date.date}</p>
             <p>{date.time}</p>
             <Attachments>
-              {message.attachments.map(attachment => (
-                <Attachment key={attachment.file_name} attachment={attachment} />
-              ))}
+              {message.attachments &&
+                message.attachments.map(attachment => (
+                  <Attachment key={attachment.file_name} attachment={attachment} />
+                ))}
             </Attachments>
           </MetaOther>
         </MessageMeta>
@@ -66,7 +64,7 @@ const MessageDetail = () => {
         <MessageBody>
           <MessageBodyStart>START MESSAGE BODY</MessageBodyStart>
           {/* //! TEMPORARY */}
-          <BodyContent dangerouslySetInnerHTML={{ __html: message.body }}></BodyContent>
+          <BodyContent dangerouslySetInnerHTML={{ __html: message.body }} />
           {/* //! END TEMPORARY */}
           <MessageBodyEnd>END MESSAGE BODY</MessageBodyEnd>
         </MessageBody>

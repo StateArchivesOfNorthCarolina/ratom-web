@@ -98,7 +98,6 @@ const MessagesMain = props => {
     if (tags && tags.length > 0) params.push(''); // TODO: Implement
     if (processedStatus) params.push(getProcessedParam(processedStatus));
     if (addresses && addresses.length > 0) params.push(emailFilterBuilderOR(addresses));
-    console.log('final query doo: ', params.join('&'));
     return params.join('&');
   };
 

@@ -52,7 +52,7 @@ const EmailFilter = ({ buildQuery, filterQuery, sendQuery }) => {
     <EmailFilterStyled>
       <h3>Email addresses</h3>
       <Input
-        data-cy="address_search_input"
+        data-cy="address-search-input"
         type="text"
         icon="add"
         onIconClick={addAddress}
@@ -60,7 +60,7 @@ const EmailFilter = ({ buildQuery, filterQuery, sendQuery }) => {
         onChange={e => setAddress(e.target.value)}
         value={address}
       />
-      <BadgesListStyled data-cy="address_list">
+      <BadgesListStyled data-cy="address-list">
         {filterQuery.addresses.map((addy, i) => {
           let name = addy;
           if (addy.name) name = addy.name;
