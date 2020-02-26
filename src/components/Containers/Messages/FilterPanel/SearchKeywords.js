@@ -73,6 +73,7 @@ const SearchKeywords = ({ buildQuery, filterQuery, sendQuery, ...props }) => {
               key={`${i}_${name}`}
               type={keyword.type || 'normal'}
               remove={() => removeKeyword(name)}
+              data-cy="keyword_item"
             />
           );
         })}

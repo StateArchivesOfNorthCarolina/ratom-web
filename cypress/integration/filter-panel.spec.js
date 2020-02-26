@@ -123,5 +123,53 @@ describe('Filter panel behavior', () => {
         });
       });
     });
+
+    describe('Date Range Filter', () => {
+      const fromDate = '2001-09-26';
+      const toDate = '2001-12-10';
+      it('contains the correct from and to dates', () => {
+        cy.get('[data-cy="date_range_filter_input"]').within(() => {
+          cy.get('[data-cy="date_from_input"]').should($dateInput => {
+            expect($dateInput.value === fromDate);
+          });
+
+          cy.get('[data-cy="date_to_input"]').should($dateInput => {
+            expect($dateInput.value === toDate);
+          });
+        });
+      });
+
+      it('cannot have insane values', () => {
+        cy.get('[data-cy="date_range_filter_input"]').within(() => {
+          cy.get('[data-cy="date_from_input"]').type('2001-10-04');
+          cy.get('[data-cy="date_to_input"]').type('2001-10-03');
+          cy.get('[data-cy="date_to_input"]').should($dateInput => {
+            expect($dateInput.value === toDate);
+          });
+        });
+        cy.get('[data-cy="date_range_filter_input"]').contains('The "To" date may not ');
+        cy.get('[data-cy="date_range_filter_input"]').within(() => {
+          cy.get('[data-cy="date_to_input"]').type('2001-12-03');
+          cy.get('[data-cy="date_from_input"]').type('2001-12-10');
+          cy.get('[data-cy="date_from_input"]').should($dateInput => {
+            expect($dateInput.value === fromDate);
+          });
+        });
+        cy.get('[data-cy="date_range_filter_input"]').contains('The "From" date may not');
+      });
+
+      it('should show a two message list on Bill Rapp [Sample Data]', () => {
+        const dateRange = ['2001-10-01', '2001-10-10'];
+        cy.clearKeywords(2);
+        cy.enterDateFilters(dateRange);
+        cy.applySearch();
+        cy.wait(500);
+        cy.get('[data-cy="messages-list"]')
+          .find('MessageListItem')
+          .should($messageList => {
+            expect($messageList.length === 2);
+          });
+      });
+    });
   });
 });
