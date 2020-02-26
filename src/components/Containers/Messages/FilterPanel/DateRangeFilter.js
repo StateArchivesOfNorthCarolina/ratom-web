@@ -25,19 +25,22 @@ const DateRangeFilter = ({ buildQuery, filterQuery }) => {
   };
 
   const addFromDate = date => {
-    debugger;
     if (dateToIso(date) <= dateToIso(toDate)) {
       setFromDate(date);
       setDates(date, toDate);
+      return;
     }
+    setFromDate(originalFromDate);
     setError('The "From" date may not be after the "To" date');
   };
 
   const addToDate = date => {
-    if (dateToIso(date) <= dateToIso(toDate)) {
+    if (dateToIso(date) >= dateToIso(fromDate)) {
       setToDate(date);
       setDates(fromDate, date);
+      return;
     }
+    setToDate(originalToDate);
     setError('The "To" date may not be before the "From" date');
   };
 
