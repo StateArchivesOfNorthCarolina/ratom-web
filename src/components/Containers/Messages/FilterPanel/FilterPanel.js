@@ -9,6 +9,7 @@ import FilterActions from './FilterActions';
 import { AccountContext } from '../MessagesMain';
 import ProcessedStatusFilter from './ProcessedStatusFilter/ProcessedStatusFilter';
 import EmailFilter from './EmailFilter/EmailFilter';
+import DateRangeFilter from './DateRangeFilter';
 
 const FilterPanel = () => {
   const { setQuery, filterQuery, setFilterQuery } = useContext(AccountContext);
@@ -23,6 +24,7 @@ const FilterPanel = () => {
       <KeywordFilter buildQuery={setFilterQuery} filterQuery={filterQuery} sendQuery={sendQuery} />
       <ProcessedStatusFilter buildQuery={setFilterQuery} filterQuery={filterQuery} />
       <EmailFilter buildQuery={setFilterQuery} filterQuery={filterQuery} sendQuery={sendQuery} />
+      <DateRangeFilter buildQuery={setFilterQuery} filterQuery={filterQuery} />
       <FilterActions sendQuery={sendQuery} />
     </FilterPanelStyled>
   );

@@ -66,6 +66,21 @@ Cypress.Commands.add('enterKeywordFilters', keywords => {
   });
 });
 
+Cypress.Commands.add('clearKeywords', numToClear => {
+  for (let i = 0; i < numToClear; i++) {
+    cy.get('[data-cy="keyword_close"]').each($keyword => {
+      $keyword.click();
+    });
+  }
+});
+
+Cypress.Commands.add('enterDateFilters', dateRange => {
+  cy.get('[data-cy="date_range_filter_input"]').within(() => {
+    cy.get('[data-cy="date_from_input"]').type(dateRange[0]);
+    cy.get('[data-cy="date_to_input"]').type(dateRange[1]);
+  });
+});
+
 Cypress.Commands.add('applySearch', () => {
   cy.get('[data-cy="apply-search-button"]').click();
 });

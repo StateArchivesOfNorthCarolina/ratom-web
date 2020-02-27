@@ -36,6 +36,7 @@ const MessagesList = () => {
       animate="enter"
       exit="exit"
       variants={LIST_VARIANTS}
+      data-cy="messages-list"
     >
       {messages.map((message, i) => (
         <MessageListItem key={message.id} message={message} i={i} variants={LIST_ITEM_VARIANTS} />
