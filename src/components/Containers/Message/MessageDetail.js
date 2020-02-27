@@ -16,10 +16,10 @@ import ParsedMessageBody from './ParsedMessageBody';
 const MessageDetail = () => {
   const { message } = useContext(MessageContext);
 
-  const formatSentDate = sendDate => {
+  const formatSentDate = sentDate => {
     try {
-      const date = format(new Date(sendDate), 'MMM d, yyyy');
-      const time = format(new Date(sendDate), 'h:mm a');
+      const date = format(new Date(sentDate), 'MMM d, yyyy');
+      const time = format(new Date(sentDate), 'h:mm a');
       return { date, time };
     } catch (error) {
       console.warn('Failed to format bad date. Error: ', error);
@@ -57,9 +57,10 @@ const MessageDetail = () => {
             <p>{date.date}</p>
             <p>{date.time}</p>
             <Attachments>
-              {message.attachments.map(attachment => (
-                <Attachment key={attachment.file_name} attachment={attachment} />
-              ))}
+              {message.attachments &&
+                message.attachments.map(attachment => (
+                  <Attachment key={attachment.file_name} attachment={attachment} />
+                ))}
             </Attachments>
           </MetaOther>
         </MessageMeta>

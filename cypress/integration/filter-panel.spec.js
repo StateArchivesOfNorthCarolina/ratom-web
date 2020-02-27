@@ -72,13 +72,11 @@ describe('Filter panel behavior', () => {
         cy.server();
         cy.route('GET', `/api/v1/messages/?${expectedQueryParams}`).as('filterMessages');
         // hitting shift+enter actually executes the query
-        cy.get('[data-cy="keyword_search_input"]')
-          .type('{shift}{enter}')
-          .wait('@filterMessages')
-          .should(request => {
-            const queryParams = request.url.split('?')[1];
-            expect(queryParams).to.eq(expectedQueryParams);
-          });
+        cy.get('[data-cy="keyword_search_input"]').type('{shift}{enter}');
+        cy.wait('@filterMessages').should(request => {
+          const queryParams = request.url.split('?')[1];
+          expect(queryParams).to.eq(expectedQueryParams);
+        });
       });
     });
 
@@ -98,7 +96,6 @@ describe('Filter panel behavior', () => {
               // text should have a number
               const matches = text.match(/(\d+)/);
               expect(matches);
-              console.log('previous amount: ', matches[0]);
               unprocessedAmount = matches[0]; //eslint-disable-line
             });
           });
@@ -121,6 +118,66 @@ describe('Filter panel behavior', () => {
             });
           });
         });
+      });
+    });
+
+    describe('Email address search', () => {
+      const emailSearch = 'EES';
+      const expectedCount = '5';
+      const expectedFirstSubject = '2001 Special Stock Option Grant Awards';
+      before(() => {
+        cy.get('[data-cy="keyword_search_input"]').type('{shift}{backspace} {shift}{backspace}');
+      });
+      it('entering strings in to email address search using hotkey adds to list', () => {
+        cy.get('[data-cy="address-search-input"]').type(`${emailSearch} {enter}`);
+        cy.get('[data-cy="address-list"]')
+          .children()
+          .should('have.length', 1);
+        cy.get('[data-cy="address-list"]').contains(emailSearch);
+      });
+
+      it('returns the expected results', () => {
+        cy.applySearch();
+        cy.get('[data-cy="search-results__count"]').should($countEl => {
+          const count = $countEl.text();
+          expect(count).to.eq(expectedCount);
+        });
+        cy.get('[data-cy="message-list-item__subject"]')
+          .first()
+          .should($subject => {
+            const subject = $subject.text();
+            expect(subject).to.include(expectedFirstSubject);
+          });
+      });
+
+      it('is case insensitive', () => {
+        cy.get('[data-cy="address-search-input"]').type('{shift}{backspace} {shift}{backspace}');
+        cy.get('[data-cy="address-search-input"]').type(`${emailSearch.toLowerCase()} {enter}`);
+        cy.applySearch();
+        cy.assertMessageCountEquals(expectedCount);
+        cy.get('[data-cy="message-list-item__subject"]')
+          .first()
+          .should($subject => {
+            const subject = $subject.text();
+            expect(subject).to.include(expectedFirstSubject);
+          });
+      });
+
+      it('uses "OR", not "AND"', () => {
+        cy.get('[data-cy="address-search-input"]').type('{shift}{backspace} {shift}{backspace}');
+        // Search @ENRON.com
+        cy.get('[data-cy="address-search-input"]').type('@ENRON.com {enter}');
+        cy.applySearch();
+        // Should get 4 results
+        cy.assertMessageCountEquals('4');
+
+        // Add another term to the search
+        cy.get('[data-cy="address-search-input"]').type('ees {enter}');
+        cy.applySearch();
+
+        // Adding additional terms to AND filter would lower results.
+        // OR should eithe stay the same, or increase. With this test data, it should equal 5.
+        cy.assertMessageCountEquals('5');
       });
     });
   });

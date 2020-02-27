@@ -6,7 +6,7 @@ import { borderSeparator } from '../../../styles/styleVariables';
 import { AccountContext } from '../Messages/MessagesMain';
 import Keyword from '../Messages/Keyword';
 
-const MessageDetailFilters = props => {
+const MessageDetailFilters = () => {
   const { query } = useContext(AccountContext);
   console.log('query in message detail: ', query);
   return (

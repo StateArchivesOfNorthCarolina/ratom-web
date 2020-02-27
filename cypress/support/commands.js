@@ -77,3 +77,14 @@ Cypress.Commands.add('selectFirstMessage', () => {
       cy.contains('View').click();
     });
 });
+
+Cypress.Commands.add('assertMessageCountEquals', assertedTotal => {
+  cy.get('[data-cy="search-results__count"]').should($countEl => {
+    const count = $countEl.text();
+    expect(count).to.eq(assertedTotal);
+  });
+});
+
+// {
+//   return cy.get('[data-cy="search-results__count"]').should($countEl => $countEl.text());
+// });

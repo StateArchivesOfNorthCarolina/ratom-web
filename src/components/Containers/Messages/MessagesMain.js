@@ -17,7 +17,7 @@ import emptyQuery from './emptyQuery';
 import MessagesLayout from './MessagesLayout';
 import MessageMain from '../Message/MessageMain';
 import GenericNotFound from '../GenericNotFound';
-import keywordFilterBuilderAND from '../../../util/filterConstructors/keywordFilterBuilderAND';
+import { keywordFilterBuilderAND, emailFilterBuilderOR } from '../../../util/filterConstructors';
 
 export const AccountContext = createContext(null);
 
@@ -92,12 +92,12 @@ const MessagesMain = props => {
   };
 
   const constructQueryString = queryObj => {
-    const { keywords, tags, processedStatus } = queryObj;
+    const { keywords, tags, processedStatus, addresses } = queryObj;
     const params = [];
-
     if (keywords && keywords.length > 0) params.push(keywordFilterBuilderAND(keywords));
     if (tags && tags.length > 0) params.push(''); // TODO: Implement
     if (processedStatus) params.push(getProcessedParam(processedStatus));
+    if (addresses && addresses.length > 0) params.push(emailFilterBuilderOR(addresses));
     return params.join('&');
   };
 

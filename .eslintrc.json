@@ -18,8 +18,12 @@
     "no-use-before-define": "off",
     "no-underscore-dangle": "off",
     "no-plusplus": "off",
+    "no-prototype-builtins": "off",
     "react/jsx-props-no-spreading": "off",
     "react/jsx-one-expression-per-line": "off",
+    "react/no-array-index-key": "off",
+    "react/destructuring-assignment": "off",
+    "react/no-danger": "off",
     "import/no-cycle": "off"
   }
 }
