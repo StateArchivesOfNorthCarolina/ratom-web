@@ -8,7 +8,8 @@ import {
   faSearch,
   faChevronLeft,
   faChevronRight,
-  faPlus
+  faPlus,
+  faCalendar
 } from '@fortawesome/free-solid-svg-icons';
 import { lighten } from '../../../styles/styleUtils/lighten-darken';
 
@@ -29,6 +30,9 @@ const Input = ({ label, icon, onEnterKey, className, onIconClick, ...props }) =>
       break;
     case 'question':
       derivedIcon = faQuestion;
+      break;
+    case 'calendar':
+      derivedIcon = faCalendar;
       break;
     default:
       derivedIcon = faQuestion;

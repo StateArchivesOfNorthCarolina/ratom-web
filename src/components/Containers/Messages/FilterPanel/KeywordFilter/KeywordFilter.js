@@ -33,20 +33,20 @@ const KeywordFilter = ({ buildQuery, filterQuery, sendQuery, ...props }) => {
     }
   };
 
-  const removeKeyword = keyword => {
-    const keywords = filterQuery.keywords.slice();
-    if (keyword) {
-      const keywordLoc = filterQuery.keywords.indexOf(keyword);
-      keywords.splice(keywordLoc, 1);
+  const removeKeyword = kw => {
+    const kws = filterQuery.keywords.slice();
+    if (kw) {
+      const keywordLoc = filterQuery.keywords.indexOf(kw);
+      kws.splice(keywordLoc, 1);
       buildQuery({
         ...filterQuery,
-        keywords
+        kws
       });
     } else {
-      keywords.pop();
+      kws.pop();
       buildQuery({
         ...filterQuery,
-        keywords
+        kws
       });
     }
   };
@@ -64,10 +64,17 @@ const KeywordFilter = ({ buildQuery, filterQuery, sendQuery, ...props }) => {
         value={keyword}
       />
       <BadgesListStyled data-cy="keyword_list">
-        {keywords.map((keyword, i) => {
-          let name = keyword;
-          if (keyword.name) name = keyword.name;
-          return <Keyword name={name} key={`${i}_${name}`} remove={() => removeKeyword(name)} />;
+        {keywords.map((kw, i) => {
+          let name = kw;
+          if (kw.name) name = kw.name;
+          return (
+            <Keyword
+              name={name}
+              key={`${i}_${name}`}
+              remove={() => removeKeyword(name)}
+              data-cy="keyword_item"
+            />
+          );
         })}
       </BadgesListStyled>
     </KeywordFilterStyled>

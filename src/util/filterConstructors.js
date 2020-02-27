@@ -10,3 +10,8 @@ export const emailFilterBuilderOR = emails => {
   // ? should we highlight emails addresses? It can get a bit confusing.
   return `email__contains=${emailsJoined}`; // &highlight=msg_to&highlight=msg_from`;
 };
+
+export const dateRangeFilterBuilderAND = dateRange => {
+  const [fromDate, toDate] = dateRange;
+  return `sent_date__range=${fromDate}__${toDate}`;
+};

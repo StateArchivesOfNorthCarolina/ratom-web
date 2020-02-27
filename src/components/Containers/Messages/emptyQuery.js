@@ -3,5 +3,6 @@ export default {
   labels: [],
   addresses: [],
   tags: [],
+  dateRange: [],
   processedStatus: 'All'
 };
