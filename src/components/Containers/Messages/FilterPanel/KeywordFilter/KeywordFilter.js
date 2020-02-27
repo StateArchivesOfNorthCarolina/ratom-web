@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 // Components
-import { FilterPanelItem } from './FilterPanelItem';
-import Input from '../../../Components/Inputs/Input';
+import { FilterPanelItem } from '../FilterPanelItem';
+import Input from '../../../../Components/Inputs/Input';
 
 // Children
-import Keyword from '../Keyword';
+import Keyword from './Keyword';
 
-const SearchKeywords = ({ buildQuery, filterQuery, sendQuery, ...props }) => {
+const KeywordFilter = ({ buildQuery, filterQuery, sendQuery, ...props }) => {
   const [keyword, setKeyword] = useState('');
 
   const { keywords } = filterQuery;
@@ -33,26 +33,26 @@ const SearchKeywords = ({ buildQuery, filterQuery, sendQuery, ...props }) => {
     }
   };
 
-  const removeKeyword = keyword => {
-    const keywords = filterQuery.keywords.slice();
-    if (keyword) {
-      const keywordLoc = filterQuery.keywords.indexOf(keyword);
-      keywords.splice(keywordLoc, 1);
+  const removeKeyword = kw => {
+    const kws = filterQuery.keywords.slice();
+    if (kw) {
+      const keywordLoc = filterQuery.keywords.indexOf(kw);
+      kws.splice(keywordLoc, 1);
       buildQuery({
         ...filterQuery,
-        keywords
+        kws
       });
     } else {
-      keywords.pop();
+      kws.pop();
       buildQuery({
         ...filterQuery,
-        keywords
+        kws
       });
     }
   };
 
   return (
-    <SearchKeywordsStyled {...props} data-cy="keyword_search">
+    <KeywordFilterStyled {...props} data-cy="keyword_search">
       <h3>Keywords</h3>
       <Input
         data-cy="keyword_search_input"
@@ -64,25 +64,24 @@ const SearchKeywords = ({ buildQuery, filterQuery, sendQuery, ...props }) => {
         value={keyword}
       />
       <BadgesListStyled data-cy="keyword_list">
-        {keywords.map((keyword, i) => {
-          let name = keyword;
-          if (keyword.name) name = keyword.name;
+        {keywords.map((kw, i) => {
+          let name = kw;
+          if (kw.name) name = kw.name;
           return (
             <Keyword
               name={name}
               key={`${i}_${name}`}
-              type={keyword.type || 'normal'}
               remove={() => removeKeyword(name)}
+              data-cy="keyword_item"
             />
           );
         })}
       </BadgesListStyled>
-      {/* <BadgesList badges={keywords} onRemoveBadge={removeKeyword} badgeType="keyword" /> */}
-    </SearchKeywordsStyled>
+    </KeywordFilterStyled>
   );
 };
 
-const SearchKeywordsStyled = styled(FilterPanelItem)``;
+const KeywordFilterStyled = styled(FilterPanelItem)``;
 
 const BadgesListStyled = styled.div`
   display: flex;
@@ -91,4 +90,4 @@ const BadgesListStyled = styled.div`
   margin: 1rem 0;
 `;
 
-export default SearchKeywords;
+export default KeywordFilter;

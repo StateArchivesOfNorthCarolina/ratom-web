@@ -99,6 +99,13 @@ const Content = styled.div`
   }
 `;
 
+const MsgTo = styled.p`
+  max-width: 50vw;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
 const MessageHighlights = styled.div``;
 
 const Highlight = styled.div`
