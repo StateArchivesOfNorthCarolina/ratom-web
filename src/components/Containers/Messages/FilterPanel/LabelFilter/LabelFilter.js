@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 
 // Components
+import { AccountContext } from '../../MessagesMain';
 import { FilterPanelItem } from '../FilterPanelItem';
 import Input from '../../../../Components/Inputs/Input';
 import Label from './Label';
 
 const LabelFilter = ({ buildQuery, filterQuery, sendQuery, ...props }) => {
   const [label, setLabel] = useState();
+  const { account } = useContext(AccountContext);
 
   const { labels } = filterQuery;
 
@@ -51,7 +53,7 @@ const LabelFilter = ({ buildQuery, filterQuery, sendQuery, ...props }) => {
 
   return (
     <LabelFilterStyled {...props} data-cy="label_filter">
-      <h4>Labels</h4>
+      <h3>Labels</h3>
       <Input
         data-cy="label_filter_input"
         type="text"
