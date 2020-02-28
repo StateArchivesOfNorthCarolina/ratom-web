@@ -14,10 +14,6 @@ const MessageListItemContentLeft = ({ message, checked, checkMessage }) => {
     return [];
   };
 
-  const onRemoveLabel = name => {
-    return 0;
-  };
-
   return (
     <ContentLeft>
       <MessageCheckbox checked={checked} onChange={() => checkMessage(message.id)} />
