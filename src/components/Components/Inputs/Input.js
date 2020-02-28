@@ -104,7 +104,7 @@ const IconStyled = styled(FontAwesomeIcon)`
         }
 
         &:active {
-          transform: translate(1px, 1px);
+          transform: translate(-1px, -45%);
         }
       `;
     }
