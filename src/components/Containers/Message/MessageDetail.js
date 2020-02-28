@@ -1,24 +1,25 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 
+// Deps
+import { format } from 'date-fns';
+
+import { colorBlackLight } from '../../../styles/styleVariables';
+
 // Context
 import { MessageContext } from './MessageMain';
-import { format } from 'date-fns';
-import {
-  colorGrey,
-  colorBlack,
-  colorPrimary,
-  colorBlackLight
-} from '../../../styles/styleVariables';
+
+// Children
 import Attachment from './Attachment';
+import ParsedMessageBody from './ParsedMessageBody';
 
 const MessageDetail = () => {
   const { message } = useContext(MessageContext);
 
-  const formatSentDate = sent_date => {
+  const formatSentDate = sentDate => {
     try {
-      const date = format(new Date(sent_date), 'MMM d, yyyy');
-      const time = format(new Date(sent_date), 'h:mm a');
+      const date = format(new Date(sentDate), 'MMM d, yyyy');
+      const time = format(new Date(sentDate), 'h:mm a');
       return { date, time };
     } catch (error) {
       console.warn('Failed to format bad date. Error: ', error);
@@ -38,7 +39,7 @@ const MessageDetail = () => {
       <MessageContent>
         <MessageMeta>
           <MetaMain>
-            <h3>{message.subject}</h3>
+            <h4>{message.subject}</h4>
             <p>
               <span>To: </span>
               {message.msg_to}
@@ -56,20 +57,14 @@ const MessageDetail = () => {
             <p>{date.date}</p>
             <p>{date.time}</p>
             <Attachments>
-              {message.attachments.map(attachment => (
-                <Attachment key={attachment.file_name} attachment={attachment} />
-              ))}
+              {message.attachments &&
+                message.attachments.map(attachment => (
+                  <Attachment key={attachment.file_name} attachment={attachment} />
+                ))}
             </Attachments>
           </MetaOther>
         </MessageMeta>
-
-        <MessageBody>
-          <MessageBodyStart>START MESSAGE BODY</MessageBodyStart>
-          {/* //! TEMPORARY */}
-          <BodyContent dangerouslySetInnerHTML={{ __html: message.body }}></BodyContent>
-          {/* //! END TEMPORARY */}
-          <MessageBodyEnd>END MESSAGE BODY</MessageBodyEnd>
-        </MessageBody>
+        <ParsedMessageBody message={message} />
       </MessageContent>
     </MessageDetailStyled>
   );
@@ -128,27 +123,6 @@ const Attachments = styled.div`
 
 const MessagePath = styled.div`
   margin: 2rem 0;
-`;
-const MessageBody = styled.div``;
-
-const BodyContent = styled.div`
-  padding: 0 2rem;
-`;
-
-const MessageBodyDivider = styled.p`
-  width: 100%;
-  text-align: center;
-  color: ${colorPrimary};
-`;
-
-const MessageBodyStart = styled(MessageBodyDivider)`
-  border-bottom: 1px dashed ${colorPrimary};
-  margin-bottom: 1rem;
-`;
-
-const MessageBodyEnd = styled(MessageBodyDivider)`
-  border-top: 1px dashed ${colorPrimary};
-  margin-top: 1rem;
 `;
 
 export default MessageDetail;
