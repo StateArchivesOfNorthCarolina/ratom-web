@@ -40,13 +40,13 @@ const KeywordFilter = ({ buildQuery, filterQuery, sendQuery, ...props }) => {
       kws.splice(keywordLoc, 1);
       buildQuery({
         ...filterQuery,
-        kws
+        keywords: kws
       });
     } else {
       kws.pop();
       buildQuery({
         ...filterQuery,
-        kws
+        keywords: kws
       });
     }
   };
