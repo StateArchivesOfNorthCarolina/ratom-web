@@ -48,7 +48,7 @@ const MessageListItemContentLeft = ({ message, checked, checkMessage }) => {
             </MessageHighlights>
           </MessageMeta>
           <MessageLabels>
-            {message.labels.map((badge, i) => {
+            {message.labels.importer.map((badge, i) => {
               let name = badge;
               if (badge.name) name = badge.name;
               return (
