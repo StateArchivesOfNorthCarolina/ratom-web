@@ -40,7 +40,7 @@ const BadgeStyled = styled.div`
 
   background-color: ${props => {
     switch (props.type) {
-      case 'importer':
+      case 'I':
         return colorBadgeGreen;
       default:
         return colorBadgeBlue;

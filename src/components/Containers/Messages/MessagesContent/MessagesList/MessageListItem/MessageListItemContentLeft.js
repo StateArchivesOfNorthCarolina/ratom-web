@@ -44,14 +44,14 @@ const MessageListItemContentLeft = ({ message, checked, checkMessage }) => {
             </MessageHighlights>
           </MessageMeta>
           <MessageLabels>
-            {message.labels.importer.map((badge, i) => {
+            {message.audit.labels.map((badge, i) => {
               let name = badge;
               if (badge.name) name = badge.name;
               return (
                 <Badge
                   name={name}
                   key={`${i}_${name}`}
-                  type={'importer'}
+                  type={badge.type}
                 />
               );
             })}

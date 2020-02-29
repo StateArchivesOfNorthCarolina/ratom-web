@@ -50,14 +50,14 @@ const MessageDetail = () => {
               {message.msg_from}
             </MetaHeader>
             <MessageLabels>
-              {message.audit.labels.importer.map((badge, i) => {
+              {message.audit.labels.map((badge, i) => {
                 let name = badge;
                 if (badge.name) name = badge.name;
                 return (
                   <Badge
                     name={name}
                     key={`${i}_${name}`}
-                    type={'importer'}
+                    type={badge.type}
                   />
                 );
               })}
@@ -147,7 +147,7 @@ const MessageLabels = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  width: 35%;
+  width: 75%;
 `;
 
 export default MessageDetail;
