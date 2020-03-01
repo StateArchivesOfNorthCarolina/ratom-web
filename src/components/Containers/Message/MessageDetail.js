@@ -12,6 +12,7 @@ import { MessageContext } from './MessageMain';
 // Children
 import Attachment from './Attachment';
 import ParsedMessageBody from './ParsedMessageBody';
+import Badge from '../Messages/Badge'
 
 const MessageDetail = () => {
   const { message } = useContext(MessageContext);
@@ -40,15 +41,27 @@ const MessageDetail = () => {
         <MessageMeta>
           <MetaMain>
             <h4>{message.subject}</h4>
-            <p>
+            <MetaHeader>
               <span>To: </span>
               {message.msg_to}
-            </p>
-            <p>
+            </MetaHeader>
+            <MetaHeader>
               <span>From: </span>
               {message.msg_from}
-            </p>
-            <h3>[Message Tags Go Here]</h3>
+            </MetaHeader>
+            <MessageLabels>
+              {message.audit.labels.map((badge, i) => {
+                let name = badge;
+                if (badge.name) name = badge.name;
+                return (
+                  <Badge
+                    name={name}
+                    key={`${i}_${name}`}
+                    type={badge.type}
+                  />
+                );
+              })}
+            </MessageLabels>
             <MessagePath>
               <h3>{formatDirectory(message.directory)}</h3>
             </MessagePath>
@@ -92,15 +105,9 @@ const MetaMain = styled.div`
   display: flex;
   flex-direction: column;
 
-  p,
   h3 {
     font-size: 1.5rem;
     margin-bottom: 1rem;
-  }
-
-  p span {
-    color: ${colorBlackLight};
-    font-weight: bold;
   }
 `;
 
@@ -114,6 +121,17 @@ const MetaOther = styled.div`
   }
 `;
 
+const MetaHeader = styled.div`
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: ${colorBlackLight};
+  line-height: 1.6;
+
+  span {
+    font-weight: bold;
+  }
+`;
+
 const Attachments = styled.div`
   display: flex;
   flex-direction: column;
@@ -123,6 +141,13 @@ const Attachments = styled.div`
 
 const MessagePath = styled.div`
   margin: 2rem 0;
+`;
+
+const MessageLabels = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 75%;
 `;
 
 export default MessageDetail;
