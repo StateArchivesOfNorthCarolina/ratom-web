@@ -12,6 +12,7 @@ const ActionButtonStyled = styled.button`
   border: 2px solid ${props => props.theme.colorPrimary};
   cursor: pointer;
 
+  margin-top: 1rem;
   padding: 1rem;
 
   font-size: 1.6rem;
