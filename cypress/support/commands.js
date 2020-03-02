@@ -74,10 +74,17 @@ Cypress.Commands.add('clearKeywords', numToClear => {
   }
 });
 
+Cypress.Commands.add('resetFilters', () => {
+  cy.get('[data-cy="reset-filters"]').click();
+});
+
 Cypress.Commands.add('enterDateFilters', dateRange => {
+  cy.get('[data-cy="date_to_input"]').type('{shift}{backspace}'.repeat(10));
+  cy.get('[data-cy="date_from_input"]').type('{shift}{backspace}'.repeat(10));
   cy.get('[data-cy="date_range_filter_input"]').within(() => {
     cy.get('[data-cy="date_from_input"]').type(dateRange[0]);
     cy.get('[data-cy="date_to_input"]').type(dateRange[1]);
+    cy.get('[data-cy="apply_date_range_filter"]').click();
   });
 });
 

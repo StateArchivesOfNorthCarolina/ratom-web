@@ -197,22 +197,12 @@ describe('Filter panel behavior', () => {
       });
 
       it('cannot have insane values', () => {
-        cy.get('[data-cy="date_range_filter_input"]').within(() => {
-          cy.get('[data-cy="date_from_input"]').type('2001-10-04');
-          cy.get('[data-cy="date_to_input"]').type('2001-10-03');
-          cy.get('[data-cy="date_to_input"]').should($dateInput => {
-            expect($dateInput.value === toDate);
-          });
+        const dateRange = ['2001-10-04', '2001-10-03'];
+        cy.enterDateFilters(dateRange);
+        cy.get('[data-cy="date_to_input"]').should($dateInput => {
+          expect($dateInput.value === toDate);
         });
-        cy.get('[data-cy="date_range_filter_input"]').contains('The "To" date may not ');
-        cy.get('[data-cy="date_range_filter_input"]').within(() => {
-          cy.get('[data-cy="date_to_input"]').type('2001-12-03');
-          cy.get('[data-cy="date_from_input"]').type('2001-12-10');
-          cy.get('[data-cy="date_from_input"]').should($dateInput => {
-            expect($dateInput.value === fromDate);
-          });
-        });
-        cy.get('[data-cy="date_range_filter_input"]').contains('The "From" date may not');
+        cy.get('[data-cy="date_range_filter_input"]').contains('is after');
       });
 
       it('should show a two message list on Bill Rapp [Sample Data]', () => {

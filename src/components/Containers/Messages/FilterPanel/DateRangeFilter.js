@@ -1,12 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
-import dateToIso from '../../../../util/dateToIso';
+import moment from 'moment';
 
 // Components
 import { AccountContext } from '../MessagesMain';
 import { FilterPanelItem } from './FilterPanelItem';
 import Input from '../../../Components/Inputs/Input';
 import FormErrors from '../../../Components/Form/FormErrors';
+import ActionButton from '../../../Components/Buttons/ActionButton';
 
 const DateRangeFilter = ({ buildQuery, filterQuery }) => {
   const { account } = useContext(AccountContext);
@@ -16,33 +17,43 @@ const DateRangeFilter = ({ buildQuery, filterQuery }) => {
   const [originalToDate, setOriginalToDate] = useState();
   const [error, setError] = useState();
 
-  const setDates = (fd, td) => {
-    buildQuery({ ...filterQuery, dateRange: [fd, td] });
+  const isoDateFormat = 'YYYY-MM-DD';
+
+  const formatDate = date => {
+    return moment(date, ['MM-DD-YYYY', 'YYYY-MM-DD', 'MM/DD/YYYY', 'YYYY/MM/DD']);
   };
 
-  const addFromDate = date => {
+  const setDates = () => {
     setError();
-    if (dateToIso(date) <= dateToIso(toDate)) {
-      setFromDate(date);
-      setDates(date, toDate);
-      return;
+    const f = formatDate(fromDate);
+    const t = formatDate(toDate);
+    if (!f.isValid() || !t.isValid()) {
+      setError('Invalid date');
+    } else if (f > t) {
+      const dateError = `${fromDate} is after ${toDate}`;
+      setError(dateError);
+    } else {
+      // All should be valid now
+      try {
+        setError();
+        setFromDate(f.format(isoDateFormat));
+        setToDate(t.format(isoDateFormat));
+        buildQuery({
+          ...filterQuery,
+          dateRange: [f.format(isoDateFormat), t.format(isoDateFormat)]
+        });
+      } catch (err) {
+        console.log(err);
+      }
     }
-    setError('The "From" date may not be after the "To" date');
-  };
-
-  const addToDate = date => {
-    setError();
-    if (dateToIso(date) >= dateToIso(fromDate)) {
-      setToDate(date);
-      setDates(fromDate, date);
-      return;
-    }
-    setError('The "To" date may not be before the "From" date');
   };
 
   useEffect(() => {
     if (account && originalFromDate === undefined && originalToDate === undefined) {
-      const fromTo = [dateToIso(account.inclusive_dates[0]), dateToIso(account.inclusive_dates[1])];
+      const fromTo = [
+        formatDate(account.inclusive_dates[0]).format(isoDateFormat),
+        formatDate(account.inclusive_dates[1]).format(isoDateFormat)
+      ];
       setFromDate(fromTo[0]);
       setToDate(fromTo[1]);
       setOriginalFromDate(fromTo[0]);
@@ -55,26 +66,34 @@ const DateRangeFilter = ({ buildQuery, filterQuery }) => {
     }
   }, [account]);
 
+  useEffect(() => {
+    if (filterQuery['dateRange'].length === 0) {
+      setFromDate(originalFromDate);
+      setToDate(originalToDate);
+    }
+  }, [filterQuery]);
+
   return (
     <DateRangeFilterStyled data-cy="date_range_filter_input">
       <h3>From:</h3>
       <Input
         data-cy="date_from_input"
-        type="date"
-        onChange={e => addFromDate(e.target.value)}
-        min={originalFromDate}
-        max={toDate || originalToDate}
+        type="text"
+        placeholder="YYYY-MM-DD"
+        onChange={e => setFromDate(e.target.value)}
         value={fromDate}
       />
       <h3>To:</h3>
       <Input
         data-cy="date_to_input"
-        type="date"
-        onChange={e => addToDate(e.target.value)}
-        min={fromDate || originalFromDate}
-        max={originalToDate}
+        type="text"
+        placeholder="YYYY-MM-DD"
+        onChange={e => setToDate(e.target.value)}
         value={toDate}
       />
+      <ActionButton onClick={() => setDates()} data-cy="apply_date_range_filter">
+        Set Date Filter
+      </ActionButton>
       <FormErrors errors={[error]} />
     </DateRangeFilterStyled>
   );
