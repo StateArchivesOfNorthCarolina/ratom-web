@@ -14,6 +14,8 @@
     "date-fns": "^2.7.0",
     "framer-motion": "^1.8.3",
     "lodash.isempty": "^4.4.0",
+    "moment": "^2.24.0",
+    "prop-types": "^15.7.2",
     "react": "^16.11.0",
     "react-alert": "^6.0.0",
     "react-app-rewire-styled-components": "^3.0.2",
@@ -23,8 +25,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
     "styled-components": "^4.4.1",
-    "tinycolor2": "^1.4.1",
-    "moment": "^2.24.0"
+    "tinycolor2": "^1.4.1"
   },
   "scripts": {
     "start": "react-app-rewired start",
