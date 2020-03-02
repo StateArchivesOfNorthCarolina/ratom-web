@@ -12,6 +12,7 @@ const ScrollShadow = props => {
 };
 
 const ScrollShadowStyled = styled.div`
+  pointer-events: none;
   position: absolute;
   ${props => (props.position === 'bottom' ? 'bottom: 0' : 'top: 0')};
   left: 0;
@@ -21,6 +22,7 @@ const ScrollShadowStyled = styled.div`
 `;
 
 const InnerShadow = styled.div`
+  pointer-events: none;
   position: fixed;
   z-index: 999;
   height: 8rem;
