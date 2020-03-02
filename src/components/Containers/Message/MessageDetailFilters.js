@@ -1,14 +1,15 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { borderSeparator } from '../../../styles/styleVariables';
+import { borderSeparator, colorBlackLight } from '../../../styles/styleVariables';
 
 // Context
 import { AccountContext } from '../Messages/MessagesMain';
 import Keyword from '../Messages/Keyword';
+import Badge from '../Messages/Badge';
 
 const MessageDetailFilters = () => {
   const { query } = useContext(AccountContext);
-  console.log('query in message detail: ', query);
+  console.log('query in message detail filters: ', query);
   return (
     <MessageDetailFiltersStyled>
       {query.keywords && query.keywords.length > 0 && (
@@ -22,22 +23,22 @@ const MessageDetailFilters = () => {
         </Keywords>
       )}
 
+      {query.labels && query.labels.length > 0 && (
+        <Tags data-cy="message-detail-filter__tags">
+          <h3>Labels</h3>
+          <div>
+            {query.labels.map(label => (
+              <Badge {...label} />
+            ))}
+          </div>
+        </Tags>
+      )}
+
       {query.processedStatus && query.processedStatus !== 'All' && (
         <ProcessedStatus data-cy="message-detail-filter__processed">
           <h3>Message processed status</h3>
           <p>{query.processedStatus}</p>
         </ProcessedStatus>
-      )}
-
-      {query.tags && query.tags.length > 0 && (
-        <Tags data-cy="message-detail-filter__tags">
-          <h3>Labels</h3>
-          <div>
-            {query.tags.map(tag => (
-              <Keyword name={tag} />
-            ))}
-          </div>
-        </Tags>
       )}
 
       {query.addresses && query.addresses.length > 0 && (
@@ -49,6 +50,20 @@ const MessageDetailFilters = () => {
             ))}
           </div>
         </Addresses>
+      )}
+
+      {query.dateRange && query.dateRange.length > 0 && (
+        <Dates>
+          <h3>Date range</h3>
+          <div>
+            <h6>From:</h6>
+            <p>{query.dateRange[0]}</p>
+          </div>
+          <div>
+            <h6>To:</h6>
+            <p>{query.dateRange[1]}</p>
+          </div>
+        </Dates>
       )}
     </MessageDetailFiltersStyled>
   );
@@ -95,6 +110,21 @@ const Addresses = styled(DetailFilterItem)`
     flex-direction: row;
     flex-wrap: wrap;
     margin: 1rem 0;
+  }
+`;
+
+const Dates = styled(DetailFilterItem)`
+  div {
+    margin: 1rem 0 1rem 0.5rem;
+  }
+  h6 {
+    color: ${colorBlackLight};
+    font-size: 1.5rem;
+    margin: 0;
+  }
+  p {
+    font-size: 1.5rem;
+    margin-left: 1rem;
   }
 `;
 
