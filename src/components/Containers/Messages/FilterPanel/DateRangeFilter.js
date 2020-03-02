@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
+import moment from 'moment';
 
 // Components
 import { AccountContext } from '../MessagesMain';
@@ -16,35 +17,35 @@ const DateRangeFilter = ({ buildQuery, filterQuery }) => {
   const [originalToDate, setOriginalToDate] = useState();
   const [error, setError] = useState();
 
-  // const isoDateFormat = 'YYYY-MM-DD';
+  const isoDateFormat = 'YYYY-MM-DD';
 
-  // const formatDate = date => {
-  //   return moment(date, ['MM-DD-YYYY', 'YYYY-MM-DD', 'MM/DD/YYYY', 'YYYY/MM/DD']);
-  // };
+  const formatDate = date => {
+    return moment(date, ['MM-DD-YYYY', 'YYYY-MM-DD', 'MM/DD/YYYY', 'YYYY/MM/DD']);
+  };
 
-  // const setDates = () => {
-  //   setError();
-  //   const f = formatDate(fromDate);
-  //   const t = formatDate(toDate);
-  //   if (!f.isValid() || !t.isValid()) {
-  //     setError('Your dates are in the wrong format.');
-  //     return;
-  //   }
-  //   if (f > t) {
-  //     const dateError = `${fromDate} is after ${toDate}`;
-  //     setError(dateError);
-  //     return;
-  //   }
+  const setDates = () => {
+    setError();
+    const f = formatDate(fromDate);
+    const t = formatDate(toDate);
+    if (!f.isValid() || !t.isValid()) {
+      setError('Your dates are in the wrong format.');
+      return;
+    }
+    if (f > t) {
+      const dateError = `${fromDate} is after ${toDate}`;
+      setError(dateError);
+      return;
+    }
 
-  //   // All should be valid now
-  //   try {
-  //     setFromDate(f.format(isoDateFormat));
-  //     setToDate(t.format(isoDateFormat));
-  //     buildQuery({ ...filterQuery, dateRange: [f.format(isoDateFormat), t.format(isoDateFormat)] });
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
+    // All should be valid now
+    try {
+      setFromDate(f.format(isoDateFormat));
+      setToDate(t.format(isoDateFormat));
+      buildQuery({ ...filterQuery, dateRange: [f.format(isoDateFormat), t.format(isoDateFormat)] });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
     if (account && originalFromDate === undefined && originalToDate === undefined) {

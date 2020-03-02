@@ -1,5 +1,4 @@
 import React, { useState, createContext, useEffect } from 'react';
-import moment from 'moment';
 
 // Router
 import PrivateRoute from '../PrivateRoute';
@@ -45,12 +44,6 @@ const MessagesMain = () => {
 
   const { state: routerState } = useLocation();
   const { path } = useRouteMatch();
-
-  const isoDateFormat = 'YYYY-MM-DD';
-
-  const formatDate = date => {
-    return moment(date, ['MM-DD-YYYY', 'YYYY-MM-DD', 'MM/DD/YYYY', 'YYYY/MM/DD']);
-  };
 
   useEffect(() => {
     if (!routerState || routerState.reset !== false) {
@@ -138,33 +131,6 @@ const MessagesMain = () => {
         });
     } else {
       // TODO: Show something indication user has reached the end?
-    }
-  };
-
-  const setDates = (fromDate, toDate) => {
-    setError();
-    const f = formatDate(fromDate);
-    const t = formatDate(toDate);
-    if (!f.isValid() || !t.isValid()) {
-      setError('Your dates are in the wrong format.');
-      return;
-    }
-    if (f > t) {
-      const dateError = `${fromDate} is after ${toDate}`;
-      setError(dateError);
-      return;
-    }
-
-    // All should be valid now
-    try {
-      setFromDate(f.format(isoDateFormat));
-      setToDate(t.format(isoDateFormat));
-      setFilterQuery({
-        ...filterQuery,
-        dateRange: [f.format(isoDateFormat), t.format(isoDateFormat)]
-      });
-    } catch (err) {
-      console.log(err);
     }
   };
 
