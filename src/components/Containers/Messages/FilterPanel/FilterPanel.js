@@ -33,10 +33,6 @@ const FilterPanel = () => {
         <ProcessedStatusFilter buildQuery={setFilterQuery} filterQuery={filterQuery} />
         <EmailFilter buildQuery={setFilterQuery} filterQuery={filterQuery} sendQuery={sendQuery} />
         <DateRangeFilter buildQuery={setFilterQuery} filterQuery={filterQuery} />
-        <DateRangeFilter buildQuery={setFilterQuery} filterQuery={filterQuery} />
-        <DateRangeFilter buildQuery={setFilterQuery} filterQuery={filterQuery} />
-        <DateRangeFilter buildQuery={setFilterQuery} filterQuery={filterQuery} />
-        <DateRangeFilter buildQuery={setFilterQuery} filterQuery={filterQuery} />
         <ScrollShadow position="bottom" innerWidth="26rem" />
       </FiltersWrapper>
       <ActionsWrapper>
