@@ -9,7 +9,6 @@ import Badge from '../Messages/Badge';
 
 const MessageDetailFilters = () => {
   const { query } = useContext(AccountContext);
-  console.log('query in message detail filters: ', query);
   return (
     <MessageDetailFiltersStyled>
       {query.keywords && query.keywords.length > 0 && (
