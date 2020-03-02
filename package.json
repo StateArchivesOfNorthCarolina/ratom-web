@@ -18,6 +18,7 @@
     "react-alert": "^6.0.0",
     "react-app-rewire-styled-components": "^3.0.2",
     "react-app-rewired": "^2.1.5",
+    "react-autosuggest": "^9.4.3",
     "react-dom": "^16.11.0",
     "react-loader-spinner": "^3.1.5",
     "react-router-dom": "^5.1.2",

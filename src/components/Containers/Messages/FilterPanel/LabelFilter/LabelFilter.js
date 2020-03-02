@@ -1,73 +1,134 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
+
+// Deps
+import Autosuggest from 'react-autosuggest';
 
 // Components
 import { AccountContext } from '../../MessagesMain';
 import { FilterPanelItem } from '../FilterPanelItem';
-import Input from '../../../../Components/Inputs/Input';
-import Label from './Label';
+import Badge from '../../Badge';
+import AutoSuggestInput from './AutoSuggestInput';
+import AutoSuggestionContainer from './AutoSuggestionContainer';
+import { colorGrey } from '../../../../../styles/styleVariables';
+
+const renderSuggestion = (suggestion, { isHighlighted }) => {
+  return (
+    <SuggestionStyled isHighlighted={isHighlighted}>
+      <p>{suggestion.name}</p>
+    </SuggestionStyled>
+  );
+};
 
 const LabelFilter = ({ buildQuery, filterQuery, sendQuery, ...props }) => {
   const [label, setLabel] = useState();
+  const [searchLabels, setSearchLabels] = useState([]);
+  const [suggestions, setSuggestions] = useState([]);
+  const [suggestionValue, setSuggestionValue] = useState('');
   const { account } = useContext(AccountContext);
 
   const { labels } = filterQuery;
 
-  const handleDeleteKeyPressed = e => {
-    e.stopPropagation();
-    if (e.key === 'Backspace' && e.shiftKey) removeLabel();
-    if (e.key === 'Enter' && e.shiftKey) {
-      sendQuery();
-    } else if (e.key === 'Enter') {
-      addLabel();
-    }
+  // const handleHotKeyPressed = e => {
+  //   e.stopPropagation();
+  //   if (e.key === 'Backspace' && e.shiftKey) removeLabel();
+  //   if (e.key === 'Enter' && e.shiftKey) {
+  //     sendQuery();
+  //   } else if (e.key === 'Enter') {
+  //     addLabel();
+  //   }
+  // };
+
+  const handleSuggestionChange = (_, { newValue }) => {
+    setSuggestionValue(newValue);
   };
 
-  const addLabel = () => {
-    if (label.trim()) {
-      setLabel('');
-      buildQuery({
-        ...filterQuery,
-        labels: [...filterQuery.labels, label]
-      });
-    }
+  const handleSuggestionsFetchRequested = ({ value }) => {
+    setSuggestions(getSuggestions(value));
   };
 
-  const removeLabel = label => {
-    const labels = filterQuery.labels.slice();
-    if (label) {
-      const labelLoc = filterQuery.labels.indexOf(labels);
-      label.splice(labelLoc, 1);
+  const handleSuggestionsClearRequested = () => {
+    setSuggestions([]);
+  };
+
+  const getSuggestions = value => {
+    const inputValue = value.trim().toLowerCase();
+    const inputLength = inputValue.length;
+    let availableLabels = [...searchLabels];
+    availableLabels = availableLabels.filter(
+      thisLabel => !labels.map(innerLabel => innerLabel.name).includes(thisLabel.name)
+    );
+    return inputLength === 0
+      ? []
+      : availableLabels.filter(
+          thisLabel => thisLabel.name.toLowerCase().slice(0, inputLength) === inputValue
+        );
+  };
+
+  const handleSuggestionSelected = (_, { suggestion }) => {
+    addLabel(suggestion);
+  };
+
+  const addLabel = thisLabel => {
+    setSuggestionValue('');
+    buildQuery({
+      ...filterQuery,
+      labels: [...filterQuery.labels, thisLabel]
+    });
+  };
+
+  const removeLabel = thisLabel => {
+    const { name } = thisLabel;
+    const theseLabels = filterQuery.labels.slice();
+    if (thisLabel) {
+      const labelLoc = filterQuery.labels.map(innerLabel => innerLabel.name).indexOf(name);
+      theseLabels.splice(labelLoc, 1);
       buildQuery({
         ...filterQuery,
-        labels
+        labels: theseLabels
       });
     } else {
-      labels.pop();
+      theseLabels.pop();
       buildQuery({
         ...filterQuery,
-        labels
+        labels: theseLabels
       });
     }
   };
+
+  useEffect(() => {
+    if (account) {
+      setSearchLabels(account.labels);
+    }
+  }, [account]);
+
+  const inputProps = { value: suggestionValue, onChange: handleSuggestionChange };
 
   return (
     <LabelFilterStyled {...props} data-cy="label_filter">
       <h3>Labels</h3>
-      <Input
-        data-cy="label_filter_input"
-        type="text"
-        icon="add"
-        onIconClick={addLabel}
-        onKeyDown={handleDeleteKeyPressed}
-        onChange={e => setLabel(e.target.value)}
-        value={label}
+      <Autosuggest
+        suggestions={suggestions}
+        onSuggestionsFetchRequested={handleSuggestionsFetchRequested}
+        onSuggestionsClearRequested={handleSuggestionsClearRequested}
+        getSuggestionValue={suggestion => suggestion.name}
+        renderSuggestion={renderSuggestion}
+        inputProps={inputProps}
+        onSuggestionSelected={handleSuggestionSelected}
+        highlightFirstSuggestion
+        renderInputComponent={AutoSuggestInput}
+        renderSuggestionsContainer={AutoSuggestionContainer}
       />
       <BadgesListStyled data-cy="label_list">
-        {labels.map((keyword, i) => {
-          let name = keyword;
-          if (keyword.name) name = keyword.name;
-          return <Label name={name} key={`${i}_${name}`} remove={() => removeLabel(name)} />;
+        {labels.map((thisLabel, i) => {
+          return (
+            <Badge
+              {...thisLabel}
+              key={`${i}_${thisLabel.name}`}
+              remove={() => removeLabel(thisLabel)}
+              data-cy="label_item"
+            />
+          );
         })}
       </BadgesListStyled>
     </LabelFilterStyled>
@@ -75,6 +136,10 @@ const LabelFilter = ({ buildQuery, filterQuery, sendQuery, ...props }) => {
 };
 
 const LabelFilterStyled = styled(FilterPanelItem)``;
+
+const SuggestionStyled = styled.div`
+  background-color: ${props => (props.isHighlighted ? colorGrey : 'transparent')};
+`;
 
 const BadgesListStyled = styled.div`
   display: flex;

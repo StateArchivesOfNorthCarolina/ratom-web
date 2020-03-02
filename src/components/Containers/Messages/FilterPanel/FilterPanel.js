@@ -22,12 +22,12 @@ const FilterPanel = () => {
 
   return (
     <FilterPanelStyled>
-      <FilterActions sendQuery={sendQuery} />
       <KeywordFilter buildQuery={setFilterQuery} filterQuery={filterQuery} sendQuery={sendQuery} />
       <LabelFilter buildQuery={setFilterQuery} filterQuery={filterQuery} />
       <ProcessedStatusFilter buildQuery={setFilterQuery} filterQuery={filterQuery} />
       <EmailFilter buildQuery={setFilterQuery} filterQuery={filterQuery} sendQuery={sendQuery} />
       <DateRangeFilter buildQuery={setFilterQuery} filterQuery={filterQuery} />
+      <FilterActions sendQuery={sendQuery} />
     </FilterPanelStyled>
   );
 };
