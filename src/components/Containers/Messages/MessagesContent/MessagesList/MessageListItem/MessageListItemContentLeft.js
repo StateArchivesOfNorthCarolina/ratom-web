@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import MessageCheckbox from './MessageCheckbox';
+import Badge from '../../../Badge'
 
 const MessageListItemContentLeft = ({ message, checked, checkMessage }) => {
   const getHighlights = () => {
@@ -16,31 +17,47 @@ const MessageListItemContentLeft = ({ message, checked, checkMessage }) => {
   return (
     <ContentLeft>
       <MessageCheckbox checked={checked} onChange={() => checkMessage(message.id)} />
-      <InnerContent>
-        <h4 data-cy="message-list-item__subject">
+      <Content>
+        <h4>
           {message.subject} <span TEMPORARY>{message.score}</span>
         </h4>
-        <MsgTo>From: {message.msg_from}</MsgTo>
-        <MsgTo>To: {message.msg_to}</MsgTo>
-        <MessageHighlights>
-          {getHighlights().map((h, i) => (
-            <Highlight key={i}>
-              {/* <p>{h.type}: </p> */}
-              {h.highlights.map((m, j) => (
-                <p key={j}>
-                  ...
-                  <span
-                    dangerouslySetInnerHTML={{
-                      __html: m
-                    }}
-                  />
-                  ...
-                </p>
+        <InnerContent>
+          <MessageMeta>
+            <p>From: {message.msg_from}</p>
+            <MessageHighlights>
+              {getHighlights().map((h, i) => (
+                <Highlight key={i}>
+                  {/* <p>{h.type}: </p> */}
+                  {h.highlights.map((m, j) => (
+                    <p key={j}>
+                      ...
+                      <span
+                        dangerouslySetInnerHTML={{
+                          __html: m
+                        }}
+                      ></span>
+                      ...
+                    </p>
+                  ))}
+                </Highlight>
               ))}
-            </Highlight>
-          ))}
-        </MessageHighlights>
-      </InnerContent>
+            </MessageHighlights>
+          </MessageMeta>
+          <MessageLabels>
+            {message.audit.labels.map((badge, i) => {
+              let name = badge;
+              if (badge.name) name = badge.name;
+              return (
+                <Badge
+                  name={name}
+                  key={`${i}_${name}`}
+                  type={badge.type}
+                />
+              );
+            })}
+          </MessageLabels>
+        </InnerContent>
+      </Content>
     </ContentLeft>
   );
 };
@@ -53,7 +70,8 @@ const ContentLeft = styled.div`
   overflow-y: hidden;
 `;
 
-const InnerContent = styled.div`
+const Content = styled.div`
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -64,7 +82,6 @@ const InnerContent = styled.div`
     /* TEMP */
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     span {
       font-size: 1rem;
       font-weight: normal;
@@ -94,6 +111,27 @@ const Highlight = styled.div`
   strong {
     color: ${props => props.theme.colorPrimary};
   }
+`;
+
+const InnerContent = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+`;
+
+const MessageMeta = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 65%;
+`;
+
+const MessageLabels = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 35%;
 `;
 
 export default MessageListItemContentLeft;

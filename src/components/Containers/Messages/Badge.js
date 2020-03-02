@@ -25,7 +25,7 @@ const BadgeStyled = styled.div`
   align-items: flex-end;
   justify-content: space-between;
 
-  margin: 2px 0 0 2px;
+  margin: 0 2px 2px 0;
   border-radius: 1px;
 
   p:first-of-type {
@@ -38,14 +38,9 @@ const BadgeStyled = styled.div`
     font-size: 1rem;
   }
 
-  /* //! This is temporary! These are just guesses. vvv */
   background-color: ${props => {
     switch (props.type) {
-      case 'normal':
-        return colorBadgeBlue;
-      case 'caution':
-        return colorBadgeRed;
-      case 'positive':
+      case 'I':
         return colorBadgeGreen;
       default:
         return colorBadgeBlue;
