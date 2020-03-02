@@ -10,6 +10,8 @@ import { AccountContext } from '../MessagesMain';
 import ProcessedStatusFilter from './ProcessedStatusFilter/ProcessedStatusFilter';
 import EmailFilter from './EmailFilter/EmailFilter';
 import DateRangeFilter from './DateRangeFilter';
+import { borderSeparator } from '../../../../styles/styleVariables';
+import ScrollShadow from '../../../Components/ScrollShadow';
 import LabelFilter from './LabelFilter/LabelFilter';
 
 const FilterPanel = () => {
@@ -22,12 +24,22 @@ const FilterPanel = () => {
 
   return (
     <FilterPanelStyled>
-      <KeywordFilter buildQuery={setFilterQuery} filterQuery={filterQuery} sendQuery={sendQuery} />
-      <LabelFilter buildQuery={setFilterQuery} filterQuery={filterQuery} />
-      <ProcessedStatusFilter buildQuery={setFilterQuery} filterQuery={filterQuery} />
-      <EmailFilter buildQuery={setFilterQuery} filterQuery={filterQuery} sendQuery={sendQuery} />
-      <DateRangeFilter buildQuery={setFilterQuery} filterQuery={filterQuery} />
-      <FilterActions sendQuery={sendQuery} />
+      <FiltersWrapper>
+        <ScrollShadow position="top" innerWidth="26rem" />
+        <KeywordFilter
+          buildQuery={setFilterQuery}
+          filterQuery={filterQuery}
+          sendQuery={sendQuery}
+        />
+        <LabelFilter buildQuery={setFilterQuery} filterQuery={filterQuery} />
+        <ProcessedStatusFilter buildQuery={setFilterQuery} filterQuery={filterQuery} />
+        <EmailFilter buildQuery={setFilterQuery} filterQuery={filterQuery} sendQuery={sendQuery} />
+        <DateRangeFilter buildQuery={setFilterQuery} filterQuery={filterQuery} />
+        <ScrollShadow position="bottom" innerWidth="26rem" />
+      </FiltersWrapper>
+      <ActionsWrapper>
+        <FilterActions sendQuery={sendQuery} />
+      </ActionsWrapper>
     </FilterPanelStyled>
   );
 };
@@ -38,12 +50,20 @@ const FilterPanelStyled = styled.aside`
 
   display: flex;
   flex-direction: column;
-  overflow: scroll;
+  overflow-y: hidden;
+`;
 
-  h4 {
-    text-align: center;
-    padding: 2rem;
-  }
+const FiltersWrapper = styled.div`
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  padding: 2rem 0;
+`;
+
+const ActionsWrapper = styled.div`
+  border-top: ${borderSeparator};
 `;
 
 export default FilterPanel;
