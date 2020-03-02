@@ -31,7 +31,7 @@ const FilterPanel = () => {
           filterQuery={filterQuery}
           sendQuery={sendQuery}
         />
-        <LabelFilter buildQuery={setFilterQuery} filterQuery={filterQuery} />
+        <LabelFilter buildQuery={setFilterQuery} filterQuery={filterQuery} sendQuery={sendQuery} />
         <ProcessedStatusFilter buildQuery={setFilterQuery} filterQuery={filterQuery} />
         <EmailFilter buildQuery={setFilterQuery} filterQuery={filterQuery} sendQuery={sendQuery} />
         <DateRangeFilter buildQuery={setFilterQuery} filterQuery={filterQuery} />
