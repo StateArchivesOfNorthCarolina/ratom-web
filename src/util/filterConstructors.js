@@ -15,3 +15,8 @@ export const dateRangeFilterBuilderAND = dateRange => {
   const [fromDate, toDate] = dateRange;
   return `sent_date__range=${fromDate}__${toDate}`;
 };
+
+export const labelFilterBuilderOR = labels => {
+  const labelsJoined = labels.map(label => label.name).join('__');
+  return `labels_importer__terms=${labelsJoined}`;
+};

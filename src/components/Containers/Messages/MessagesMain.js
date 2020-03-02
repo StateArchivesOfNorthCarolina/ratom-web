@@ -20,7 +20,8 @@ import GenericNotFound from '../GenericNotFound';
 import {
   keywordFilterBuilderAND,
   emailFilterBuilderOR,
-  dateRangeFilterBuilderAND
+  dateRangeFilterBuilderAND,
+  labelFilterBuilderOR
 } from '../../../util/filterConstructors';
 
 export const AccountContext = createContext(null);
@@ -96,13 +97,13 @@ const MessagesMain = () => {
   };
 
   const constructQueryString = queryObj => {
-    const { keywords, dateRange, tags, processedStatus, addresses } = queryObj;
+    const { keywords, dateRange, processedStatus, addresses, labels } = queryObj;
     const params = [];
     if (keywords && keywords.length > 0) params.push(keywordFilterBuilderAND(keywords));
     if (dateRange && dateRange.length > 0) params.push(dateRangeFilterBuilderAND(dateRange));
-    if (tags && tags.length > 0) params.push(''); // TODO: Implement
     if (processedStatus) params.push(getProcessedParam(processedStatus));
     if (addresses && addresses.length > 0) params.push(emailFilterBuilderOR(addresses));
+    if (labels && labels.length > 0) params.push(labelFilterBuilderOR(labels));
     return params.join('&');
   };
 
