@@ -21,7 +21,6 @@ const renderSuggestion = (suggestion, { isHighlighted }) => {
 };
 
 const LabelFilter = ({ buildQuery, filterQuery, sendQuery, ...props }) => {
-  const [label, setLabel] = useState();
   const [searchLabels, setSearchLabels] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
   const [suggestionValue, setSuggestionValue] = useState('');
@@ -29,15 +28,11 @@ const LabelFilter = ({ buildQuery, filterQuery, sendQuery, ...props }) => {
 
   const { labels } = filterQuery;
 
-  // const handleHotKeyPressed = e => {
-  //   e.stopPropagation();
-  //   if (e.key === 'Backspace' && e.shiftKey) removeLabel();
-  //   if (e.key === 'Enter' && e.shiftKey) {
-  //     sendQuery();
-  //   } else if (e.key === 'Enter') {
-  //     addLabel();
-  //   }
-  // };
+  const handleHotKeyPressed = e => {
+    e.stopPropagation();
+    if (e.key === 'Backspace' && e.shiftKey) removeLabel();
+    if (e.key === 'Enter' && e.shiftKey) sendQuery();
+  };
 
   const handleSuggestionChange = (_, { newValue }) => {
     setSuggestionValue(newValue);
@@ -78,9 +73,9 @@ const LabelFilter = ({ buildQuery, filterQuery, sendQuery, ...props }) => {
   };
 
   const removeLabel = thisLabel => {
-    const { name } = thisLabel;
     const theseLabels = filterQuery.labels.slice();
     if (thisLabel) {
+      const { name } = thisLabel;
       const labelLoc = filterQuery.labels.map(innerLabel => innerLabel.name).indexOf(name);
       theseLabels.splice(labelLoc, 1);
       buildQuery({
@@ -102,7 +97,11 @@ const LabelFilter = ({ buildQuery, filterQuery, sendQuery, ...props }) => {
     }
   }, [account]);
 
-  const inputProps = { value: suggestionValue, onChange: handleSuggestionChange };
+  const inputProps = {
+    value: suggestionValue,
+    onChange: handleSuggestionChange,
+    onKeyUp: handleHotKeyPressed
+  };
 
   return (
     <LabelFilterStyled {...props} data-cy="label_filter">
@@ -120,16 +119,14 @@ const LabelFilter = ({ buildQuery, filterQuery, sendQuery, ...props }) => {
         renderSuggestionsContainer={AutoSuggestionContainer}
       />
       <BadgesListStyled data-cy="label_list">
-        {labels.map((thisLabel, i) => {
-          return (
-            <Badge
-              {...thisLabel}
-              key={`${i}_${thisLabel.name}`}
-              remove={() => removeLabel(thisLabel)}
-              data-cy="label_item"
-            />
-          );
-        })}
+        {labels.map((thisLabel, i) => (
+          <Badge
+            {...thisLabel}
+            key={`${i}_${thisLabel.name}`}
+            remove={() => removeLabel(thisLabel)}
+            data-cy="label_item"
+          />
+        ))}
       </BadgesListStyled>
     </LabelFilterStyled>
   );
