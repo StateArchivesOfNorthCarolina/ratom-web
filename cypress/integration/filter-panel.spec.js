@@ -5,6 +5,14 @@ describe('Filter panel behavior', () => {
     cy.initialize_account();
   });
 
+  /* It turns out we can't really test for things that depend on local storage 
+            as this data is not really there in cypress. */
+  // describe('Queries are preserved per account', () => {
+  //   it('expect saved queries to be different for different accounts', () => {
+
+  //   });
+  // });
+
   describe('Limit to account', () => {
     it('having selected an account to view, filtering messages returns only messages from that account', () => {
       const accountId = Cypress.env('accountId');
