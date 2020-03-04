@@ -42,6 +42,8 @@ const BadgeStyled = styled.div`
     switch (props.type) {
       case 'I':
         return colorBadgeGreen;
+      case 'U':
+        return colorBadgeBlue;
       default:
         return colorBadgeBlue;
     }
