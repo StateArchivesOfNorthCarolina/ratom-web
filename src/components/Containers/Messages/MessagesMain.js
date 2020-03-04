@@ -34,8 +34,8 @@ const MessagesMain = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
   const [messages, setMessages] = useState();
-  const [query, setQueryLocally] = useState(getFilterQueryFromLocalStorage() || emptyQuery);
-  const [filterQuery, setFilterQuery] = useState(getFilterQueryFromLocalStorage() || emptyQuery);
+  const [query, setQueryLocally] = useState(getFilterQueryFromLocalStorage(accountId));
+  const [filterQuery, setFilterQuery] = useState(getFilterQueryFromLocalStorage(accountId));
   const [messagesTotalCount, setMessagesTotalCount] = useState();
   const [listPlaceholder, setListPlaceholder] = useState();
   const [messageCursor, setMessageCursor] = useState();
@@ -108,7 +108,9 @@ const MessagesMain = () => {
   };
 
   const setQuery = newQuery => {
-    setFilterQueryToLocalStorage(newQuery);
+    // this sets query to local storage
+    setFilterQueryToLocalStorage(accountId, newQuery);
+    // this triggers an API call
     setQueryLocally(newQuery);
   };
 
