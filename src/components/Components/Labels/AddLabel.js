@@ -19,6 +19,10 @@ import { SHOW_ACCOUNT, UPDATE_MESSAGE } from '../../../services/requests';
 import AutoSuggestionContainer from '../../Containers/Messages/FilterPanel/LabelFilter/AutoSuggestionContainer';
 import ClickableOverlay from '../ClickableOverlay';
 
+// Constants
+const PREVENT_ADD_NLP_TAGS = true;
+const LABEL_INPUT_MAX_LENGTH = 45;
+
 const renderSuggestion = (suggestion, { isHighlighted }) => {
   return (
     <SuggestionStyled isHighlighted={isHighlighted}>
@@ -30,12 +34,15 @@ const renderSuggestion = (suggestion, { isHighlighted }) => {
 const AutoSuggestInput = inputProps => {
   return (
     <InputWrapper>
-      <InputStyled data-cy="add_label_input" autoFocus {...inputProps} />
+      <InputStyled
+        maxLength={LABEL_INPUT_MAX_LENGTH}
+        data-cy="add_label_input"
+        autoFocus
+        {...inputProps}
+      />
     </InputWrapper>
   );
 };
-
-const PREVENT_ADD_NLP_TAGS = true;
 
 const AddLabel = ({ currentLabels }) => {
   const alert = useAlert();
@@ -101,7 +108,7 @@ const AddLabel = ({ currentLabels }) => {
 
   const addNewLabel = thisLabel => {
     setInputValue('');
-    const data = { labels: [thisLabel] };
+    const data = { label: thisLabel };
     Axios.put(`${UPDATE_MESSAGE}${messageId}/`, data)
       .then(response => {
         setShowInput(false);
@@ -190,6 +197,7 @@ const InputWrapper = styled.div`
 
 const InputStyled = styled.input`
   height: 2rem;
+  width: 18rem;
   font-size: 1rem;
   padding: 0.5rem 1.5rem 0.5rem 1rem;
 `;
