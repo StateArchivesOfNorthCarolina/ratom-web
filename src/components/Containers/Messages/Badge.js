@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { colorBadgeBlue, colorBadgeGreen, colorBadgeRed } from '../../../styles/styleVariables';
 
-import { darken } from '../../../styles/styleUtils/lighten-darken';
+import { darken, lighten } from '../../../styles/styleUtils/lighten-darken';
 
 const Badge = ({ name, remove, ...props }) => {
   return (
@@ -26,16 +26,23 @@ const AutoCompleteBadge = ({ name, ...props }) => {
 };
 
 const getBadgeColor = props => {
+  let baseColor;
   switch (props.type) {
     case 'I':
-      return colorBadgeGreen;
+      baseColor = colorBadgeGreen;
+      break;
     case 'U':
-      return colorBadgeBlue;
+      baseColor = colorBadgeBlue;
+      break;
     case 'R':
-      return colorBadgeRed;
+      baseColor = colorBadgeRed;
+      break;
     default:
-      return colorBadgeBlue;
+      baseColor = colorBadgeBlue;
+      break;
   }
+
+  return props.isHighlighted ? lighten(baseColor) : baseColor;
 };
 
 const AutoCompleteBadgeStyled = styled.div`
