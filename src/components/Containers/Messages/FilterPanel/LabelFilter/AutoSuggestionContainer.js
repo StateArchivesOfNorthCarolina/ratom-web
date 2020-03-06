@@ -9,6 +9,9 @@ const AutoSuggestionContainer = ({ containerProps, children }) => {
 };
 
 const AutoSuggestionContainerStyled = styled.div`
+  position: absolute;
+  z-index: 10;
+  min-width: 13rem;
   display: flex;
   flex-direction: column;
 

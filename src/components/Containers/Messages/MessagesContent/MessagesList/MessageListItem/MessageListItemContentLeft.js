@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import MessageCheckbox from './MessageCheckbox';
-import { Badge } from '../../../Badge';
+import { Badge } from '../../../../../Components/Labels/Badge';
 
 const MessageListItemContentLeft = ({ message, checked, checkMessage }) => {
   const getHighlights = () => {
@@ -18,9 +18,7 @@ const MessageListItemContentLeft = ({ message, checked, checkMessage }) => {
     <ContentLeft>
       <MessageCheckbox checked={checked} onChange={() => checkMessage(message.id)} />
       <Content>
-        <h4>
-          {message.subject} <span TEMPORARY>{message.score}</span>
-        </h4>
+        <h4>{message.subject}</h4>
         <InnerContent>
           <MessageMeta>
             <p>From: {message.msg_from}</p>
@@ -35,7 +33,7 @@ const MessageListItemContentLeft = ({ message, checked, checkMessage }) => {
                         dangerouslySetInnerHTML={{
                           __html: m
                         }}
-                      ></span>
+                      />
                       ...
                     </p>
                   ))}
@@ -73,15 +71,6 @@ const Content = styled.div`
   h4 {
     margin: 0;
     min-width: 50%;
-    /* TEMP */
-    display: flex;
-    flex-direction: row;
-    span {
-      font-size: 1rem;
-      font-weight: normal;
-      color: lightgrey;
-    }
-    /* END TEMP */
   }
 
   > p {
@@ -89,12 +78,12 @@ const Content = styled.div`
   }
 `;
 
-const MsgTo = styled.p`
-  max-width: 50vw;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
+// const MsgTo = styled.p`
+//   max-width: 50vw;
+//   white-space: nowrap;
+//   overflow: hidden;
+//   text-overflow: ellipsis;
+// `;
 
 const MessageHighlights = styled.div``;
 

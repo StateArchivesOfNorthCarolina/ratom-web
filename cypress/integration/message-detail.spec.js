@@ -12,7 +12,7 @@ describe('Message detail view', () => {
       cy.enterKeywordFilters(keywords);
       cy.applySearch();
       cy.wait(500);
-      cy.selectFirstMessage();
+      cy.openNthMessage(0);
       cy.get('[data-cy="message-detail-filter__keywords"]').within(() => {
         cy.get('[data-cy="keyword"]').should('have.length', 2);
         for (let i = 0; i < keywords.length; i++) {

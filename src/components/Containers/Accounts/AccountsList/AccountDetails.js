@@ -10,7 +10,7 @@ import formatNumber from '../../../../util/formatNumber';
 import dateToIso from '../../../../util/dateToIso';
 
 // Children
-import { Badge } from '../../Messages/Badge';
+import { Badge } from '../../../Components/Labels/Badge';
 import DotMenu from '../../../Components/Widgets/DotMenu';
 
 export const STATUSES = {

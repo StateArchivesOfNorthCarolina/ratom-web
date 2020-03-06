@@ -40,7 +40,7 @@ const MessageMain = () => {
       });
   }, []);
 
-  const messageContext = { message };
+  const messageContext = { message, setMessage };
 
   return (
     <MessageContext.Provider value={messageContext}>

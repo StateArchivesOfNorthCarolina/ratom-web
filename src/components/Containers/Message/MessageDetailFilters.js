@@ -5,7 +5,7 @@ import { borderSeparator, colorBlackLight } from '../../../styles/styleVariables
 // Context
 import { AccountContext } from '../Messages/MessagesMain';
 import Keyword from '../Messages/Keyword';
-import { Badge } from '../Messages/Badge';
+import { Badge } from '../../Components/Labels/Badge';
 
 const MessageDetailFilters = () => {
   const { query } = useContext(AccountContext);
@@ -16,7 +16,7 @@ const MessageDetailFilters = () => {
           <h3>Keywords</h3>
           <div>
             {query.keywords.map(keyword => (
-              <Keyword name={keyword} />
+              <Keyword key={keyword} name={keyword} />
             ))}
           </div>
         </Keywords>
@@ -27,7 +27,7 @@ const MessageDetailFilters = () => {
           <h3>Labels</h3>
           <div>
             {query.labels.map(label => (
-              <Badge {...label} />
+              <Badge key={label.name} {...label} />
             ))}
           </div>
         </Tags>
@@ -45,7 +45,7 @@ const MessageDetailFilters = () => {
           <h3>Email addresses</h3>
           <div>
             {query.addresses.map(address => (
-              <Keyword name={address} />
+              <Keyword key={address} name={address} />
             ))}
           </div>
         </Addresses>
