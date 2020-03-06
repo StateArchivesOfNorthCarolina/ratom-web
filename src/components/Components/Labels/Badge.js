@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { colorBadgeBlue, colorBadgeGreen } from '../../../styles/styleVariables';
+import { colorBadgeBlue, colorBadgeGreen, colorBadgeRed } from '../../../styles/styleVariables';
 
 import { darken, lighten } from '../../../styles/styleUtils/lighten-darken';
 
