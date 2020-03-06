@@ -32,6 +32,10 @@ Cypress.Commands.add('login', () => {
   cy.get('[data-cy="signin_button"]').click();
 });
 
+Cypress.Commands.add('goBack', () => {
+  cy.get('[data-cy="back_button"]').click();
+});
+
 Cypress.Commands.add('initialize_account', () => {
   cy.contains('Bill Rapp [Sample Data]')
     .parent()
@@ -92,9 +96,9 @@ Cypress.Commands.add('applySearch', () => {
   cy.get('[data-cy="apply-search-button"]').click();
 });
 
-Cypress.Commands.add('selectFirstMessage', () => {
+Cypress.Commands.add('openNthMessage', n => {
   cy.get('[data-cy="messages_list_item"]')
-    .first()
+    .eq(n)
     .within(() => {
       cy.contains('View').click();
     });
@@ -107,6 +111,10 @@ Cypress.Commands.add('assertMessageCountEquals', assertedTotal => {
   });
 });
 
-// {
-//   return cy.get('[data-cy="search-results__count"]').should($countEl => $countEl.text());
-// });
+Cypress.Commands.add('addArbitraryLabels', labels => {
+  cy.get('[data-cy="add_label_button"]').click();
+  for (let i = 0; i < labels.length; i++) {
+    const label = labels[i];
+    cy.get('[data-cy="add_label_input"]').type(`${label} {enter}`);
+  }
+});

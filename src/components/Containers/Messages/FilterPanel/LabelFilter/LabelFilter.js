@@ -7,7 +7,7 @@ import Autosuggest from 'react-autosuggest';
 // Components
 import { AccountContext } from '../../MessagesMain';
 import { FilterPanelItem } from '../FilterPanelItem';
-import Badge from '../../Badge';
+import Badge from '../../../../Components/Labels/Badge';
 import AutoSuggestInput from './AutoSuggestInput';
 import AutoSuggestionContainer from './AutoSuggestionContainer';
 import { colorGrey } from '../../../../../styles/styleVariables';

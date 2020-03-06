@@ -24,6 +24,7 @@
     "react/no-array-index-key": "off",
     "react/destructuring-assignment": "off",
     "react/no-danger": "off",
-    "import/no-cycle": "off"
+    "import/no-cycle": "off",
+    "import/order": "off"
   }
 }

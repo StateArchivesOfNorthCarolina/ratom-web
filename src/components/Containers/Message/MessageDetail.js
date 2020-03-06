@@ -12,7 +12,8 @@ import { MessageContext } from './MessageMain';
 // Children
 import Attachment from './Attachment';
 import ParsedMessageBody from './ParsedMessageBody';
-import Badge from '../Messages/Badge'
+import Badge from '../../Components/Labels/Badge';
+import AddLabel from '../../Components/Labels/AddLabel';
 
 const MessageDetail = () => {
   const { message } = useContext(MessageContext);
@@ -49,19 +50,17 @@ const MessageDetail = () => {
               <span>From: </span>
               {message.msg_from}
             </MetaHeader>
-            <MessageLabels>
-              {message.audit.labels.map((badge, i) => {
-                let name = badge;
-                if (badge.name) name = badge.name;
-                return (
-                  <Badge
-                    name={name}
-                    key={`${i}_${name}`}
-                    type={badge.type}
-                  />
-                );
-              })}
-            </MessageLabels>
+            <LabelsWrapper>
+              <MessageLabels data-cy="message_labels_list">
+                {message.audit.labels.map((badge, i) => {
+                  let name = badge;
+                  if (badge.name) name = badge.name;
+                  return <Badge name={name} key={`${i}_${name}`} type={badge.type} />;
+                })}
+                <AddLabel currentLabels={message.audit.labels} />
+              </MessageLabels>
+            </LabelsWrapper>
+
             <MessagePath>
               <h3>{formatDirectory(message.directory)}</h3>
             </MessagePath>
@@ -143,11 +142,21 @@ const MessagePath = styled.div`
   margin: 2rem 0;
 `;
 
+const LabelsWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 75%;
+`;
+
 const MessageLabels = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  width: 75%;
+  align-items: center;
+  margin-right: 1rem;
+  /* width: 75%; */
 `;
 
 export default MessageDetail;
