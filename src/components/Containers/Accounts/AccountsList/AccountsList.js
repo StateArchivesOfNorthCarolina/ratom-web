@@ -13,6 +13,7 @@ import { useHistory } from 'react-router-dom';
 // Children
 import AccountsListItem from './AccountsListItem';
 import Spinner from '../../../Components/Loading/Spinner';
+import ScrollShadow from '../../../Components/ScrollShadow';
 
 const AccountsList = props => {
   const history = useHistory();
@@ -39,6 +40,7 @@ const AccountsList = props => {
 
   return (
     <AccountsListStyled initial="initial" animate="enter" exit="exit" variants={LIST_VARIANTS}>
+      <ScrollShadow position="top" innerWidth="100%" />
       {loading ? (
         <SpinnerStyled flex large />
       ) : (
@@ -52,6 +54,7 @@ const AccountsList = props => {
           />
         ))
       )}
+      <ScrollShadow position="bottom" innerWidth="100%" />
     </AccountsListStyled>
   );
 };
@@ -60,6 +63,8 @@ const AccountsListStyled = styled(motion.div)`
   display: flex;
   flex-direction: column;
   flex: 1;
+  overflow-y: scroll;
+  position: relative;
 `;
 
 const SpinnerStyled = styled(Spinner)`
