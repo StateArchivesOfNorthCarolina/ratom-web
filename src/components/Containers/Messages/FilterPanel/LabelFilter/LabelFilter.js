@@ -7,15 +7,14 @@ import Autosuggest from 'react-autosuggest';
 // Components
 import { AccountContext } from '../../MessagesMain';
 import { FilterPanelItem } from '../FilterPanelItem';
-import Badge from '../../Badge';
+import { Badge, AutoCompleteBadge } from '../../Badge';
 import AutoSuggestInput from './AutoSuggestInput';
 import AutoSuggestionContainer from './AutoSuggestionContainer';
-import { colorGrey } from '../../../../../styles/styleVariables';
 
 const renderSuggestion = (suggestion, { isHighlighted }) => {
   return (
-    <SuggestionStyled isHighlighted={isHighlighted}>
-      <p>{suggestion.name}</p>
+    <SuggestionStyled>
+      <AutoCompleteBadge {...suggestion} isHighlighted={isHighlighted} />
     </SuggestionStyled>
   );
 };
@@ -134,9 +133,7 @@ const LabelFilter = ({ buildQuery, filterQuery, sendQuery, ...props }) => {
 
 const LabelFilterStyled = styled(FilterPanelItem)``;
 
-const SuggestionStyled = styled.div`
-  background-color: ${props => (props.isHighlighted ? colorGrey : 'transparent')};
-`;
+const SuggestionStyled = styled.div``;
 
 const BadgesListStyled = styled.div`
   display: flex;

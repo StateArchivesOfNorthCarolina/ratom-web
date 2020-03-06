@@ -5,7 +5,7 @@ import { borderSeparator, colorBlackLight } from '../../../styles/styleVariables
 // Context
 import { AccountContext } from '../Messages/MessagesMain';
 import Keyword from '../Messages/Keyword';
-import Badge from '../Messages/Badge';
+import { Badge } from '../Messages/Badge';
 
 const MessageDetailFilters = () => {
   const { query } = useContext(AccountContext);

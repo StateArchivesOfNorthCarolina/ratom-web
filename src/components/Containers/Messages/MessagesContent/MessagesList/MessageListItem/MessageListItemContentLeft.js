@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import MessageCheckbox from './MessageCheckbox';
-import Badge from '../../../Badge'
+import { Badge } from '../../../Badge';
 
 const MessageListItemContentLeft = ({ message, checked, checkMessage }) => {
   const getHighlights = () => {
@@ -47,13 +47,7 @@ const MessageListItemContentLeft = ({ message, checked, checkMessage }) => {
             {message.audit.labels.map((badge, i) => {
               let name = badge;
               if (badge.name) name = badge.name;
-              return (
-                <Badge
-                  name={name}
-                  key={`${i}_${name}`}
-                  type={badge.type}
-                />
-              );
+              return <Badge name={name} key={`${i}_${name}`} type={badge.type} />;
             })}
           </MessageLabels>
         </InnerContent>
