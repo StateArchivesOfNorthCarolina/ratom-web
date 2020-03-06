@@ -10,7 +10,7 @@ import formatNumber from '../../../../util/formatNumber';
 import dateToIso from '../../../../util/dateToIso';
 
 // Children
-import Badge from '../../Messages/Badge';
+import { Badge } from '../../Messages/Badge';
 import DotMenu from '../../../Components/Widgets/DotMenu';
 
 export const STATUSES = {
@@ -67,7 +67,9 @@ const AccountDetails = ({ account, asHeader, actions }) => {
   return (
     <AccountDetailsStyled>
       <LeftContent shouldBeGrey={shouldBeGrey}>
-        <h4 data-cy="account-detail-account-title" id={account.id}>{account.title}</h4>
+        <h4 data-cy="account-detail-account-title" id={account.id}>
+          {account.title}
+        </h4>
         <HeaderMeta shouldBeGrey={shouldBeGrey}>
           <p>Inclusive Dates: {getInclusiveDates()}</p>
           <div>{renderBadge()}</div>

@@ -12,7 +12,7 @@ import { MessageContext } from './MessageMain';
 // Children
 import Attachment from './Attachment';
 import ParsedMessageBody from './ParsedMessageBody';
-import Badge from '../Messages/Badge'
+import { Badge } from '../Messages/Badge';
 
 const MessageDetail = () => {
   const { message } = useContext(MessageContext);
@@ -53,13 +53,7 @@ const MessageDetail = () => {
               {message.audit.labels.map((badge, i) => {
                 let name = badge;
                 if (badge.name) name = badge.name;
-                return (
-                  <Badge
-                    name={name}
-                    key={`${i}_${name}`}
-                    type={badge.type}
-                  />
-                );
+                return <Badge name={name} key={`${i}_${name}`} type={badge.type} />;
               })}
             </MessageLabels>
             <MessagePath>

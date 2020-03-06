@@ -7,7 +7,7 @@ import Autosuggest from 'react-autosuggest';
 // Components
 import { AccountContext } from '../../MessagesMain';
 import { FilterPanelItem } from '../FilterPanelItem';
-import Badge from '../../Badge';
+import { Badge, AutoCompleteBadge } from '../../Badge';
 import AutoSuggestInput from './AutoSuggestInput';
 import AutoSuggestionContainer from './AutoSuggestionContainer';
 import { colorGrey } from '../../../../../styles/styleVariables';
@@ -15,7 +15,7 @@ import { colorGrey } from '../../../../../styles/styleVariables';
 const renderSuggestion = (suggestion, { isHighlighted }) => {
   return (
     <SuggestionStyled isHighlighted={isHighlighted}>
-      <p>{suggestion.name}</p>
+      <AutoCompleteBadge {...suggestion} />
     </SuggestionStyled>
   );
 };
