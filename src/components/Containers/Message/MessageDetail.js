@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 
 // Deps
@@ -6,7 +6,13 @@ import { format } from 'date-fns';
 
 import { colorBlackLight } from '../../../styles/styleVariables';
 
+// Axios
+import Axios from '../../../services/axiosConfig';
+import { UPDATE_MESSAGE } from '../../../services/requests';
+
 // Context
+import { useAlert } from 'react-alert';
+import { useParams } from 'react-router-dom';
 import { MessageContext } from './MessageMain';
 
 // Children
@@ -16,7 +22,10 @@ import { Badge } from '../../Components/Labels/Badge';
 import AddLabel from '../../Components/Labels/AddLabel';
 
 const MessageDetail = () => {
-  const { message } = useContext(MessageContext);
+  const alert = useAlert();
+  const { messageId } = useParams();
+  const [labelLoading, setLabelLoading] = useState(false);
+  const { message, setMessage } = useContext(MessageContext);
 
   const formatSentDate = sentDate => {
     try {
@@ -36,6 +45,22 @@ const MessageDetail = () => {
     return directory.split('/').join(' > ');
   };
 
+  const handleAddLabel = label => {
+    const data = {};
+    if (label.type === 'U') data['append_user_label'] = label.name;
+    setLabelLoading(true);
+    Axios.put(`${UPDATE_MESSAGE}${messageId}/`, data)
+      .then(response => {
+        setLabelLoading(false);
+        setMessage(response.data);
+      })
+      .catch(error => {
+        console.warn('Error adding label: ', error);
+        setLabelLoading(false);
+        alert.error('Unable to add label, please try again');
+      });
+  };
+
   return (
     <MessageDetailStyled>
       <MessageContent>
@@ -51,13 +76,17 @@ const MessageDetail = () => {
               {message.msg_from}
             </MetaHeader>
             <LabelsWrapper>
-              <MessageLabels data-cy="message_labels_list">
+              <MessageLabels labelLoading={labelLoading} data-cy="message_labels_list">
                 {message.audit.labels.map((badge, i) => {
                   let name = badge;
                   if (badge.name) name = badge.name;
                   return <Badge name={name} key={`${i}_${name}`} type={badge.type} />;
                 })}
-                <AddLabel currentLabels={message.audit.labels} />
+                <AddLabel
+                  labelLoading={labelLoading}
+                  currentLabels={message.audit.labels}
+                  handleAddLabel={handleAddLabel}
+                />
               </MessageLabels>
             </LabelsWrapper>
 
@@ -156,7 +185,8 @@ const MessageLabels = styled.div`
   flex-wrap: wrap;
   align-items: center;
   margin-right: 1rem;
-  /* width: 75%; */
+
+  opacity: ${props => (props.labelLoading ? 0.4 : 1)};
 `;
 
 export default MessageDetail;
