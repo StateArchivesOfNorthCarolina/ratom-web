@@ -108,7 +108,8 @@ const AddLabel = ({ currentLabels }) => {
 
   const addNewLabel = thisLabel => {
     setInputValue('');
-    const data = { label: thisLabel };
+    const data = {};
+    if (thisLabel.type === 'U') data['append_user_label'] = thisLabel.name;
     Axios.put(`${UPDATE_MESSAGE}${messageId}/`, data)
       .then(response => {
         setShowInput(false);
