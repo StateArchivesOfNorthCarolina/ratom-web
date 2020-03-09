@@ -50,7 +50,8 @@ const AppStyled = styled.div`
 const alertOptions = {
   timeout: ALERT_TIMEOUT,
   position: positions.TOP_CENTER,
-  transitions: transitions.FADE
+  transitions: transitions.FADE,
+  containerStyle: { zIndex: 1001 }
 };
 
 export default App;
