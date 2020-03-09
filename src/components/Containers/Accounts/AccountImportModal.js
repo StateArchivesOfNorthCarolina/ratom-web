@@ -20,7 +20,6 @@ import AnimatedModal from '../../Components/Animated/AnimatedModal';
 import Logo from '../../Components/Logo';
 import CloseButton from '../../Components/Buttons/CloseButton';
 import Input from '../../Components/Inputs/Input';
-import TextArea from '../../Components/Inputs/TextArea';
 import Button from '../../Components/Buttons/Button';
 
 const AccountImportModal = ({ closeModal, isVisible }) => {
@@ -28,12 +27,11 @@ const AccountImportModal = ({ closeModal, isVisible }) => {
   const alert = useAlert();
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState();
-  // const [description, setDescription] = useState();
   const [filename, setFilename] = useState();
+
   useKeyPress('Escape', () => {
     setLoading(false);
     setTitle('');
-    // setDescription('');
     setFilename('');
     selectAccount();
     closeModal();
@@ -42,13 +40,13 @@ const AccountImportModal = ({ closeModal, isVisible }) => {
   const _createAccount = account => {
     setLoading(true);
     Axios.post(CREATE_ACCOUNT, account)
-      .then(response => {
+      .then(() => {
         alert.success(
           `${title} has been created, and ${filename} is being imported. Check the Accounts List for progress updates.`
         );
         closeImportModal();
       })
-      .catch(error => {
+      .catch(() => {
         setLoading(false);
         // This is an error in intial creation of Account, not in import process
         // TODO: What's in error? Would be nice to give the Account title in the alert
@@ -61,13 +59,13 @@ const AccountImportModal = ({ closeModal, isVisible }) => {
   const _updateAccount = account => {
     setLoading(true);
     Axios.put(`${UPDATE_ACCOUNT}${accountSelected.id}/`, account)
-      .then(response => {
+      .then(() => {
         alert.success(
           `${filename} is being imported. Check the Accounts List for progress updates.`
         );
         closeImportModal();
       })
-      .catch(error => {
+      .catch(() => {
         setLoading(false);
         // This is an error in intial creation of Account, not in import process
         // TODO: What's in error? Would be nice to give the Account title in the alert
@@ -91,7 +89,6 @@ const AccountImportModal = ({ closeModal, isVisible }) => {
   const closeImportModal = () => {
     setLoading(false);
     setTitle('');
-    // setDescription('');
     setFilename('');
     selectAccount();
     closeModal();
