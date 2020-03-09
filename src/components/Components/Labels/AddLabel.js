@@ -106,7 +106,6 @@ const AddLabel = ({ currentLabels, handleAddLabel, labelLoading }) => {
   const addNewLabel = thisLabel => {
     setInputValue('');
     setShowInput(false);
-    setShowInput(false);
     handleAddLabel(thisLabel);
   };
 
