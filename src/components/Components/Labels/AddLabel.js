@@ -4,20 +4,19 @@ import { colorPrimary, colorGrey } from '../../../styles/styleVariables';
 
 // Deps
 import { useParams } from 'react-router-dom';
-import { useAlert } from 'react-alert';
 import Autosuggest from 'react-autosuggest';
 
 // Context
 import { AccountContext } from '../../Containers/Messages/MessagesMain';
-import { MessageContext } from '../../Containers/Message/MessageMain';
 
 // Axios
 import Axios from '../../../services/axiosConfig';
-import { SHOW_ACCOUNT, UPDATE_MESSAGE } from '../../../services/requests';
+import { SHOW_ACCOUNT } from '../../../services/requests';
 
 // Components
 import AutoSuggestionContainer from '../../Containers/Messages/FilterPanel/LabelFilter/AutoSuggestionContainer';
 import ClickableOverlay from '../ClickableOverlay';
+import Spinner from '../Loading/Spinner';
 
 // Constants
 const PREVENT_ADD_NLP_TAGS = true;
@@ -44,11 +43,9 @@ const AutoSuggestInput = inputProps => {
   );
 };
 
-const AddLabel = ({ currentLabels }) => {
-  const alert = useAlert();
-  const { accountId, messageId } = useParams();
+const AddLabel = ({ currentLabels, handleAddLabel, labelLoading }) => {
+  const { accountId } = useParams();
   const { account } = useContext(AccountContext);
-  const { setMessage } = useContext(MessageContext);
   const [showInput, setShowInput] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
   const [searchLabels, setSearchLabels] = useState([]);
@@ -57,7 +54,7 @@ const AddLabel = ({ currentLabels }) => {
   useEffect(() => {
     if (!account) {
       Axios.get(`${SHOW_ACCOUNT}${accountId}/`).then(response => {
-        const userLabels = getUserGeneratedLables(response.data.labels);
+        const userLabels = getUserGeneratedLabels(response.data.labels);
         setSearchLabels(userLabels);
       });
     } else {
@@ -65,7 +62,7 @@ const AddLabel = ({ currentLabels }) => {
     }
   }, [account]);
 
-  const getUserGeneratedLables = allLabels => {
+  const getUserGeneratedLabels = allLabels => {
     return allLabels.filter(l => l.type === 'U');
   };
 
@@ -108,18 +105,8 @@ const AddLabel = ({ currentLabels }) => {
 
   const addNewLabel = thisLabel => {
     setInputValue('');
-    const data = {};
-    if (thisLabel.type === 'U') data['append_user_label'] = thisLabel.name;
-    Axios.put(`${UPDATE_MESSAGE}${messageId}/`, data)
-      .then(response => {
-        setShowInput(false);
-        setMessage(response.data);
-      })
-      .catch(error => {
-        console.warn('Error adding label: ', error);
-        setShowInput(false);
-        alert.error('Unable to add label, please try again');
-      });
+    setShowInput(false);
+    handleAddLabel(thisLabel);
   };
 
   const handleHotKeyPressed = e => {
@@ -142,6 +129,10 @@ const AddLabel = ({ currentLabels }) => {
     onChange: handleSuggestionChange,
     onKeyUp: handleHotKeyPressed
   };
+
+  if (labelLoading) {
+    return <Spinner small />;
+  }
 
   return (
     <AddLabelStyled>
