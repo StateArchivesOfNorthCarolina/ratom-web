@@ -80,8 +80,8 @@ const AccountImportModal = ({ closeModal, isVisible }) => {
     return loading || (accountSelected ? !filename : !title || !filename);
   };
 
-  const handleImportAccount = () => {
-    // TODO: Do the importing business here
+  const handleImportAccount = (e) => {
+    e.preventDefault();
     if (accountSelected) _updateAccount({ filename });
     else _createAccount({ title, filename });
   };
@@ -106,8 +106,8 @@ const AccountImportModal = ({ closeModal, isVisible }) => {
             Add a new file to <span>{accountSelected.title}</span>
           </h1>
         ) : (
-          <h1>Create a new account</h1>
-        )}
+            <h1>Create a new account</h1>
+          )}
         <FormStyled>
           <FormInner>
             {!accountSelected && (
