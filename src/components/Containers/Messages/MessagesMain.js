@@ -13,16 +13,22 @@ import {
 } from '../../../localStorageUtils/queryManager';
 import emptyQuery from './emptyQuery';
 
-// Children
-import MessagesLayout from './MessagesLayout';
-import MessageMain from '../Message/MessageMain';
-import GenericNotFound from '../GenericNotFound';
+// ls
+import { RECORDS_REQUEST_QUERY } from '../../../constants/localStorageConstants';
+import { setValueToLocalStorage } from '../../../localStorageUtils/localStorageManager';
+
+// Util
 import {
   keywordFilterBuilderAND,
   emailFilterBuilderOR,
   dateRangeFilterBuilderAND,
   labelFilterBuilderOR
 } from '../../../util/filterConstructors';
+
+// Children
+import MessagesLayout from './MessagesLayout';
+import MessageMain from '../Message/MessageMain';
+import GenericNotFound from '../GenericNotFound';
 
 export const AccountContext = createContext(null);
 
@@ -60,6 +66,12 @@ const MessagesMain = () => {
     }
   }, [query, routerState]);
 
+  const saveQueryForExport = queryString => {
+    // only saves after a successful response to a query
+    // This should prevent an export from occurring on "stale" data
+    setValueToLocalStorage(RECORDS_REQUEST_QUERY, queryString);
+  };
+
   const searchMessages = () => {
     setLoading(true);
     const accountParam = `account=${accountId}&`;
@@ -67,6 +79,7 @@ const MessagesMain = () => {
     const url = SEARCH_MESSAGES + accountParam + queryParams;
     Axios.get(url)
       .then(response => {
+        saveQueryForExport(accountParam + queryParams);
         updateResults(response.data);
         setLoading(false);
       })

@@ -8,15 +8,25 @@ import {
   boxShadow
 } from '../../../styles/styleVariables';
 
-// Contexgt
+// Axios
+import Axios from '../../../services/axiosConfig';
+import { RECORDS_REQUEST } from '../../../services/requests';
+
+// Deps
+import { useAlert } from 'react-alert';
+import { motion, AnimatePresence } from 'framer-motion';
+
+// Context
 import { AccountContext } from './MessagesMain';
 
 // Children
 import Button from '../../Components/Buttons/Button';
-import { motion, AnimatePresence } from 'framer-motion';
 import Spinner from '../../Components/Loading/Spinner';
+import { RECORDS_REQUEST_QUERY } from '../../../constants/localStorageConstants';
+import { getValueFromLocalStorage } from '../../../localStorageUtils/localStorageManager';
 
 const AccountExportModal = ({ closeModal, isVisible }) => {
+  const alert = useAlert();
   const { messagesTotalCount, facets } = useContext(AccountContext);
   const [exporting, setExporting] = useState(false);
   const [processedCount, setProcessedCount] = useState('');
@@ -62,12 +72,36 @@ const AccountExportModal = ({ closeModal, isVisible }) => {
   }, [facets]);
 
   const handleExport = () => {
+    const rrQuery = getValueFromLocalStorage(RECORDS_REQUEST_QUERY);
+    console.log('rrQuery: ', rrQuery);
     // TODO do actual export.
+    if (!rrQuery) {
+      return alert.error('Some information is missing. Please reapply your search and try again.');
+    }
+
+    if (!/account=\d+/gi.test(rrQuery)) {
+      console.log('does not contain account!');
+    }
+
+    const splitQuery = rrQuery.split('&');
+    if (!splitQuery[1]) {
+      // it's JUST account=\d, maybe a mistake?
+      // This will export the entire account...
+      // TODO warning? Get Confirmation?
+    }
+
     setExporting(true);
-    setTimeout(() => {
-      setExporting(false);
-      closeModal();
-    }, 4000);
+    Axios.get(RECORDS_REQUEST + rrQuery)
+      .then(response => {
+        // TODO: Do stuff, like download the file.
+        setExporting(false);
+        closeModal();
+      })
+      .catch(error => {
+        console.warn('Error exporting messages: ', error);
+        setExporting(false);
+        alert.error('Export failed');
+      });
   };
 
   return (
