@@ -12,6 +12,7 @@
     "axios-hooks": "^1.9.0",
     "babel-eslint": "^10.0.3",
     "date-fns": "^2.7.0",
+    "file-saver": "^2.0.2",
     "framer-motion": "^1.8.3",
     "lodash.isempty": "^4.4.0",
     "moment": "^2.24.0",

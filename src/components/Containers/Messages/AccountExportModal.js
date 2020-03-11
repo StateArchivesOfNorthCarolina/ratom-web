@@ -13,6 +13,7 @@ import Axios from '../../../services/axiosConfig';
 import { RECORDS_REQUEST } from '../../../services/requests';
 
 // Deps
+import { saveAs } from 'file-saver';
 import { useAlert } from 'react-alert';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -73,34 +74,35 @@ const AccountExportModal = ({ closeModal, isVisible }) => {
 
   const handleExport = () => {
     const rrQuery = getValueFromLocalStorage(RECORDS_REQUEST_QUERY);
-    console.log('rrQuery: ', rrQuery);
-    // TODO do actual export.
     if (!rrQuery) {
       return alert.error('Some information is missing. Please reapply your search and try again.');
     }
 
-    if (!/account=\d+/gi.test(rrQuery)) {
-      console.log('does not contain account!');
-    }
-
     const splitQuery = rrQuery.split('&');
     if (!splitQuery[1]) {
-      // it's JUST account=\d, maybe a mistake?
-      // This will export the entire account...
+      // it's JUST account=\d, maybe a mistake? This will export the entire account...
       // TODO warning? Get Confirmation?
     }
 
     setExporting(true);
-    Axios.get(RECORDS_REQUEST + rrQuery)
+    Axios.get(RECORDS_REQUEST + rrQuery, { responseType: 'blob' })
       .then(response => {
-        // TODO: Do stuff, like download the file.
+        const filename = response.headers['content-disposition']
+          .split(';')
+          .find(n => n.includes('filename='))
+          .replace('filename=', '')
+          .trim();
+        const blob = new Blob([response.data], {
+          type: 'text/plain'
+        });
+        saveAs(blob, filename);
         setExporting(false);
         closeModal();
       })
       .catch(error => {
         console.warn('Error exporting messages: ', error);
-        setExporting(false);
         alert.error('Export failed');
+        setExporting(false);
       });
   };
 
@@ -166,7 +168,7 @@ const AccountExportModal = ({ closeModal, isVisible }) => {
               <Button neutral onClick={closeModal}>
                 Cancel
               </Button>
-              <Button positive onClick={handleExport}>
+              <Button data-cy="export-button" positive onClick={handleExport}>
                 Export
               </Button>
             </Actions>

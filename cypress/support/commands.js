@@ -118,3 +118,9 @@ Cypress.Commands.add('addArbitraryLabels', labels => {
     cy.get('[data-cy="add_label_input"]').type(`${label} {enter}`);
   }
 });
+
+Cypress.Commands.add('exportAsRecordsRequest', () => {
+  cy.get('[data-cy="export-as-records-request-button"]').click();
+  cy.wait(500);
+  cy.get('[data-cy="export-button"]').click();
+});

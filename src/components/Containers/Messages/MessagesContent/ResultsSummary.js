@@ -22,7 +22,9 @@ const ResultsSummary = () => {
           </h3>
         </Summary>
         <Actions>
-          <p onClick={() => setShowExportModal(true)}>Export as Records Request</p>
+          <p data-cy="export-as-records-request-button" onClick={() => setShowExportModal(true)}>
+            Export as Records Request
+          </p>
         </Actions>
       </ResultsSummaryStyled>
       <AccountExportModal

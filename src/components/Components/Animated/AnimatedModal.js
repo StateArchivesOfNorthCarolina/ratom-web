@@ -50,6 +50,8 @@ const StyledShade = styled(motion.div)`
 
 const StyledModal = styled(motion.div)`
   position: absolute;
+  top: 50%;
+  left: 50%;
   z-index: 1000;
   width: 500px;
   height: 300px;
