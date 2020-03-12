@@ -129,6 +129,29 @@ describe('Filter panel behavior', () => {
       });
     });
 
+    describe('Record status filter', () => {
+      it('limits results by selection', () => {
+        // temp
+        cy.goToMessagesList();
+        // end temp
+        cy.get('[data-cy="messages_list_item"]')
+          .first()
+          .within(() => {
+            cy.get('[data-cy="record_status_widget"]').click();
+            cy.get('[data-cy="dropdown-menu"]').within(() => {
+              cy.contains('Open record').click();
+            });
+          });
+
+        cy.get('[data-cy="record_status_filter"]').within(() => {
+          cy.contains('Open').click();
+        });
+
+        cy.applySearch();
+        cy.assertMessageCountEquals('1');
+      });
+    });
+
     describe('Email address search', () => {
       const emailSearch = 'EES';
       const expectedCount = '5';

@@ -5,7 +5,7 @@ describe('Functionality around record status', () => {
   });
 
   it('record status filter is displayed', () => {
-    cy.contains('Message processed status');
+    cy.contains('Processed status');
   });
 
   it('selecting a status from record status widget changes messasge detail record status', () => {
