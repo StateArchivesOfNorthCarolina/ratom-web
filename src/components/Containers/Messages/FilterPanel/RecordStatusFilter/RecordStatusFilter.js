@@ -31,7 +31,6 @@ const RecordStatusFilter = () => {
 
   useEffect(() => {
     if (!isEmpty(facets)) {
-      console.log('facets! ', facets);
       const {
         _filter_processed,
         _filter_is_restricted,
@@ -54,6 +53,9 @@ const RecordStatusFilter = () => {
       );
 
       if (processedBucket) newStatusFacets[OPEN] = processedBucket.doc_count;
+      else {
+        newStatusFacets[OPEN] = 0;
+      }
 
       if (restrictedBucket) {
         newStatusFacets[RESTRICTED] = restrictedBucket.doc_count;
@@ -65,22 +67,46 @@ const RecordStatusFilter = () => {
         if (newStatusFacets[OPEN] >= 0) newStatusFacets[OPEN] -= redactedBucket.doc_count;
       }
 
-      if (nonrecordBucket) newStatusFacets[NON_RECORD] = nonrecordBucket.doc_count;
+      if (nonrecordBucket) {
+        newStatusFacets[NON_RECORD] = nonrecordBucket.doc_count;
+        if (newStatusFacets[OPEN] >= 0) newStatusFacets[OPEN] -= nonrecordBucket.doc_count;
+      } else {
+        newStatusFacets[NON_RECORD] = 0;
+      }
+
+      if (_filter_processed.processed.buckets.length === 0) newStatusFacets[OPEN] = 0;
+      if (_filter_is_restricted.is_restricted.buckets.length === 0) newStatusFacets[RESTRICTED] = 0;
+      if (_filter_needs_redaction.needs_redaction.buckets.length === 0)
+        newStatusFacets[NEEDS_REDACTION] = 0;
 
       setStatusFacets(newStatusFacets);
     }
   }, [facets]);
 
+  const getAggregateDisplay = type => formatNumber(statusFacets[type]);
+
   const options = [
     { name: ALL, accessor: ALL },
-    { name: OPEN, accessor: OPEN, extra: formatNumber(statusFacets[OPEN]) },
-    { name: RESTRICTED, accessor: RESTRICTED, extra: formatNumber(statusFacets[RESTRICTED]) },
+    {
+      name: OPEN,
+      accessor: OPEN,
+      extra: getAggregateDisplay(OPEN)
+    },
+    {
+      name: RESTRICTED,
+      accessor: RESTRICTED,
+      extra: getAggregateDisplay(RESTRICTED)
+    },
     {
       name: NEEDS_REDACTION,
       accessor: NEEDS_REDACTION,
-      extra: formatNumber(statusFacets[NEEDS_REDACTION])
+      extra: getAggregateDisplay(NEEDS_REDACTION)
     },
-    { name: NON_RECORD, accessor: NON_RECORD, extra: formatNumber(statusFacets[NON_RECORD]) }
+    {
+      name: NON_RECORD,
+      accessor: NON_RECORD,
+      extra: getAggregateDisplay(NON_RECORD)
+    }
   ];
 
   const handleChange = e => {
