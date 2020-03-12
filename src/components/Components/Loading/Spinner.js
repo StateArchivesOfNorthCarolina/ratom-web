@@ -23,9 +23,12 @@ const Spinner = props => {
   useEffect(() => {
     // Don't show spinner right away-- let fast stuff happen fast.
     // TODO: Ideally, this would be wrapped at a higher level so that the original content doesn't flash away.
-    let timeout = setTimeout(() => setShow(true), 500);
-    return () => clearTimeout(timeout);
-  }, []);
+    if (props.immediate) setShow(true);
+    else {
+      const timeout = setTimeout(() => setShow(true), 500);
+      return () => clearTimeout(timeout);
+    }
+  }, [props]);
 
   if (!show) return null;
   return (

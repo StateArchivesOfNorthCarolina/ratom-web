@@ -16,3 +16,4 @@ export const RESTART_FILE = 'files/';
 export const SEARCH_MESSAGES = 'messages/?';
 export const SHOW_MESSAGE = 'messages/';
 export const UPDATE_MESSAGE = 'messages/';
+export const RECORDS_REQUEST = 'export/?';

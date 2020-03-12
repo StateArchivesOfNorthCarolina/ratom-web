@@ -11,7 +11,7 @@ const Pagination = props => {
   return (
     <PaginationStyled {...props}>
       <ResultsTotals>
-        <h4>Showing </h4> <MessagesCount>{messages.length}</MessagesCount>
+        <h4>Displaying </h4> <MessagesCount>{messages.length}</MessagesCount>
         <h4>of </h4> <h5 data-cy="search-results__count">{messagesTotalCount}</h5>
       </ResultsTotals>
     </PaginationStyled>

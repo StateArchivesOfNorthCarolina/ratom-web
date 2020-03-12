@@ -138,8 +138,6 @@ const AccountImportModal = ({ closeModal, isVisible }) => {
 
 const AccountImportModalStyled = styled(AnimatedModal)`
   z-index: 1000;
-  top: 0;
-  left: 0;
   height: 100vh;
   width: 100vw;
   padding: 4rem;

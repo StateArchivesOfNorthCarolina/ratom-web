@@ -5,3 +5,4 @@ export const USER = 'USER';
 
 // FILTER QUERY
 export const FILTER_QUERY = 'FILTER_QUERY';
+export const RECORDS_REQUEST_QUERY = 'RECORDS_REQUEST_QUERY';
