@@ -1,16 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import DEFAULT_LOGO from '../../assets/img/RATOM_Vector_Logo_v1_600px.png';
+
 const Logo = props => {
-  return <LogoStyled {...props}>[LOGO]</LogoStyled>;
+  return (
+    <LogoStyled {...props}>
+      <img src={DEFAULT_LOGO} alt="RATOM logo" />
+    </LogoStyled>
+  );
 };
 
-const LogoStyled = styled.h1`
-  margin: 0;
-  padding: 0;
-  font-weight: bold;
-  color: black;
-  font-size: ${props => (props.large ? '6rem' : '2.6rem')};
+const LogoStyled = styled.div`
+  img {
+    max-width: 100%;
+  }
 `;
 
 export default Logo;

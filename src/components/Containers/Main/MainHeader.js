@@ -17,11 +17,15 @@ const MainHeader = props => {
   const { onLogout } = useAuthContext();
   return (
     <MainHeaderStyled>
-      <Logo />
-      <p onClick={onLogout}>Logout [temp]</p>
+      <LogoStyled />
+      <p onClick={onLogout}>Logout</p>
     </MainHeaderStyled>
   );
 };
+
+const LogoStyled = styled(Logo)`
+  width: 17rem;
+`;
 
 const MainHeaderStyled = styled.header`
   height: 6.5rem;
@@ -33,6 +37,11 @@ const MainHeaderStyled = styled.header`
   justify-content: space-between;
   align-items: center;
   padding: ${standardPadding};
+
+  p {
+    margin-right: 2rem;
+    cursor: pointer;
+  }
 `;
 
 export default MainHeader;

@@ -80,7 +80,7 @@ const AccountImportModal = ({ closeModal, isVisible }) => {
     return loading || (accountSelected ? !filename : !title || !filename);
   };
 
-  const handleImportAccount = (e) => {
+  const handleImportAccount = e => {
     e.preventDefault();
     if (accountSelected) _updateAccount({ filename });
     else _createAccount({ title, filename });
@@ -97,7 +97,7 @@ const AccountImportModal = ({ closeModal, isVisible }) => {
   return (
     <AccountImportModalStyled closeModal={closeImportModal} isVisible={isVisible}>
       <ModalHeader>
-        <Logo />
+        <LogoStyled />
         <CloseButton onClick={closeImportModal} />
       </ModalHeader>
       <ModalBody>
@@ -106,8 +106,8 @@ const AccountImportModal = ({ closeModal, isVisible }) => {
             Add a new file to <span>{accountSelected.title}</span>
           </h1>
         ) : (
-            <h1>Create a new account</h1>
-          )}
+          <h1>Create a new account</h1>
+        )}
         <FormStyled>
           <FormInner>
             {!accountSelected && (
@@ -135,6 +135,10 @@ const AccountImportModal = ({ closeModal, isVisible }) => {
     </AccountImportModalStyled>
   );
 };
+
+const LogoStyled = styled(Logo)`
+  width: 24rem;
+`;
 
 const AccountImportModalStyled = styled(AnimatedModal)`
   z-index: 1000;
