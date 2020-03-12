@@ -46,7 +46,7 @@ const Login = () => {
 
   return (
     <LoginStyled>
-      <Logo large />
+      <LogoStyled />
       <LoginWrapper>
         <h4>Sign in to RATOM</h4>
         <div>
@@ -85,6 +85,11 @@ const Login = () => {
 
 export default Login;
 
+const LogoStyled = styled(Logo)`
+  margin-top: 15rem;
+  width: 38rem;
+`;
+
 const LoginStyled = styled.main`
   flex: 1;
   display: flex;
@@ -98,6 +103,7 @@ const LoginStyled = styled.main`
 `;
 
 const LoginWrapper = styled.div`
+  margin-top: 2rem;
   width: 40rem;
   min-height: 40rem;
   padding: 4rem;
@@ -106,8 +112,8 @@ const LoginWrapper = styled.div`
   justify-content: space-around;
 
   h4 {
-    margin: 4rem 0;
-    text-align: center;
+    margin: 5rem 0;
+    font-size: 2rem;
   }
 `;
 
