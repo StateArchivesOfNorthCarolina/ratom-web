@@ -9,13 +9,13 @@ const Radio = ({ name, options, selected, onChange, ...props }) => {
         <Option key={option.accessor}>
           <OptionInput
             type="radio"
-            id={option.accessor}
+            id={name + '_' + option.accessor}
             name={name}
             value={option.accessor}
             checked={selected === option.accessor}
             onChange={onChange}
           />
-          <OptionLabel htmlFor={option.accessor}>
+          <OptionLabel htmlFor={name + '_' + option.accessor}>
             {option.name}
             {option.extra && <span data-cy="processed_status_count">({option.extra})</span>}
           </OptionLabel>

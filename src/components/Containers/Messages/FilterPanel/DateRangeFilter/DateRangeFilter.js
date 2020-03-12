@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import moment from 'moment';
 
 // Components
-import { AccountContext } from '../MessagesMain';
-import { FilterPanelItem } from './FilterPanelItem';
-import Input from '../../../Components/Inputs/Input';
-import FormErrors from '../../../Components/Form/FormErrors';
-import ActionButton from '../../../Components/Buttons/ActionButton';
+import { AccountContext } from '../../MessagesMain';
+import { FilterPanelItem } from '../FilterPanelItem';
+import Input from '../../../../Components/Inputs/Input';
+import FormErrors from '../../../../Components/Form/FormErrors';
+import ActionButton from '../../../../Components/Buttons/ActionButton';
 
 const DateRangeFilter = ({ buildQuery, filterQuery }) => {
   const { account } = useContext(AccountContext);

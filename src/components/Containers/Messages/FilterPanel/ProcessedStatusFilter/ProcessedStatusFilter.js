@@ -70,7 +70,7 @@ const ProcessedStatusFilter = () => {
 
   return (
     <ProcessedStatusFilterStyled data-cy="processed_status_widget">
-      <h3>Message processed status</h3>
+      <h3>Processed status</h3>
       <RadioStyled
         options={options}
         selected={selected}

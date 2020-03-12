@@ -35,7 +35,7 @@ const MessageDetailFilters = () => {
 
       {query.processedStatus && query.processedStatus !== 'All' && (
         <ProcessedStatus data-cy="message-detail-filter__processed">
-          <h3>Message processed status</h3>
+          <h3>Processed status</h3>
           <p>{query.processedStatus}</p>
         </ProcessedStatus>
       )}

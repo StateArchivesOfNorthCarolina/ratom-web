@@ -3,5 +3,6 @@ export default {
   labels: [],
   addresses: [],
   dateRange: [],
-  processedStatus: 'All'
+  processedStatus: 'All',
+  recordStatus: 'All'
 };

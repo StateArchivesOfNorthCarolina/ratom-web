@@ -21,7 +21,9 @@ import {
   keywordFilterBuilderAND,
   emailFilterBuilderOR,
   dateRangeFilterBuilderAND,
-  labelFilterBuilderOR
+  labelFilterBuilderOR,
+  processedStatusBuilder,
+  recordStatusBuilder
 } from '../../../util/filterConstructors';
 
 export const AccountContext = createContext(null);
@@ -89,19 +91,13 @@ const MessagesMain = () => {
     }
   };
 
-  const getProcessedParam = processedStatus => {
-    let status = false;
-    if (processedStatus === 'All') return '';
-    if (processedStatus === 'Processed') status = true;
-    return `processed=${status}`;
-  };
-
   const constructQueryString = queryObj => {
-    const { keywords, dateRange, processedStatus, addresses, labels } = queryObj;
+    const { keywords, dateRange, processedStatus, recordStatus, addresses, labels } = queryObj;
     const params = [];
     if (keywords && keywords.length > 0) params.push(keywordFilterBuilderAND(keywords));
     if (dateRange && dateRange.length > 0) params.push(dateRangeFilterBuilderAND(dateRange));
-    if (processedStatus) params.push(getProcessedParam(processedStatus));
+    if (processedStatus) params.push(processedStatusBuilder(processedStatus));
+    if (recordStatus) params.push(recordStatusBuilder(recordStatus));
     if (addresses && addresses.length > 0) params.push(emailFilterBuilderOR(addresses));
     if (labels && labels.length > 0) params.push(labelFilterBuilderOR(labels));
     return params.join('&');
