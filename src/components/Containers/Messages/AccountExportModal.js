@@ -85,7 +85,7 @@ const AccountExportModal = ({ closeModal, isVisible }) => {
     }
 
     setExporting(true);
-    Axios.get(RECORDS_REQUEST + rrQuery, { responseType: 'blob' })
+    Axios.get(RECORDS_REQUEST + rrQuery, { responseType: 'blob', timeout: 10000 })
       .then(response => {
         const filename = response.headers['content-disposition']
           .split(';')
