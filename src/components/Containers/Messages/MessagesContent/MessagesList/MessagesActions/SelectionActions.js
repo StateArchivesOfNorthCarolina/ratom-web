@@ -112,6 +112,7 @@ const SelectionActions = () => {
         <InnerWrapper>
           <SelectionWrap>
             <MessageCheckbox
+              data-cy="bulk-select-checkbox"
               checked={checked}
               indeterminate={indeterminate}
               onChange={handleCheckedChange}
@@ -123,6 +124,7 @@ const SelectionActions = () => {
           <AnimatePresence>
             {checkedMessages.length > 0 && (
               <SelectedActions
+                data-cy="bulk-selection-actions"
                 transition={{
                   duration: 0.15,
                   ease: 'linear'

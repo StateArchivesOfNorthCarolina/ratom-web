@@ -69,7 +69,7 @@ const RecordStatusWidget = ({
   const updateMessageStatus = option => {
     const newAudit = mapOptionToAudit(option);
     Axios.put(`${UPDATE_MESSAGE}${messageId}/`, newAudit)
-      .then(_response => {
+      .then(() => {
         afterChange(true, option);
       })
       .catch(error => {

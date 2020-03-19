@@ -104,6 +104,30 @@ Cypress.Commands.add('openNthMessage', n => {
     });
 });
 
+Cypress.Commands.add('checkNthMessage', n => {
+  cy.get('[data-cy="messages_list_item"]')
+    .eq(n)
+    .within(() => {
+      cy.get('[data-cy="message-list-item-checkbox"]').click({ force: true });
+    });
+});
+
+Cypress.Commands.add('assertCheckedStateOfNthMessage', (n, state) => {
+  cy.get('[data-cy="messages_list_item"]')
+    .eq(n)
+    .within(() => {
+      cy.get('[data-cy="message-list-item-checkbox"]').then($checkbox => {
+        expect($checkbox.is(':checked')).to.be[state]; //eslint-disable-line
+      });
+    });
+});
+
+Cypress.Commands.add('assertRecordStatusOfNthMessage', (n, recordStatus) => {
+  cy.get('[data-cy="messages_list_item"]')
+    .eq(n)
+    .contains(recordStatus);
+});
+
 Cypress.Commands.add('assertMessageCountEquals', assertedTotal => {
   cy.get('[data-cy="search-results__count"]').should($countEl => {
     const count = $countEl.text();
