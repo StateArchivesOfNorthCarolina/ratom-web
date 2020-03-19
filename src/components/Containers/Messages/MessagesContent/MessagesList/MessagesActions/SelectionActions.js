@@ -1,9 +1,18 @@
 import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { colorPrimary, colorBlackLight } from '../../../../../../styles/styleVariables';
 import { motion, AnimatePresence } from 'framer-motion';
 
+// Deps
+import { useAlert } from 'react-alert';
+
 // Util
+import { isEmpty } from '../../../../../../util/isEmpty';
 import formatNumber from '../../../../../../util/formatNumber';
+
+// Axios
+import Axios from '../../../../../../services/axiosConfig';
+import { BATCH_UPDATE_MESSAGES } from '../../../../../../services/requests';
 
 // Context
 import { MessagesContext } from '../../MessagesContent';
@@ -15,12 +24,14 @@ import RecordStatusWidget from '../../../../../Components/Widgets/RecordStatusWi
 import ConfirmActionModal from './ConfirmActionModal';
 
 const SelectionActions = () => {
+  const alert = useAlert();
   const { checkedMessages, checkAllMessages } = useContext(MessagesContext);
-  const { messages } = useContext(AccountContext);
-  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const { messages, searchMessages } = useContext(AccountContext);
+  const [confirmationModalDetails, setConfirmationModalDetails] = useState({});
   const [checked, setChecked] = useState(false);
   const [indeterminate, setIndeterminate] = useState(false);
   const [targetStatus, setTargetStatus] = useState();
+  const [targetAction, setTargetAction] = useState();
 
   useEffect(() => {
     if (checkedMessages.length === messages.length) {
@@ -43,9 +54,56 @@ const SelectionActions = () => {
     }
   };
 
+  const parseTargetStatus = status => {
+    return status.replace('_', ' ');
+  };
+
   const handleBulkRecordStatusChange = status => {
+    setTargetAction('record_status');
     setTargetStatus(status);
-    setShowConfirmationModal(true);
+    const parsedStatus = parseTargetStatus(status);
+    setConfirmationModalDetails({
+      Warning: () => (
+        <Warning>
+          Change status of <span>{checkedMessages.length}</span> messages
+        </Warning>
+      ),
+      Message: () => (
+        <WarningMessage>
+          Set status to
+          <span> {parsedStatus}</span>?
+        </WarningMessage>
+      ),
+      confirmationState:
+        status === 'open_record' || status === 'non-record' ? 'positive' : 'negative',
+      confirmationText: `Mark as ${parsedStatus}`
+    });
+  };
+
+  const handleActionConfirmed = callback => {
+    const data = {
+      messages: checkedMessages,
+      action: targetAction,
+      effect: targetStatus
+    };
+    let successMessage = 'Success';
+    if (targetAction === 'record_status') {
+      successMessage = `Update record status of ${
+        checkedMessages.length
+      } messages to ${parseTargetStatus(targetStatus)}`;
+    }
+    Axios.put(BATCH_UPDATE_MESSAGES, data, { timeout: 10000 })
+      .then(() => {
+        searchMessages();
+        callback();
+        setConfirmationModalDetails({});
+        alert.success(successMessage);
+      })
+      .catch(error => {
+        callback();
+        alert.error('Failed to update messages');
+        console.warn('Error while bulk updating messages: ', error);
+      });
   };
 
   return (
@@ -84,10 +142,10 @@ const SelectionActions = () => {
         </InnerWrapper>
       </SelectionActionsStyled>
       <ConfirmActionModal
-        isVisible={showConfirmationModal}
-        closeModal={() => setShowConfirmationModal(false)}
-        messagesCount={checkedMessages.length}
-        targetStatus={targetStatus}
+        {...confirmationModalDetails}
+        isVisible={!isEmpty(confirmationModalDetails)}
+        closeModal={() => setConfirmationModalDetails({})}
+        onActionConfirmed={handleActionConfirmed}
       />
     </>
   );
@@ -126,6 +184,22 @@ const SelectedActions = styled(motion.div)`
   flex-direction: row;
   align-items: center;
   margin-left: 4rem;
+`;
+
+const Warning = styled.h2`
+  span {
+    color: ${colorPrimary};
+  }
+`;
+
+const WarningMessage = styled.p`
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: ${colorBlackLight};
+
+  span {
+    font-weight: bold;
+  }
 `;
 
 export default SelectionActions;

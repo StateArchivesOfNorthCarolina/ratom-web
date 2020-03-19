@@ -17,3 +17,4 @@ export const SEARCH_MESSAGES = 'messages/?';
 export const SHOW_MESSAGE = 'messages/';
 export const UPDATE_MESSAGE = 'messages/';
 export const RECORDS_REQUEST = 'export/?';
+export const BATCH_UPDATE_MESSAGES = 'messages/batch/';

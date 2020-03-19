@@ -1,13 +1,6 @@
 import React, { useState } from 'react';
-import styled, { css } from 'styled-components';
-import {
-  boxShadow,
-  colorPrimary,
-  colorBlackLight,
-  colorBadgeGreen,
-  colorBadgeRed,
-  colorBadgeBlue
-} from '../../../../../../styles/styleVariables';
+import styled from 'styled-components';
+import { boxShadow } from '../../../../../../styles/styleVariables';
 
 // Deps
 import { motion, AnimatePresence } from 'framer-motion';
@@ -17,18 +10,20 @@ import AnimatedModal from '../../../../../Components/Animated/AnimatedModal';
 import Spinner from '../../../../../Components/Loading/Spinner';
 import Button from '../../../../../Components/Buttons/Button';
 
-const ConfirmActionModal = ({ isVisible, closeModal, messagesCount, targetStatus, ...props }) => {
+const ConfirmActionModal = ({
+  Warning,
+  Message,
+  confirmationState,
+  confirmationText,
+  isVisible,
+  closeModal,
+  onActionConfirmed
+}) => {
   const [loading, setLoading] = useState(false);
 
   const handleConfirmAction = () => {
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-  };
-
-  const parseTargetStatus = status => {
-    return status && status.replace('_', ' ');
+    onActionConfirmed(() => setLoading(false));
   };
 
   return (
@@ -59,26 +54,19 @@ const ConfirmActionModal = ({ isVisible, closeModal, messagesCount, targetStatus
               ease: 'linear'
             }}
           >
-            <Warning>
-              Change status of <span>{messagesCount}</span> messages
-            </Warning>
-            <WarningDetails>
-              <p>
-                Set status to
-                <span> {parseTargetStatus(targetStatus)}</span>?
-              </p>
-            </WarningDetails>
+            {Warning && <Warning />}
+            <WarningMessage>{Message && <Message />}</WarningMessage>
             <WarningActions>
               <Button neutral onClick={closeModal}>
                 Cancel
               </Button>
               <Button
-                positive={targetStatus === 'open_record' || targetStatus === 'non-record'}
-                negative={targetStatus === 'restricted' || targetStatus === 'redacted'}
+                positive={confirmationState === 'positive'}
+                negative={confirmationState === 'negative'}
                 data-cy="export-button"
                 onClick={handleConfirmAction}
               >
-                Mark as {parseTargetStatus(targetStatus)}
+                {confirmationText}
               </Button>
             </WarningActions>
           </ConfirmationContent>
@@ -116,23 +104,8 @@ const ConfirmationContent = styled(motion.div)`
   align-items: center;
 `;
 
-const Warning = styled.h2`
-  span {
-    color: ${colorPrimary};
-  }
-`;
-
-const WarningDetails = styled.div`
+const WarningMessage = styled.div`
   margin-bottom: 4rem;
-  p {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-    color: ${colorBlackLight};
-
-    span {
-      font-weight: bold;
-    }
-  }
 `;
 
 const WarningActions = styled.div`
