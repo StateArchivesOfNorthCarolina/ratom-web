@@ -229,10 +229,6 @@ const AccountExportModalStyled = styled(AnimatedModal)`
   transform: translate(-50%, -50%);
   height: auto;
   width: auto;
-  /* padding: 4rem 4rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center; */
   box-shadow: ${boxShadow};
 `;
 

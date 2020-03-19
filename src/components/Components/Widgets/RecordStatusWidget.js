@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import {
   colorBadgeBlue,
   colorBadgeGreen,
@@ -19,18 +19,29 @@ import ClickableOverlay from '../ClickableOverlay';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { UPDATE_MESSAGE } from '../../../services/requests';
 
-const RecordStatusWidget = ({ messageId, audit, afterChange, ...props }) => {
+const RecordStatusWidget = ({
+  messageId,
+  audit,
+  handleBulkChange,
+  position,
+  afterChange,
+  ...props
+}) => {
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState();
 
   useEffect(() => {
-    const newStatus = mapAuditToOption(audit);
-    setStatus(newStatus);
+    if (audit) {
+      const newStatus = mapAuditToOption(audit);
+      setStatus(newStatus);
+    }
   }, [audit]);
 
   const handleSelectOption = option => {
     setOpen(false);
-    if (option !== status) {
+    if (handleBulkChange) {
+      handleBulkChange(option);
+    } else if (option !== status) {
       setStatus(option);
       updateMessageStatus(option);
     }
@@ -119,18 +130,30 @@ const RecordStatusWidget = ({ messageId, audit, afterChange, ...props }) => {
     }
   };
 
+  const openMenu = e => {
+    e.stopPropagation();
+    setOpen(true);
+  };
+
+  const closeMenu = e => {
+    e.stopPropagation();
+    setOpen(false);
+  };
+
   return (
     <>
       <RecordStatusWidgetWrapper {...props} data-cy="record_status_widget">
-        <RecordStatusWidgetStyled color={getColorFromStatus()} onClick={() => setOpen(true)}>
+        <RecordStatusWidgetStyled color={getColorFromStatus()} onClick={openMenu}>
           <Status status={status} color={getColorFromStatus()}>
             {mapStatusToDisplayStatus()}
           </Status>
           <Selection status={status} icon={faChevronDown} color={getColorFromStatus()} />
         </RecordStatusWidgetStyled>
-        {open && <Menu open={open} setOpen={setOpen} actions={buildActions()} />}
+        {open && (
+          <Menu open={open} position={position} setOpen={setOpen} actions={buildActions()} />
+        )}
       </RecordStatusWidgetWrapper>
-      <ClickableOverlay onClick={() => setOpen(false)} open={open} />
+      <ClickableOverlay onClick={closeMenu} open={open} />
     </>
   );
 };
@@ -169,9 +192,36 @@ const Selection = styled(FontAwesomeIcon)`
 `;
 
 const Menu = styled(DropdownMenu)`
-  z-index: 10;
+  z-index: 1000;
   position: absolute;
-  top: 100%;
-  right: 0;
+  ${props => {
+    switch (props.position) {
+      case 'top':
+        return css`
+          bottom: 100%;
+          right: 0;
+        `;
+      case 'right':
+        return css`
+          bottom: 0;
+          left: 100%;
+        `;
+      case 'bottom':
+        return css`
+          top: 100%;
+          right: 0;
+        `;
+      case 'left':
+        return css`
+          bottom: 0;
+          right: 100%;
+        `;
+      default:
+        return css`
+          top: 100%;
+          right: 0;
+        `;
+    }
+  }}
 `;
 export default RecordStatusWidget;

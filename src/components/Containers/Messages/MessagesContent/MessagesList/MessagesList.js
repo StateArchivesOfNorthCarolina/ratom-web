@@ -12,6 +12,7 @@ import { AccountContext } from '../../MessagesMain';
 // Children
 import MessageListItem from './MessageListItem/MessageListItem';
 import ScrollShadow from '../../../../Components/ScrollShadow';
+import { borderSeparator } from '../../../../../styles/styleVariables';
 
 const MessagesList = () => {
   const messagesUL = useRef();
@@ -31,20 +32,23 @@ const MessagesList = () => {
   }, [loadMoreMessages, messagesUL]);
 
   return (
-    <MessagesListStyled
-      ref={messagesUL}
-      initial="initial"
-      animate="enter"
-      exit="exit"
-      variants={LIST_VARIANTS}
-      data-cy="messages-list"
-    >
-      <ScrollShadow position="top" innerWidth="100%" />
-      {messages.map((message, i) => (
-        <MessageListItem key={message.id} message={message} i={i} variants={LIST_ITEM_VARIANTS} />
-      ))}
-      <ScrollShadow position="bottom" innerWidth="100%" />
-    </MessagesListStyled>
+    <>
+      <MessagesListStyled
+        ref={messagesUL}
+        initial="initial"
+        animate="enter"
+        exit="exit"
+        variants={LIST_VARIANTS}
+        data-cy="messages-list"
+      >
+        <ScrollShadow position="top" innerWidth="100%" />
+        {messages.map((message, i) => (
+          <MessageListItem key={message.id} message={message} i={i} variants={LIST_ITEM_VARIANTS} />
+        ))}
+        <ScrollShadow position="bottom" innerWidth="100%" />
+      </MessagesListStyled>
+      <BorderDiv />
+    </>
   );
 };
 
@@ -54,6 +58,11 @@ const MessagesListStyled = styled(motion.div)`
   overflow: scroll;
   width: 100%;
   padding: 3rem 3rem 0 3rem;
+`;
+
+const BorderDiv = styled.div`
+  border-top: ${borderSeparator};
+  margin: 0 5rem;
 `;
 
 export default MessagesList;

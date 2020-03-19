@@ -5,6 +5,7 @@ export const colorBlack = '#212121';
 export const colorBlackLight = '#939393';
 
 export const colorGrey = '#e6e6e6';
+export const colorGreyLight = '#fcfcfc';
 
 export const colorPrimary = '#1e90ff';
 export const colorAccent = '#09d3ac';
@@ -13,7 +14,7 @@ export const colorBadgeBlue = '#1e90ff';
 export const colorBadgeGreen = '#18a957';
 export const colorBadgeRed = '#df1642';
 
-export const colorCaution = 'red';
+export const colorCaution = '#df1642';
 
 export const colorHover = 'whitesmoke';
 
@@ -35,4 +36,4 @@ export const standardDarken = 10;
 //   'linear-gradient(90deg, rgba(255,255,255,1) 7%, rgba(30,144,255,0.1) 50%, rgba(255,255,255,1) 93%)';
 
 export const blueGradient =
-  'linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(30,144,255,0.07) 5%, rgba(255,255,255,1) 90%)';
+  'linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(30,144,255,0.03) 5%, rgba(255,255,255,1) 90%)';

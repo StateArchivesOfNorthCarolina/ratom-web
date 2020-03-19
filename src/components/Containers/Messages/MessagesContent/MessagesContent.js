@@ -8,7 +8,7 @@ import { AccountContext } from '../MessagesMain';
 // Children
 import ResultsSummary from './ResultsSummary';
 import MessagesList from './MessagesList/MessagesList';
-import MessagesActions from './MessagesActions';
+import MessagesActions from './MessagesList/MessagesActions/MessagesActions';
 import Pagination from '../../../Components/Pagination/Pagination';
 
 export const MessagesContext = createContext(null);
