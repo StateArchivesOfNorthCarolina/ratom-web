@@ -13,7 +13,7 @@ export const keywordFilterBuilderAND = keywords => {
 
 export const keywordFilterBuilderOR = keywords => {
   const keywordsJoined = keywords.join(',');
-  return `search=${keywordsJoined}`;
+  return `search_simple_query_string=${keywordsJoined}`;
 };
 
 export const emailFilterBuilderOR = emails => {
