@@ -19,7 +19,7 @@ import { setValueToLocalStorage } from '../../../localStorageUtils/localStorageM
 
 // Util
 import {
-  keywordFilterBuilderAND,
+  keywordFilterBuilderOR,
   emailFilterBuilderOR,
   dateRangeFilterBuilderAND,
   labelFilterBuilderOR,
@@ -107,7 +107,7 @@ const MessagesMain = () => {
   const constructQueryString = queryObj => {
     const { keywords, dateRange, processedStatus, recordStatus, addresses, labels } = queryObj;
     const params = [];
-    if (keywords && keywords.length > 0) params.push(keywordFilterBuilderAND(keywords));
+    if (keywords && keywords.length > 0) params.push(keywordFilterBuilderOR(keywords));
     if (dateRange && dateRange.length > 0) params.push(dateRangeFilterBuilderAND(dateRange));
     if (processedStatus) params.push(processedStatusBuilder(processedStatus));
     if (recordStatus) params.push(recordStatusBuilder(recordStatus));
