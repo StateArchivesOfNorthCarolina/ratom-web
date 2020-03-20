@@ -11,10 +11,12 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const DropdownMenu = ({ actions, setOpen, ...props }) => {
-  const handleClick = onClick => {
+  const handleClick = (e, onClick) => {
+    e.stopPropagation();
     setOpen(false);
     onClick();
   };
+
   return (
     <DropdownMenuStyled {...props} data-cy="dropdown-menu">
       {actions && actions.normal && (
@@ -23,7 +25,7 @@ const DropdownMenu = ({ actions, setOpen, ...props }) => {
             <ActionItem
               data-cy="dropdown_action_item"
               key={action.display}
-              onClick={() => handleClick(action.onClick)}
+              onClick={e => handleClick(e, action.onClick)}
             >
               <ActionItemText>{action.display}</ActionItemText>
               {action.icon && <ActionItemIcon icon={action.icon} onClick={action.onIconClick} />}
@@ -37,7 +39,7 @@ const DropdownMenu = ({ actions, setOpen, ...props }) => {
             <ActionItem
               data-cy="dropdown_action_item"
               key={action.display}
-              onClick={() => handleClick(action.onClick)}
+              onClick={e => handleClick(e, action.onClick)}
             >
               <ActionItemText>{action.display}</ActionItemText>
               {action.icon && <ActionItemIcon icon={action.icon} onClick={action.onIconClick} />}

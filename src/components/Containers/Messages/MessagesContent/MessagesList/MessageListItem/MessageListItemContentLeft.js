@@ -16,7 +16,11 @@ const MessageListItemContentLeft = ({ message, checked, checkMessage }) => {
 
   return (
     <ContentLeft>
-      <MessageCheckbox checked={checked} onChange={() => checkMessage(message.id)} />
+      <MessageCheckbox
+        data-cy="message-list-item-checkbox"
+        checked={checked}
+        onChange={() => checkMessage(message.id)}
+      />
       <Content>
         <h4>{message.subject}</h4>
         <InnerContent>

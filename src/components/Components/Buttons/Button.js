@@ -48,29 +48,53 @@ const ButtonStyled = styled.button`
     return props.theme.textColorLight;
   }};
 
-  border: ${props => (props.neutral ? `2px solid ${props.theme.colorPrimary}` : 'none')};
+  ${props => {
+    if (props.neutral) {
+      return css`
+        border: 2px solid ${props.theme.colorPrimary};
+      `;
+    }
+
+    if (props.positive) {
+      return css`
+        border: 2px solid ${props.theme.colorPrimary};
+      `;
+    }
+
+    if (props.negative) {
+      return css`
+        border: 2px solid ${props.theme.colorCaution};
+      `;
+    }
+
+    return css`
+      border: 2px solid ${props.theme.colorPrimary};
+    `;
+  }}
 
   &:hover {
     ${props => {
       if (props.disabled) return '';
       if (props.positive) {
         return css`
-          background-color: ${props => darken(props.theme.colorPrimary)};
+          background-color: darken(props.theme.colorPrimary);
+          border-color: darken(props.theme.colorPrimary);
           transform: translateY(-1px);
         `;
       }
 
       if (props.neutral) {
         return css`
-          border-color: ${props => darken(props.theme.colorPrimary)};
-          color: ${props => darken(props.theme.colorPrimary)};
+          border-color: darken(props.theme.colorPrimary);
+          color: darken(props.theme.colorPrimary);
           transform: translateY(-1px);
         `;
       }
 
       if (props.negative) {
         return css`
-          background-color: ${props => darken(props.theme.colorCaution)};
+          background-color: darken(props.theme.colorCaution);
+          border-color: darken(props.theme.colorCaution);
           transform: translateY(-1px);
         `;
       }

@@ -1,37 +1,24 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { borderSeparator, standardPadding, colorPrimary } from '../../../../styles/styleVariables';
 
 // Context
 import { AccountContext } from '../MessagesMain';
 import formatNumber from '../../../../util/formatNumber';
-import AccountExportModal from '../AccountExportModal';
 
 const ResultsSummary = () => {
   const { messages, messagesTotalCount } = useContext(AccountContext);
-  const [showExportModal, setShowExportModal] = useState(false);
 
   return (
-    <>
-      <ResultsSummaryStyled>
-        <Summary>
-          <h3>
-            Displaying <span>{formatNumber(messages.length)}</span> of
-            {messagesTotalCount === 10000 ? ' more than ' : ' '}
-            {formatNumber(messagesTotalCount)} results
-          </h3>
-        </Summary>
-        <Actions>
-          <p data-cy="export-as-records-request-button" onClick={() => setShowExportModal(true)}>
-            Export as Records Request
-          </p>
-        </Actions>
-      </ResultsSummaryStyled>
-      <AccountExportModal
-        isVisible={showExportModal}
-        closeModal={() => setShowExportModal(false)}
-      />
-    </>
+    <ResultsSummaryStyled>
+      <Summary>
+        <h3>
+          Displaying <span>{formatNumber(messages.length)}</span> of
+          {messagesTotalCount === 10000 ? ' more than ' : ' '}
+          {formatNumber(messagesTotalCount)} results
+        </h3>
+      </Summary>
+    </ResultsSummaryStyled>
   );
 };
 
@@ -53,16 +40,6 @@ const Summary = styled.div`
     span {
       color: ${colorPrimary};
     }
-  }
-`;
-
-const Actions = styled.div`
-  max-width: 25%;
-
-  p {
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: ${colorPrimary};
   }
 `;
 
