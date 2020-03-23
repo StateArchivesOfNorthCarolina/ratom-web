@@ -11,6 +11,11 @@ export const keywordFilterBuilderAND = keywords => {
   return `search_simple_query_string=${keywordsJoined}`;
 };
 
+export const keywordFilterBuilderOR = keywords => {
+  const keywordsJoined = keywords.join(',');
+  return `search_simple_query_string=${keywordsJoined}`;
+};
+
 export const emailFilterBuilderOR = emails => {
   // Need to lower case inputs for elasticsearch purposes (email analyzer is lowercasing, wildcard expects case sensitive match)
   const lowerEmails = emails.map(email => email.toLowerCase());
