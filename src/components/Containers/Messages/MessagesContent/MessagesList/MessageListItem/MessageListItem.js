@@ -7,7 +7,6 @@ import { borderSeparator, blueGradient } from '../../../../../../styles/styleVar
 import { useHistory, useLocation } from 'react-router-dom';
 
 // Context
-import { MessagesContext } from '../../MessagesContent';
 import { AccountContext } from '../../../MessagesMain';
 
 // Children
@@ -17,8 +16,9 @@ import MessageListItemContentLeft from './MessageListItemContentLeft';
 const MessageListItem = ({ message, i, ...props }) => {
   const messageRef = useRef();
   const [highlightElement, setHighlightElement] = useState(false);
-  const { checkMessage, checkedMessages } = useContext(MessagesContext);
-  const { listPlaceholder, setListPlaceholder } = useContext(AccountContext);
+  const { listPlaceholder, setListPlaceholder, checkMessage, checkedMessages } = useContext(
+    AccountContext
+  );
   const { pathname } = useLocation();
   const history = useHistory();
 

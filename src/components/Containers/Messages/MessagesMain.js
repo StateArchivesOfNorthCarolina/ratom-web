@@ -47,6 +47,7 @@ const MessagesMain = () => {
   const [messagesTotalCount, setMessagesTotalCount] = useState();
   const [listPlaceholder, setListPlaceholder] = useState();
   const [messageCursor, setMessageCursor] = useState();
+  const [checkedMessages, setCheckedMessages] = useState([]);
 
   const [pageInfo, setPageInfo] = useState({});
   const [facets, setFacets] = useState({});
@@ -83,6 +84,8 @@ const MessagesMain = () => {
       .then(response => {
         saveQueryForExport(accountParam + queryParams);
         updateResults(response.data);
+        // deselect any selected messages on successful query
+        setCheckedMessages([]);
         setLoading(false);
       })
       .catch(error => {
@@ -159,8 +162,30 @@ const MessagesMain = () => {
     setFilterQuery(emptyQuery);
   };
 
+  const checkAllMessages = all => {
+    if (all) {
+      setCheckedMessages(messages.map(m => m.id));
+    } else {
+      setCheckedMessages([]);
+    }
+  };
+
+  const checkMessage = messageId => {
+    const messageIndex = checkedMessages.indexOf(messageId);
+    if (messageIndex > -1) {
+      const messagesWithout = [...checkedMessages];
+      messagesWithout.splice(messageIndex, 1);
+      setCheckedMessages(messagesWithout);
+    } else {
+      setCheckedMessages([...checkedMessages, messageId]);
+    }
+  };
+
   const context = {
     account,
+    checkAllMessages,
+    checkMessage,
+    checkedMessages,
     filterQuery,
     setFilterQuery,
     clearFilters,

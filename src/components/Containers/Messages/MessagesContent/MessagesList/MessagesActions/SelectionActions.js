@@ -15,7 +15,6 @@ import Axios from '../../../../../../services/axiosConfig';
 import { BATCH_UPDATE_MESSAGES } from '../../../../../../services/requests';
 
 // Context
-import { MessagesContext } from '../../MessagesContent';
 import { AccountContext } from '../../../MessagesMain';
 
 // Children
@@ -25,8 +24,9 @@ import ConfirmActionModal from './ConfirmActionModal';
 
 const SelectionActions = () => {
   const alert = useAlert();
-  const { checkedMessages, checkAllMessages } = useContext(MessagesContext);
-  const { messages, searchMessages } = useContext(AccountContext);
+  const { messages, searchMessages, checkedMessages, checkAllMessages } = useContext(
+    AccountContext
+  );
   const [confirmationModalDetails, setConfirmationModalDetails] = useState({});
   const [checked, setChecked] = useState(false);
   const [indeterminate, setIndeterminate] = useState(false);
