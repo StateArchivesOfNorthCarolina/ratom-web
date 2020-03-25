@@ -34,10 +34,13 @@ Axios.interceptors.request.use(
 Axios.interceptors.response.use(
   success => success,
   error => {
-    const { status } = error.response;
-    // Only care about 401s so far, so pass through
-    if (status !== 401) return handleNon401Response(error);
-    return handle401Response(error);
+    if (error && error.response) {
+      const { status } = error.response;
+      // Only care about 401s so far, so pass through
+      if (status !== 401) return handleNon401Response(error);
+      return handle401Response(error);
+    }
+    return handleNon401Response(error);
   }
 );
 

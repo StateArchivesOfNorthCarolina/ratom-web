@@ -88,11 +88,11 @@ const SelectionActions = () => {
     };
     let successMessage = 'Success';
     if (targetAction === 'record_status') {
-      successMessage = `Update record status of ${
+      successMessage = `Updated record status of ${
         checkedMessages.length
       } messages to ${parseTargetStatus(targetStatus)}`;
     }
-    Axios.put(BATCH_UPDATE_MESSAGES, data, { timeout: 10000 })
+    Axios.put(BATCH_UPDATE_MESSAGES, data, { timeout: 25 * 1000 })
       .then(() => {
         searchMessages();
         callback();
