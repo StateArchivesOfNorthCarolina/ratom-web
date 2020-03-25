@@ -25,6 +25,7 @@ import Button from '../../Components/Buttons/Button';
 import Spinner from '../../Components/Loading/Spinner';
 import { RECORDS_REQUEST_QUERY } from '../../../constants/localStorageConstants';
 import { getValueFromLocalStorage } from '../../../localStorageUtils/localStorageManager';
+import useKeyPress from '../../Hooks/useKeyPress';
 
 const AccountExportModal = ({ closeModal, isVisible }) => {
   const alert = useAlert();
@@ -35,6 +36,8 @@ const AccountExportModal = ({ closeModal, isVisible }) => {
   const [restrictedCount, setRestrictedCount] = useState('');
   const [redactedCount, setRedactedCount] = useState('');
   const [nonrecordCount, setNonrecordCount] = useState('');
+
+  useKeyPress('Escape', closeModal);
 
   useEffect(() => {
     const {

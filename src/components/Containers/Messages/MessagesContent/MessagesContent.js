@@ -1,9 +1,6 @@
-import React, { createContext, useState, useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { borderSeparator, colorWhite } from '../../../../styles/styleVariables';
-
-// Context
-import { AccountContext } from '../MessagesMain';
 
 // Children
 import ResultsSummary from './ResultsSummary';
@@ -11,48 +8,16 @@ import MessagesList from './MessagesList/MessagesList';
 import MessagesActions from './MessagesList/MessagesActions/MessagesActions';
 import Pagination from '../../../Components/Pagination/Pagination';
 
-export const MessagesContext = createContext(null);
-
 const MessagesContent = () => {
-  const { messages } = useContext(AccountContext);
-  const [checkedMessages, setCheckedMessages] = useState([]);
-
-  const checkAllMessages = all => {
-    if (all) {
-      setCheckedMessages(messages.map(m => m.id));
-    } else {
-      setCheckedMessages([]);
-    }
-  };
-
-  const checkMessage = messageId => {
-    const messageIndex = checkedMessages.indexOf(messageId);
-    if (messageIndex > -1) {
-      const messagesWithout = [...checkedMessages];
-      messagesWithout.splice(messageIndex, 1);
-      setCheckedMessages(messagesWithout);
-    } else {
-      setCheckedMessages([...checkedMessages, messageId]);
-    }
-  };
-
   return (
-    <MessagesContext.Provider
-      value={{
-        checkedMessages,
-        checkMessage,
-        checkAllMessages
-      }}
-    >
-      <MessagesContentStyled>
-        <ResultsSummary />
-        <MessagesList />
-        <FixedToBottom>
-          <MessagesActions />
-          <Pagination />
-        </FixedToBottom>
-      </MessagesContentStyled>
-    </MessagesContext.Provider>
+    <MessagesContentStyled>
+      <ResultsSummary />
+      <MessagesList />
+      <FixedToBottom>
+        <MessagesActions />
+        <Pagination />
+      </FixedToBottom>
+    </MessagesContentStyled>
   );
 };
 
