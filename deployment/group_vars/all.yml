@@ -5,6 +5,9 @@ k8s_templates:
   - name: web.yaml.j2
     state: present
 
+#Make sure migrations don't run on web deploys
+k8s_migrations: false
+
 # App
 k8s_container_name: web
 k8s_container_image: govsanc/ratom-web
