@@ -18,7 +18,7 @@ const AccountsListItem = ({ account, setAccount, ...props }) => {
   const { selectAccount, setShowImportModal } = useContext(AccountsContext);
   const alert = useAlert();
   const buildActions = () => {
-    const actions = {
+    let actions = {
       normal: [
         {
           display: 'View',
@@ -32,19 +32,13 @@ const AccountsListItem = ({ account, setAccount, ...props }) => {
           }
         }
       ],
-      caution: [
-        {
-          display: 'Remove',
-          onClick: () => {
-            /* TODO: Implement */
-          }
-        }
-      ]
+      caution: []
     };
 
     if (account.account_status === 'FA') {
+      actions['normal'] = [];
       actions.caution.push({
-        display: 'Restart',
+        display: 'Restore Account',
         onClick: () => {
           selectAccount(account);
           _updateFile(account);
@@ -57,10 +51,10 @@ const AccountsListItem = ({ account, setAccount, ...props }) => {
   const _updateFile = account => {
     Axios.post(RESTART_FILE, account)
       .then(response => {
-        alert.success('The failed file has been restarted');
+        alert.success('The account has been restored.');
       })
       .catch(error => {
-        alert.error('An error occurred while trying to add a file to this account.');
+        alert.error('An error occurred while trying to restore this account.');
       });
   };
 

@@ -58,6 +58,9 @@ const MessagesMain = () => {
   useEffect(() => {
     if (!routerState || routerState.reset !== false) {
       Axios.get(`${SHOW_ACCOUNT}${accountId}/`).then(response => {
+        if (response.data.account_status === 'FA') {
+          window.location = window.location.origin;
+        }
         setAccount(response.data);
       });
     }
