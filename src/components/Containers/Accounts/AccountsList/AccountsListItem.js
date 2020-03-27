@@ -18,7 +18,7 @@ const AccountsListItem = ({ account, setAccount, ...props }) => {
   const { selectAccount, setShowImportModal } = useContext(AccountsContext);
   const alert = useAlert();
   const buildActions = () => {
-    let actions = {
+    const actions = {
       normal: [
         {
           display: 'View',

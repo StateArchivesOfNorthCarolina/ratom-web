@@ -34,7 +34,7 @@ const DropdownMenu = ({ actions, setOpen, ...props }) => {
         </NormalActions>
       )}
       {actions && actions.caution && (
-        <CautionActions>
+        <CautionActions cautionOnly={actions.normal.length === 0}>
           {actions.caution.map(action => (
             <ActionItem
               data-cy="dropdown_action_item"
@@ -77,7 +77,7 @@ const DropdownMenuStyled = styled.div`
 const NormalActions = styled.div``;
 
 const CautionActions = styled.div`
-  border-top: 1px solid ${colorGrey};
+  border-top: ${props => (props.cautionOnly ? 'none' : `1px solid ${colorGrey}`)};
 
   div p,
   svg {
