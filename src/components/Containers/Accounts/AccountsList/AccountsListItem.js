@@ -49,7 +49,7 @@ const AccountsListItem = ({ account, setAccount, ...props }) => {
   };
 
   const _deleteFile = account => {
-    Axios.delete(DELETE_FILE, account)
+    Axios.delete(DELETE_FILE, { data: account })
       .then(response => {
         alert.success('The account has been restored.');
       })
