@@ -89,6 +89,22 @@ const GlobalStyle = createGlobalStyle`
         font-size: 1.5rem;
         color: ${vars.colorBlackLight}
     }
+
+    /* Styles for inline html that comes from the backend */
+    span.__RATOM__former-img {
+        display: inline-block;
+        max-width: 30rem;
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        padding: .5rem;
+
+        color: ${vars.colorBadgeRed};
+        font-family: Montserrat;
+        font-size: 1rem;
+    }
 `;
 
 export default GlobalStyle;
