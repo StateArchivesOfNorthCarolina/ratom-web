@@ -100,9 +100,16 @@ const SelectionActions = () => {
         alert.success(successMessage);
       })
       .catch(error => {
+        if (error.response && error.response.data.non_field_errors) {
+          for (let i = 0; i < error.response.data.non_field_errors.length; i++) {
+            const errorMessage = error.response.data.non_field_errors[i];
+            alert.error(errorMessage);
+          }
+        } else {
+          alert.error('Failed to update messages');
+          console.warn('Error while bulk updating messages: ', error);
+        }
         callback();
-        alert.error('Failed to update messages');
-        console.warn('Error while bulk updating messages: ', error);
       });
   };
 
