@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import Axios from '../../../../services/axiosConfig';
-import { RESTART_FILE } from '../../../../services/requests';
+import { DELETE_FILE } from '../../../../services/requests';
 import { useAlert } from 'react-alert';
 
 // Context
@@ -32,35 +32,29 @@ const AccountsListItem = ({ account, setAccount, ...props }) => {
           }
         }
       ],
-      caution: [
-        {
-          display: 'Remove',
-          onClick: () => {
-            /* TODO: Implement */
-          }
-        }
-      ]
+      caution: []
     };
 
     if (account.account_status === 'FA') {
+      actions['normal'] = [];
       actions.caution.push({
-        display: 'Restart',
+        display: 'Restore Account',
         onClick: () => {
           selectAccount(account);
-          _updateFile(account);
+          _deleteFile(account);
         }
       });
     }
     return actions;
   };
 
-  const _updateFile = account => {
-    Axios.post(RESTART_FILE, account)
+  const _deleteFile = account => {
+    Axios.delete(DELETE_FILE, { data: account })
       .then(response => {
-        alert.success('The failed file has been restarted');
+        alert.success('The account has been restored.');
       })
       .catch(error => {
-        alert.error('An error occurred while trying to add a file to this account.');
+        alert.error('An error occurred while trying to restore this account.');
       });
   };
 

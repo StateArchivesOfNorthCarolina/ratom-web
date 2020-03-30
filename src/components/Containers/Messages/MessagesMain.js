@@ -2,7 +2,15 @@ import React, { useState, createContext, useEffect } from 'react';
 
 // Router
 import PrivateRoute from '../PrivateRoute';
-import { Switch, Route, Redirect, useRouteMatch, useParams, useLocation } from 'react-router-dom';
+import {
+  Switch,
+  Route,
+  Redirect,
+  useRouteMatch,
+  useParams,
+  useLocation,
+  useHistory
+} from 'react-router-dom';
 
 // Axios
 import Axios from '../../../services/axiosConfig';
@@ -51,13 +59,14 @@ const MessagesMain = () => {
 
   const [pageInfo, setPageInfo] = useState({});
   const [facets, setFacets] = useState({});
-
+  const history = useHistory();
   const { state: routerState } = useLocation();
   const { path } = useRouteMatch();
 
   useEffect(() => {
     if (!routerState || routerState.reset !== false) {
       Axios.get(`${SHOW_ACCOUNT}${accountId}/`).then(response => {
+        if (response.data.account_status === 'FA') history.replace('/');
         setAccount(response.data);
       });
     }
