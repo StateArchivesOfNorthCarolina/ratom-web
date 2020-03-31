@@ -36,9 +36,13 @@ const AccountsListItem = ({ account, setAccount, ...props }) => {
     };
 
     if (account.account_status === 'FA') {
+      let displayMsg = 'Restore Account';
+      if (account.files_in_account === 1) {
+        displayMsg = 'Remove Account';
+      }
       actions['normal'] = [];
       actions.caution.push({
-        display: 'Restore Account',
+        display: displayMsg,
         onClick: () => {
           selectAccount(account);
           _deleteFile(account);
@@ -51,7 +55,7 @@ const AccountsListItem = ({ account, setAccount, ...props }) => {
   const _deleteFile = account => {
     Axios.delete(DELETE_FILE, { data: account })
       .then(response => {
-        alert.success('The account has been restored.');
+        alert.success('The account has been restored or removed.');
       })
       .catch(error => {
         alert.error('An error occurred while trying to restore this account.');
