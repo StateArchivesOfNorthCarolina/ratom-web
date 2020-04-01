@@ -1,28 +1,29 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { standardPadding, borderSeparator } from '../../../styles/styleVariables';
+import { standardPadding, borderSeparator } from '../../../../styles/styleVariables';
 
 // Deps
 import { useAlert } from 'react-alert';
 
 // Context
-import { MessageContext } from './MessageMain';
+import { MessageContext } from '../MessageMain';
 
 // Router
 import { useHistory, useLocation } from 'react-router-dom';
 
 // Components
-import BackButton from '../../Components/Buttons/BackButton';
-import MessageStepper from './MessageStepper';
-import RecordStatusWidget from '../../Components/Widgets/RecordStatusWidget';
+import BackButton from '../../../Components/Buttons/BackButton';
+import MessageStepper from '../MessageStepper';
+import RecordStatusWidget from '../../../Components/Widgets/RecordStatusWidget';
+import MessageCheckbox from '../../Messages/MessagesContent/MessagesList/MessageListItem/MessageCheckbox';
 
 const MessageHeader = () => {
   const alert = useAlert();
-  const { message } = useContext(MessageContext);
+  const { message, viewAsPlaintext, toggleViewAsPlaintext } = useContext(MessageContext);
   const { pathname } = useLocation();
   const history = useHistory();
 
-  const handleStatusChange = (success, _status) => {
+  const handleStatusChange = success => {
     if (success) {
       alert.show('Message updated.', { type: 'success' });
     } else {
@@ -41,6 +42,13 @@ const MessageHeader = () => {
         <MessageStepper />
       </ContentCenter>
       <ContentRight>
+        <ToggleHtml>
+          <Checkbox
+            checked={viewAsPlaintext}
+            onChange={toggleViewAsPlaintext}
+            label="View as plain-text"
+          />
+        </ToggleHtml>
         <RecordStatusWidget
           messageId={message.id}
           audit={message.audit}
@@ -75,6 +83,16 @@ const ContentCenter = styled.div``;
 const ContentRight = styled.div`
   position: absolute;
   right: 3rem;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
+
+const ToggleHtml = styled.div`
+  margin-right: 3rem;
+`;
+
+const Checkbox = styled(MessageCheckbox)``;
 
 export default MessageHeader;

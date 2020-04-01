@@ -1,12 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { colorPrimary } from '../../../styles/styleVariables';
 
+// Context
+import { MessageContext } from './MessageMain';
+
 const ParsedMessageBody = ({ message }) => {
+  const { viewAsPlaintext } = useContext(MessageContext);
   return (
     <MessageBodyWrapper>
       <MessageBodyStart>START MESSAGE BODY</MessageBodyStart>
-      <BodyContent dangerouslySetInnerHTML={{ __html: message.body }} />
+      {viewAsPlaintext ? (
+        <PlainBodyContent>{message.body}</PlainBodyContent>
+      ) : (
+        <HtmlBodyContent dangerouslySetInnerHTML={{ __html: message.body }} />
+      )}
+
       <MessageBodyEnd>END MESSAGE BODY</MessageBodyEnd>
     </MessageBodyWrapper>
   );
@@ -33,8 +42,12 @@ const MessageBodyEnd = styled(MessageBodyDivider)`
   margin-top: 1rem;
 `;
 
-const BodyContent = styled.div`
+const HtmlBodyContent = styled.div`
   padding: 0 2rem;
+`;
+
+const PlainBodyContent = styled.div`
+  white-space: pre-wrap;
 `;
 
 export default ParsedMessageBody;
