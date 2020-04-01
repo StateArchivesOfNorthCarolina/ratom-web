@@ -54,9 +54,9 @@ const getBadgeColor = props => {
   return props.isHighlighted ? lighten(baseColor) : baseColor;
 };
 
-const getStatusBadgeColor = props => {
+const getStatusBadgeColor = status => {
   let baseColor;
-  switch (props.status) {
+  switch (status) {
     case STATUSES.CM:
       baseColor = colorBadgeGreen;
       break;
@@ -98,7 +98,7 @@ const AutoCompleteBadgeStyled = styled.div`
 `;
 
 const StatusBadgeStyled = styled(AutoCompleteBadgeStyled)`
-  background-color: ${status => getStatusBadgeColor(status)};
+  background-color: ${props => getStatusBadgeColor(props.status)};
 `;
 
 const BadgeStyled = styled.div`

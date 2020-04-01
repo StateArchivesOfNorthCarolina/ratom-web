@@ -55,10 +55,7 @@ const AccountDetails = ({ account, asHeader, actions }) => {
     return formatNumber(diff);
   };
 
-  const getHiddenStatus = () => {
-    if (status === STATUSES.IM || status === STATUSES.RE) return true;
-    return false;
-  };
+  const getHiddenStatus = () => status === STATUSES.IM || status === STATUSES.RE;
 
   return (
     <AccountDetailsStyled>
