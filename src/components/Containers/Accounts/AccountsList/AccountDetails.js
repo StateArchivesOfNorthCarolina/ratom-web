@@ -10,14 +10,15 @@ import formatNumber from '../../../../util/formatNumber';
 import dateToIso from '../../../../util/dateToIso';
 
 // Children
-import { Badge } from '../../../Components/Labels/Badge';
+import { StatusBadge } from '../../../Components/Labels/Badge';
 import DotMenu from '../../../Components/Widgets/DotMenu';
 
 export const STATUSES = {
   CR: 'Created',
   IM: 'Importing',
   CM: 'Complete',
-  FA: 'Failed'
+  FA: 'Failed',
+  RE: 'Restoring'
 };
 
 const IconTextStack = ({ item, ...props }) => {
@@ -54,15 +55,7 @@ const AccountDetails = ({ account, asHeader, actions }) => {
     return formatNumber(diff);
   };
 
-  const renderBadge = () => {
-    let badgeStatus;
-    if (asHeader) return null;
-    if (status === 'Created') return null;
-    if (status === 'Importing') badgeStatus = 'normal';
-    if (status === 'Complete') badgeStatus = 'positive';
-    if (status === 'Failed') badgeStatus = 'caution';
-    return <Badge name={status} type={badgeStatus} />;
-  };
+  const getHiddenStatus = () => status === STATUSES.IM || status === STATUSES.RE;
 
   return (
     <AccountDetailsStyled>
@@ -72,7 +65,7 @@ const AccountDetails = ({ account, asHeader, actions }) => {
         </h4>
         <HeaderMeta shouldBeGrey={shouldBeGrey}>
           <p>Inclusive Dates: {getInclusiveDates()}</p>
-          <div>{renderBadge()}</div>
+          <StatusBadge status={status} />
         </HeaderMeta>
       </LeftContent>
 
@@ -97,7 +90,7 @@ const AccountDetails = ({ account, asHeader, actions }) => {
           <p>Last Modified {dateToIso(account.account_last_modified)}</p>
         </ProcessingStatus>
         <DotMenuStyled
-          hidden={!actions ? !actions : status === 'Importing'}
+          hidden={getHiddenStatus()}
           actions={actions}
           data-cy="account-detail-dot-menu"
         />

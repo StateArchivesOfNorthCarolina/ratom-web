@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { colorBadgeBlue, colorBadgeGreen, colorBadgeRed } from '../../../styles/styleVariables';
 
 import { darken, lighten } from '../../../styles/styleUtils/lighten-darken';
+import { STATUSES } from '../../Containers/Accounts/AccountsList/AccountDetails';
 
 const Badge = ({ name, remove, ...props }) => {
   return (
@@ -25,6 +26,14 @@ const AutoCompleteBadge = ({ name, ...props }) => {
   );
 };
 
+const StatusBadge = ({ status, ...props }) => {
+  return (
+    <StatusBadgeStyled status={status} {...props} data-cy="status-badge">
+      <p>{status}</p>
+    </StatusBadgeStyled>
+  );
+};
+
 const getBadgeColor = props => {
   let baseColor;
   switch (props.type) {
@@ -36,6 +45,26 @@ const getBadgeColor = props => {
       break;
     case 'R':
       baseColor = colorBadgeRed;
+      break;
+    default:
+      baseColor = colorBadgeBlue;
+      break;
+  }
+
+  return props.isHighlighted ? lighten(baseColor) : baseColor;
+};
+
+const getStatusBadgeColor = status => {
+  let baseColor;
+  switch (status) {
+    case STATUSES.CM:
+      baseColor = colorBadgeGreen;
+      break;
+    case STATUSES.FA || STATUSES.RE:
+      baseColor = colorBadgeRed;
+      break;
+    case STATUSES.CR:
+      baseColor = colorBadgeBlue;
       break;
     default:
       baseColor = colorBadgeBlue;
@@ -66,6 +95,10 @@ const AutoCompleteBadgeStyled = styled.div`
   }
 
   background-color: ${props => getBadgeColor(props)};
+`;
+
+const StatusBadgeStyled = styled(AutoCompleteBadgeStyled)`
+  background-color: ${props => getStatusBadgeColor(props.status)};
 `;
 
 const BadgeStyled = styled.div`
@@ -105,4 +138,4 @@ const IconStyled = styled.p`
   }
 `;
 
-export { Badge, AutoCompleteBadge };
+export { Badge, AutoCompleteBadge, StatusBadge };
