@@ -10,18 +10,19 @@ const MessageCheckbox = props => {
   }, [props.indeterminate]);
 
   return (
-    <MessageCheckboxStyled>
+    <MessageCheckboxStyled label={props.label}>
       <CheckboxStyled type="checkbox">
         <input type="checkbox" {...props} ref={inputRef} />
         <span className="checked" />
         <span className="indeterminate" />
+        {props.label && <p>{props.label}</p>}
       </CheckboxStyled>
     </MessageCheckboxStyled>
   );
 };
 
 const MessageCheckboxStyled = styled.div`
-  width: 2rem;
+  width: ${props => (props.label ? 'auto' : '2rem')};
   height: 2rem;
   margin-right: 1.5rem;
 `;
@@ -31,6 +32,13 @@ const CheckboxStyled = styled.label`
   position: relative;
   cursor: pointer;
   user-select: none;
+
+  p {
+    line-height: 1.2;
+    width: auto;
+    padding-left: 2.5rem;
+    font-size: 1.5rem;
+  }
 
   input {
     position: absolute;

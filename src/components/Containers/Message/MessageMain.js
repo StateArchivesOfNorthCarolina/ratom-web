@@ -5,6 +5,11 @@ import styled from 'styled-components';
 import Axios from '../../../services/axiosConfig';
 import { SHOW_MESSAGE } from '../../../services/requests';
 
+// LS
+import { setValueToLocalStorage } from '../../../localStorageUtils/localStorageManager';
+import { getViewAsPlaintextFromLS } from '../../../localStorageUtils/messageDetailManager';
+import { VIEW_AS_PLAINTEXT } from '../../../constants/localStorageConstants';
+
 // Deps
 import { useAlert } from 'react-alert';
 
@@ -12,7 +17,7 @@ import { useAlert } from 'react-alert';
 import { useParams } from 'react-router-dom';
 
 // Children
-import MessageHeader from './MessageHeader';
+import MessageHeader from './MessageHeader/MessageHeader';
 import MessageDetail from './MessageDetail';
 import MessageFooter from './MessageFooter';
 import Spinner from '../../Components/Loading/Spinner';
@@ -25,6 +30,13 @@ const MessageMain = () => {
   const { messageId } = useParams();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(false);
+  const [viewAsPlaintext, setViewAsPlaintext] = useState(getViewAsPlaintextFromLS());
+
+  const toggleViewAsPlaintext = e => {
+    const value = e.target.checked;
+    setValueToLocalStorage(VIEW_AS_PLAINTEXT, value);
+    setViewAsPlaintext(value);
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -40,7 +52,7 @@ const MessageMain = () => {
       });
   }, []);
 
-  const messageContext = { message, setMessage };
+  const messageContext = { message, setMessage, viewAsPlaintext, toggleViewAsPlaintext };
 
   return (
     <MessageContext.Provider value={messageContext}>

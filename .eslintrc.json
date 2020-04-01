@@ -26,6 +26,7 @@
     "react/no-danger": "off",
     "import/no-cycle": "off",
     "import/order": "off",
+    "import/prefer-default-export": "warn",
     "camelcase": "warn",
     "consistent-return": "warn"
   }
