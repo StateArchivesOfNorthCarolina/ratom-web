@@ -20,6 +20,7 @@ const AccountsList = props => {
   const [loading, setLoading] = useState(false);
   const [, setError] = useState();
   const [accounts, setAccounts] = useState();
+  const [accountModified, setAccountModified] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -32,7 +33,10 @@ const AccountsList = props => {
         setError(error);
         setLoading(false);
       });
-  }, []);
+    return () => {
+      setAccountModified(false);
+    };
+  }, [accountModified]);
 
   const setAccount = account => {
     history.push(`/accounts/${account.id}`, { reset: true });
@@ -51,6 +55,7 @@ const AccountsList = props => {
             account={account}
             setAccount={setAccount}
             variants={LIST_ITEM_VARIANTS}
+            modifications={setAccountModified}
           />
         ))
       )}
