@@ -30,6 +30,7 @@ import {
   keywordFilterBuilderOR,
   emailFilterBuilderOR,
   dateRangeFilterBuilderAND,
+  folderFilterBuilderOR,
   labelFilterBuilderOR,
   processedStatusBuilder,
   recordStatusBuilder
@@ -117,11 +118,20 @@ const MessagesMain = () => {
   };
 
   const constructQueryString = queryObj => {
-    const { keywords, dateRange, processedStatus, recordStatus, addresses, labels } = queryObj;
+    const {
+      keywords,
+      dateRange,
+      processedStatus,
+      folders,
+      recordStatus,
+      addresses,
+      labels
+    } = queryObj;
     const params = [];
     if (keywords && keywords.length > 0) params.push(keywordFilterBuilderOR(keywords));
     if (dateRange && dateRange.length > 0) params.push(dateRangeFilterBuilderAND(dateRange));
     if (processedStatus) params.push(processedStatusBuilder(processedStatus));
+    if (folders && folders.length > 0) params.push(folderFilterBuilderOR(folders));
     if (recordStatus) params.push(recordStatusBuilder(recordStatus));
     if (addresses && addresses.length > 0) params.push(emailFilterBuilderOR(addresses));
     if (labels && labels.length > 0) params.push(labelFilterBuilderOR(labels));

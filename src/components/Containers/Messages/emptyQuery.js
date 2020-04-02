@@ -3,6 +3,7 @@ export default {
   labels: [],
   addresses: [],
   dateRange: [],
+  folders: [],
   processedStatus: 'All',
   recordStatus: 'All'
 };

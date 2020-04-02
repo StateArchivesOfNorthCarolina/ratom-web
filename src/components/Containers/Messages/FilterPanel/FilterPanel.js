@@ -18,14 +18,12 @@ import RecordStatusFilter from './RecordStatusFilter/RecordStatusFilter';
 import EmailFilter from './EmailFilter/EmailFilter';
 import DateRangeFilter from './DateRangeFilter/DateRangeFilter';
 import LabelFilter from './LabelFilter/LabelFilter';
+import FolderFilter from './FolderFilter/FolderFilter';
 
 const FilterPanel = () => {
   const { setQuery, filterQuery, setFilterQuery } = useContext(AccountContext);
 
-  const sendQuery = () => {
-    setQuery(filterQuery);
-    // searchMessages();
-  };
+  const sendQuery = () => setQuery(filterQuery);
 
   return (
     <FilterPanelStyled>
@@ -36,6 +34,7 @@ const FilterPanel = () => {
           filterQuery={filterQuery}
           sendQuery={sendQuery}
         />
+        <FolderFilter buildQuery={setFilterQuery} filterQuery={filterQuery} />
         <LabelFilter buildQuery={setFilterQuery} filterQuery={filterQuery} sendQuery={sendQuery} />
         <ProcessedStatusFilter buildQuery={setFilterQuery} filterQuery={filterQuery} />
         <RecordStatusFilter buildQuery={setFilterQuery} filterQuery={filterQuery} />

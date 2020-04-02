@@ -57,3 +57,7 @@ export const recordStatusBuilder = recordStatus => {
       return '';
   }
 };
+
+export const folderFilterBuilderOR = folders => {
+  return '';
+};
