@@ -14,7 +14,7 @@ import { borderSeparator } from '../../../../styles/styleVariables';
 // Children
 import AccountDetails from './AccountDetails';
 
-const AccountsListItem = ({ account, setAccount, ...props }) => {
+const AccountsListItem = ({ account, setAccount, modifications, ...props }) => {
   const { selectAccount, setShowImportModal } = useContext(AccountsContext);
   const alert = useAlert();
   const buildActions = () => {
@@ -55,10 +55,13 @@ const AccountsListItem = ({ account, setAccount, ...props }) => {
   const _deleteFile = account => {
     Axios.delete(DELETE_FILE, { data: account })
       .then(response => {
-        alert.success('The account has been restored or removed.');
+        const restoreAction = account.files_in_account > 1 ? 'Restored' : 'Removed';
+        alert.success('The account has been ' + restoreAction);
+        modifications(true);
       })
       .catch(error => {
         alert.error('An error occurred while trying to restore this account.');
+        modifications(true);
       });
   };
 
