@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { boxShadow, borderSeparator, colorPrimary } from '../../../../../../styles/styleVariables';
 
@@ -16,9 +16,13 @@ import CloseButton from '../../../../../Components/Buttons/CloseButton';
 
 const sortBuckets = (bA, bB) => bA.key - bB.key || bA.key.length - bB.key.length;
 
-const AddFolderModal = ({ closeModal, isVisible, selectedFolders, addFolders, commonPath }) => {
-  const { facets } = useContext(AccountContext);
-  const [checkedFolders, setCheckedFolders] = useState(selectedFolders || []);
+const AddFolderModal = ({ closeModal, isVisible, addFolders, commonPath }) => {
+  const { facets, filterQuery } = useContext(AccountContext);
+  const [checkedFolders, setCheckedFolders] = useState(filterQuery.folders);
+
+  useEffect(() => {
+    setCheckedFolders(filterQuery.folders);
+  }, [filterQuery.folders]);
 
   const handleCheckFolder = (e, folder) => {
     const { checked } = e.target;

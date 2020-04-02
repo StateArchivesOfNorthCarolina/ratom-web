@@ -59,5 +59,5 @@ export const recordStatusBuilder = recordStatus => {
 };
 
 export const folderFilterBuilderOR = folders => {
-  return '';
+  return `directory__terms=${folders.join('__')}`;
 };

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { colorPrimary, colorBlack, colorBlackLight } from '../../../../../styles/styleVariables';
 
 // Assets
+import { motion } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 
@@ -12,17 +13,25 @@ const FolderItem = ({ folder, removeFolder }) => {
   const pathRoot = folder.shortName.replace(lowestFolder, '');
 
   return (
-    <FolderItemStyled>
+    <FolderItemStyled
+      initial={{ x: 0, opacity: 1 }}
+      enter={{ x: 0, opacity: 1 }}
+      exit={{
+        x: -20,
+        opacity: 0,
+        transition: { duration: 0.2, ease: [0.43, 0.13, 0.23, 0.96] }
+      }}
+    >
       <p>
         {pathRoot}
         <ItemFolder>{lowestFolder}</ItemFolder> <ItemAgg>({folder.agg})</ItemAgg>
       </p>
-      <ItemClose icon={faTimesCircle} onClick={() => removeFolder(folder.key)} />
+      <ItemClose icon={faTimesCircle} onClick={removeFolder} />
     </FolderItemStyled>
   );
 };
 
-const FolderItemStyled = styled.div`
+const FolderItemStyled = styled(motion.div)`
   display: flex;
   flex-direction: row;
   align-items: center;

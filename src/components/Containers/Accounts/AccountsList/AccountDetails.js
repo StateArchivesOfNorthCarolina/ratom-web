@@ -55,7 +55,7 @@ const AccountDetails = ({ account, asHeader, actions }) => {
     return formatNumber(diff);
   };
 
-  const getHiddenStatus = () => status === STATUSES.IM || status === STATUSES.RE;
+  const getHiddenStatus = () => !actions || status === STATUSES.IM || status === STATUSES.RE;
 
   return (
     <AccountDetailsStyled>
@@ -65,7 +65,7 @@ const AccountDetails = ({ account, asHeader, actions }) => {
         </h4>
         <HeaderMeta shouldBeGrey={shouldBeGrey}>
           <p>Inclusive Dates: {getInclusiveDates()}</p>
-          <StatusBadge status={status} />
+          {!asHeader && <StatusBadge status={status} />}
         </HeaderMeta>
       </LeftContent>
 

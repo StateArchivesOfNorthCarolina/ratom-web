@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { colorPrimary } from '../../../../../styles/styleVariables';
+import { AnimatePresence } from 'framer-motion';
 
 // Utils
 import { isEmpty } from '../../../../../util/isEmpty';
@@ -60,19 +61,21 @@ const FolderFilter = ({ buildQuery, filterQuery }) => {
     <>
       <FolderFilterStyled>
         <h3>Folders</h3>
-        {filterQuery &&
-          filterQuery.folders.map(folder => {
-            const shortName = folder.replace(commonPath, '');
-            const agg = getAggFromFacets(folder);
-            const folderWithShortname = { ...folder, agg, shortName };
-            return (
-              <FolderItem
-                key={folder}
-                folder={folderWithShortname}
-                removeFolder={handleRemoveFolder}
-              />
-            );
-          })}
+        <AnimatePresence>
+          {filterQuery &&
+            filterQuery.folders.map(folder => {
+              const shortName = folder.replace(commonPath, '');
+              const agg = getAggFromFacets(folder);
+              const folderWithShortname = { ...folder, agg, shortName };
+              return (
+                <FolderItem
+                  key={folder}
+                  folder={folderWithShortname}
+                  removeFolder={() => handleRemoveFolder(folder)}
+                />
+              );
+            })}
+        </AnimatePresence>
         <AddFoldersButton onClick={() => setShowAddFolderModal(true)}>Add Folders</AddFoldersButton>
       </FolderFilterStyled>
       <AddFolderModal
