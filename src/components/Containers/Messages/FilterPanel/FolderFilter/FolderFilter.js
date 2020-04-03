@@ -4,6 +4,7 @@ import { colorPrimary } from '../../../../../styles/styleVariables';
 import { AnimatePresence } from 'framer-motion';
 
 // Utils
+import getCommonString from '../../../../../util/getCommonString';
 import { isEmpty } from '../../../../../util/isEmpty';
 
 // Context
@@ -14,17 +15,6 @@ import { FilterPanelItem } from '../FilterPanelItem';
 import AddFolderModal from './AddFolderModal/AddFolderModal';
 import FolderItem from './FolderItem';
 
-function getCommonPathFromBuckets(buckets) {
-  const initialDirectories = buckets.map(bck => bck.key);
-  const directories = initialDirectories.concat().sort();
-  const b1 = directories[0];
-  const b2 = directories[directories.length - 1];
-  const len = b1.length;
-  let i = 0;
-  while (i < len && b1.charAt(i) === b2.charAt(i)) i++;
-  return b1.substring(0, i);
-}
-
 const FolderFilter = ({ buildQuery, filterQuery }) => {
   const { facets } = useContext(AccountContext);
   const [showAddFolderModal, setShowAddFolderModal] = useState(false);
@@ -33,7 +23,7 @@ const FolderFilter = ({ buildQuery, filterQuery }) => {
   useEffect(() => {
     const cp = isEmpty(facets)
       ? []
-      : getCommonPathFromBuckets(facets._filter_directory.directory.buckets);
+      : getCommonString(facets._filter_directory.directory.buckets.map(bck => bck.key));
     setCommonPath(cp);
   }, [facets]);
 
@@ -53,8 +43,10 @@ const FolderFilter = ({ buildQuery, filterQuery }) => {
   };
 
   const getAggFromFacets = folder => {
-    const bucket = facets._filter_directory.directory.buckets.find(bckt => bckt.key === folder);
-    return bucket.doc_count;
+    if (facets._filter_directory) {
+      const bucket = facets._filter_directory.directory.buckets.find(bckt => bckt.key === folder);
+      return bucket.doc_count;
+    }
   };
 
   return (

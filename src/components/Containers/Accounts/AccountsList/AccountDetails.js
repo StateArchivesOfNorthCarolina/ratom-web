@@ -123,7 +123,7 @@ const HeaderMeta = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 35%;
+  width: 50%;
 `;
 
 const RightContent = styled.div`

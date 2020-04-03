@@ -22,7 +22,7 @@ const FolderListItem = ({ folder, selected, onSelect, i }) => {
     );
   };
   return (
-    <FolderListItemStyled odd={i % 2 === 0}>
+    <FolderListItemStyled alternate={i !== false} odd={i % 2 === 0}>
       <Checkbox
         label={renderPath()}
         wrapperStyles={{ flex: 1, padding: '1.5rem 1rem', margin: 0, height: 'auto' }}
@@ -39,9 +39,10 @@ const FolderListItemStyled = styled.div`
   align-items: center;
   width: 100%;
 
-  background-color: ${props => (props.odd ? colorGrey : colorWhite)};
+  background-color: ${props => (props.odd && props.alternate ? colorGrey : colorWhite)};
   &:hover {
-    background-color: ${props => (props.odd ? darken(colorGrey, 3) : darken(colorWhite, 3))};
+    background-color: ${props =>
+      props.odd && props.alternate ? darken(colorGrey, 3) : darken(colorWhite, 3)};
   }
 `;
 

@@ -14,6 +14,7 @@ const FolderItem = ({ folder, removeFolder }) => {
 
   return (
     <FolderItemStyled
+      positionTransition
       initial={{ x: 0, opacity: 1 }}
       enter={{ x: 0, opacity: 1 }}
       exit={{

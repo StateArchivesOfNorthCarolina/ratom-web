@@ -60,7 +60,7 @@ const AddFolderModal = ({ closeModal, isVisible, addFolders, commonPath }) => {
             const folderWithShortname = { ...folder, shortName };
             return (
               <FolderListItem
-                i={i}
+                i={facets._filter_directory.directory.buckets.length > 1 ? i : false}
                 key={folder.key}
                 folder={folderWithShortname}
                 selected={checkedFolders.includes(folder.key)}
