@@ -43,7 +43,7 @@ const DateRangeFilter = ({ buildQuery, filterQuery }) => {
           dateRange: [f.format(isoDateFormat), t.format(isoDateFormat)]
         });
       } catch (err) {
-        console.log(err);
+        console.warn(err);
       }
     }
   };

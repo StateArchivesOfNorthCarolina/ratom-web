@@ -14,6 +14,7 @@ const FolderItem = ({ folder, removeFolder }) => {
 
   return (
     <FolderItemStyled
+      data-cy="folder_item"
       positionTransition
       initial={{ x: 0, opacity: 1 }}
       enter={{ x: 0, opacity: 1 }}
@@ -27,7 +28,7 @@ const FolderItem = ({ folder, removeFolder }) => {
         {pathRoot}
         <ItemFolder>{lowestFolder}</ItemFolder> <ItemAgg>({folder.agg})</ItemAgg>
       </p>
-      <ItemClose icon={faTimesCircle} onClick={removeFolder} />
+      <ItemRemove data-cy="remove_folder_icon" icon={faTimesCircle} onClick={removeFolder} />
     </FolderItemStyled>
   );
 };
@@ -60,7 +61,7 @@ const ItemAgg = styled.span`
   margin-left: 0.5rem;
 `;
 
-const ItemClose = styled(FontAwesomeIcon)`
+const ItemRemove = styled(FontAwesomeIcon)`
   color: ${colorPrimary};
   margin-left: 0.5rem;
   cursor: pointer;

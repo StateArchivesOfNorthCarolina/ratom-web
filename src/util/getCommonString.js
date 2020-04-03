@@ -1,5 +1,5 @@
 export default function getCommonString(strings) {
-  if (strings.length === 1) return '';
+  if (strings.length <= 1) return '';
   const strs = strings.concat().sort();
   const strOne = strs[0];
   const strTwo = strs[strs.length - 1];

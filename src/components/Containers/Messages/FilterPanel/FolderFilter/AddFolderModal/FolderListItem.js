@@ -16,18 +16,18 @@ const FolderListItem = ({ folder, selected, onSelect, i }) => {
         <ItemRoot>
           {pathRoot}
           <span>{lowestFolder}</span>
-        </ItemRoot>{' '}
-        <ItemAgg>({folder.doc_count})</ItemAgg>
+        </ItemRoot>
+        <ItemAgg>({folder.agg})</ItemAgg>
       </ItemFolder>
     );
   };
   return (
-    <FolderListItemStyled alternate={i !== false} odd={i % 2 === 0}>
+    <FolderListItemStyled data-cy="folder_list_item" alternate={i !== false} odd={i % 2 === 0}>
       <Checkbox
         label={renderPath()}
         wrapperStyles={{ flex: 1, padding: '1.5rem 1rem', margin: 0, height: 'auto' }}
         checked={selected}
-        onChange={e => onSelect(e, folder.key)}
+        onChange={e => onSelect(e, folder.fullPath)}
       />
     </FolderListItemStyled>
   );

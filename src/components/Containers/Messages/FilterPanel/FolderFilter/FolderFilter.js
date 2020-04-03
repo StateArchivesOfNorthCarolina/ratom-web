@@ -16,16 +16,17 @@ import AddFolderModal from './AddFolderModal/AddFolderModal';
 import FolderItem from './FolderItem';
 
 const FolderFilter = ({ buildQuery, filterQuery }) => {
-  const { facets } = useContext(AccountContext);
+  const { account, facets } = useContext(AccountContext);
   const [showAddFolderModal, setShowAddFolderModal] = useState(false);
+  // const [accountPaths, setAccountPaths] = useState([]);
   const [commonPath, setCommonPath] = useState();
 
   useEffect(() => {
-    const cp = isEmpty(facets)
-      ? []
-      : getCommonString(facets._filter_directory.directory.buckets.map(bck => bck.key));
-    setCommonPath(cp);
-  }, [facets]);
+    if (account) {
+      const cp = isEmpty(facets) ? [] : getCommonString(account.paths);
+      setCommonPath(cp);
+    }
+  }, [facets, account]);
 
   const addFolders = folders => {
     buildQuery({ ...filterQuery, folders });
@@ -45,7 +46,7 @@ const FolderFilter = ({ buildQuery, filterQuery }) => {
   const getAggFromFacets = folder => {
     if (facets._filter_directory) {
       const bucket = facets._filter_directory.directory.buckets.find(bckt => bckt.key === folder);
-      return bucket.doc_count;
+      return bucket ? bucket.doc_count : 0;
     }
   };
 
@@ -68,7 +69,9 @@ const FolderFilter = ({ buildQuery, filterQuery }) => {
               );
             })}
         </AnimatePresence>
-        <AddFoldersButton onClick={() => setShowAddFolderModal(true)}>Add Folders</AddFoldersButton>
+        <AddFoldersButton data-cy="add_folders_button" onClick={() => setShowAddFolderModal(true)}>
+          Add Folders
+        </AddFoldersButton>
       </FolderFilterStyled>
       <AddFolderModal
         closeModal={() => setShowAddFolderModal(false)}

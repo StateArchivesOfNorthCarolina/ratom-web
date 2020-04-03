@@ -14,10 +14,10 @@ import FolderListItem from './FolderListItem';
 import ScrollShadow from '../../../../../Components/ScrollShadow';
 import CloseButton from '../../../../../Components/Buttons/CloseButton';
 
-const sortBuckets = (bA, bB) => bA.key - bB.key || bA.key.length - bB.key.length;
+const sortPaths = (pA, pB) => pA - pB || pA.length - pB.length;
 
 const AddFolderModal = ({ closeModal, isVisible, addFolders, commonPath }) => {
-  const { facets, filterQuery } = useContext(AccountContext);
+  const { account, facets, filterQuery } = useContext(AccountContext);
   const [checkedFolders, setCheckedFolders] = useState(filterQuery.folders);
 
   useEffect(() => {
@@ -47,23 +47,27 @@ const AddFolderModal = ({ closeModal, isVisible, addFolders, commonPath }) => {
             <FolderIcon icon={faFolder} />
             <h2>Add Folders to Filter</h2>
           </div>
-          {commonPath && <CommonPath>Root path: {commonPath}</CommonPath>}
+          {commonPath && <CommonPath data-cy="root_path">Root path: {commonPath}</CommonPath>}
         </ModalHeaderInner>
         <CloseButton onClick={closeModal} small />
       </ModalHeader>
       <ModalFolders>
         <ScrollShadow position="top" innerWidth="100%" />
-        {facets &&
-          facets._filter_directory &&
-          facets._filter_directory.directory.buckets.sort(sortBuckets).map((folder, i) => {
-            const shortName = folder.key.replace(commonPath, '');
-            const folderWithShortname = { ...folder, shortName };
+        {account &&
+          facets &&
+          account.paths.sort(sortPaths).map((fullPath, i) => {
+            const shortName = fullPath.replace(commonPath, '');
+            const bucket = facets._filter_directory.directory.buckets.find(
+              bckt => bckt.key === fullPath
+            );
+            const agg = bucket ? bucket.doc_count : 0;
+            const folderWithShortname = { fullPath, shortName, agg };
             return (
               <FolderListItem
                 i={facets._filter_directory.directory.buckets.length > 1 ? i : false}
-                key={folder.key}
+                key={fullPath}
                 folder={folderWithShortname}
-                selected={checkedFolders.includes(folder.key)}
+                selected={checkedFolders.includes(fullPath)}
                 onSelect={handleCheckFolder}
               />
             );
@@ -75,7 +79,7 @@ const AddFolderModal = ({ closeModal, isVisible, addFolders, commonPath }) => {
         <Button neutral onClick={closeModal}>
           Cancel
         </Button>
-        <AddButton positive onClick={handleAddFolders}>
+        <AddButton data-cy="select_folders_button" positive onClick={handleAddFolders}>
           Add
         </AddButton>
       </ModalActions>

@@ -47,7 +47,6 @@ describe('Bulk actions', () => {
     cy.route('PUT', '/api/v1/messages/batch/').as('batchUpdateMessages');
     cy.contains('Mark as non-record').click();
     cy.wait('@batchUpdateMessages').should(xhr => {
-      console.log('xhr: ', xhr);
       const { messages, action, effect } = xhr.request.body;
       expect(messages).to.have.lengthOf(2);
       expect(action).to.eq('record_status');
