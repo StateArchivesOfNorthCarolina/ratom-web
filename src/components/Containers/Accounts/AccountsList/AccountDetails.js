@@ -65,7 +65,7 @@ const AccountDetails = ({ account, asHeader, actions }) => {
         </h4>
         <HeaderMeta shouldBeGrey={shouldBeGrey}>
           <p>Inclusive Dates: {getInclusiveDates()}</p>
-          <StatusBadge status={status} />
+          {!asHeader && <StatusBadge status={status} />}
         </HeaderMeta>
       </LeftContent>
 
@@ -123,7 +123,7 @@ const HeaderMeta = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 35%;
+  width: 50%;
 `;
 
 const RightContent = styled.div`

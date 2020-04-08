@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { borderRadius } from '../../../../../../styles/styleVariables';
 
-const MessageCheckbox = props => {
+const MessageCheckbox = ({ label, ...props }) => {
   const inputRef = useRef();
 
   useEffect(() => {
@@ -10,12 +10,12 @@ const MessageCheckbox = props => {
   }, [props.indeterminate]);
 
   return (
-    <MessageCheckboxStyled label={props.label}>
+    <MessageCheckboxStyled style={props.wrapperStyles} label={label}>
       <CheckboxStyled type="checkbox">
         <input type="checkbox" {...props} ref={inputRef} />
         <span className="checked" />
         <span className="indeterminate" />
-        {props.label && <p>{props.label}</p>}
+        {label && React.isValidElement(label) ? label : <p>{label}</p>}
       </CheckboxStyled>
     </MessageCheckboxStyled>
   );

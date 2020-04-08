@@ -13,12 +13,12 @@ const FilterActions = ({ sendQuery }) => {
 
   return (
     <FilterActionsStyled>
-      <Button neutral small onClick={clearFilters} data-cy="reset-filters">
+      <ResetButton neutral small onClick={clearFilters} data-cy="reset-filters">
         Reset
-      </Button>
-      <Button positive small onClick={sendQuery} data-cy="apply-search-button">
+      </ResetButton>
+      <ApplyButton positive small onClick={sendQuery} data-cy="apply-search-button">
         Apply
-      </Button>
+      </ApplyButton>
     </FilterActionsStyled>
   );
 };
@@ -30,5 +30,14 @@ const FilterActionsStyled = styled.div`
   padding: 3rem 0;
   border-bottom: ${borderSeparator};
 `;
+
+const ActionButton = styled(Button)`
+  width: 10rem;
+  font-size: 1.5rem;
+`;
+
+const ResetButton = styled(ActionButton)``;
+
+const ApplyButton = styled(ActionButton)``;
 
 export default FilterActions;

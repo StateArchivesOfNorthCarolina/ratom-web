@@ -57,3 +57,8 @@ export const recordStatusBuilder = recordStatus => {
       return '';
   }
 };
+
+export const folderFilterBuilderOR = folders => {
+  const encodedFolders = folders.map(folder => encodeURI(folder).replace('/', '%2F'));
+  return `directory__terms=${encodedFolders.join('__')}`;
+};

@@ -148,3 +148,9 @@ Cypress.Commands.add('exportAsRecordsRequest', () => {
   cy.wait(500);
   cy.get('[data-cy="export-button"]').click();
 });
+
+Cypress.Commands.add('selectNthFolder', n => {
+  cy.get('[data-cy="folder_list_item"]')
+    .eq(n)
+    .click();
+});

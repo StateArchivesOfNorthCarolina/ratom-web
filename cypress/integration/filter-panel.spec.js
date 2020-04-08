@@ -249,5 +249,69 @@ describe('Filter panel behavior', () => {
           });
       });
     });
+
+    describe.only('Folder filter', () => {
+      it('derives the correct root-path', () => {
+        // temp
+        cy.goToMessagesList();
+        // end temp
+
+        cy.resetFilters();
+        cy.get('[data-cy="add_folders_button"]').click();
+        cy.get('[data-cy="root_path"]').should($rootPath => {
+          const rootPath = $rootPath.text();
+          expect(rootPath).to.eq('Root path: /Top of Personal Folders/rapp-b');
+        });
+      });
+
+      it('contains the correct folders in list', () => {
+        cy.contains('/Bill_Rapp_Jan2002/Rapp, Bill/Inbox');
+        cy.contains('/Bill_Rapp_Jan2002/Rapp, Bill/Contacts');
+        cy.contains('/BRAPP (Non-Privileged)/Rapp, Bill/Inbox');
+        cy.contains('/Rapp, Bill (Non-Privileged)/Rapp, Bill/Deleted Items');
+      });
+
+      // skip until sample_data has right number of paths on account
+      it.skip('inbox contains the expected number of records', () => {
+        cy.get('[data-cy="folder_list_item"]').should('have.length', 4);
+      });
+
+      it('selecting inbox and searching on it returns 3 records', () => {
+        cy.selectNthFolder(0);
+        cy.get('[data-cy="select_folders_button"]').click();
+        cy.wait(500);
+        cy.get('[data-cy="folder_item"]').should('have.length', 1);
+        cy.get('[data-cy="folder_item"]')
+          .eq(0)
+          .contains('Rapp, Bill/Inbox (3)');
+
+        cy.applySearch();
+        cy.assertMessageCountEquals('3');
+      });
+
+      it('adding the other inbox increases results to 8', () => {
+        cy.get('[data-cy="add_folders_button"]').click();
+        cy.selectNthFolder(2);
+        cy.get('[data-cy="select_folders_button"]').click();
+        cy.wait(500);
+        cy.get('[data-cy="folder_item"]').should('have.length', 2);
+        cy.get('[data-cy="folder_item"]')
+          .eq(1)
+          .contains('Privileged)/Rapp, Bill/Inbox');
+
+        cy.applySearch();
+        cy.assertMessageCountEquals('8');
+      });
+
+      it('removing second item in list reduces results back to 3', () => {
+        cy.get('[data-cy="folder_item"]').should('have.length', 2);
+        cy.get('[data-cy="remove_folder_icon"]')
+          .eq(1)
+          .click();
+        cy.get('[data-cy="folder_item"]').should('have.length', 1);
+        cy.applySearch();
+        cy.assertMessageCountEquals('3');
+      });
+    });
   });
 });
