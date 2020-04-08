@@ -14,8 +14,6 @@ import FolderListItem from './FolderListItem';
 import ScrollShadow from '../../../../../Components/ScrollShadow';
 import CloseButton from '../../../../../Components/Buttons/CloseButton';
 
-const sortPaths = (pA, pB) => pA - pB || pA.length - pB.length;
-
 const AddFolderModal = ({ closeModal, isVisible, addFolders, commonPath }) => {
   const { account, facets, filterQuery } = useContext(AccountContext);
   const [checkedFolders, setCheckedFolders] = useState(filterQuery.folders);
@@ -55,7 +53,7 @@ const AddFolderModal = ({ closeModal, isVisible, addFolders, commonPath }) => {
         <ScrollShadow position="top" innerWidth="100%" />
         {account &&
           facets &&
-          account.paths.sort(sortPaths).map((fullPath, i) => {
+          account.paths.map((fullPath, i) => {
             const shortName = fullPath.replace(commonPath, '');
             const bucket = facets._filter_directory.directory.buckets.find(
               bckt => bckt.key === fullPath
