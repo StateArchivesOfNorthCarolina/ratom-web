@@ -1,11 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { LIST_ITEM_VARIANTS, LIST_VARIANTS } from '../../../Components/Animated/animationConstants';
-
-// Axios
-import Axios from '../../../../services/axiosConfig';
-import { LIST_ACCOUNTS } from '../../../../services/requests';
 
 // Router
 import { useHistory } from 'react-router-dom';
@@ -15,28 +11,8 @@ import AccountsListItem from './AccountsListItem';
 import Spinner from '../../../Components/Loading/Spinner';
 import ScrollShadow from '../../../Components/ScrollShadow';
 
-const AccountsList = props => {
+const AccountsList = ({ accounts, loadingAccounts, setAccountModified }) => {
   const history = useHistory();
-  const [loading, setLoading] = useState(false);
-  const [, setError] = useState();
-  const [accounts, setAccounts] = useState();
-  const [accountModified, setAccountModified] = useState(false);
-
-  useEffect(() => {
-    setLoading(true);
-    Axios.get(LIST_ACCOUNTS)
-      .then(response => {
-        setAccounts(response.data);
-        setLoading(false);
-      })
-      .catch(error => {
-        setError(error);
-        setLoading(false);
-      });
-    return () => {
-      setAccountModified(false);
-    };
-  }, [accountModified]);
 
   const setAccount = account => {
     history.push(`/accounts/${account.id}`, { reset: true });
@@ -45,20 +21,17 @@ const AccountsList = props => {
   return (
     <AccountsListStyled initial="initial" animate="enter" exit="exit" variants={LIST_VARIANTS}>
       <ScrollShadow position="top" innerWidth="100%" />
-      {loading ? (
-        <SpinnerStyled flex large />
-      ) : (
-        accounts &&
-        accounts.map(account => (
-          <AccountsListItem
-            key={account.id}
-            account={account}
-            setAccount={setAccount}
-            variants={LIST_ITEM_VARIANTS}
-            modifications={setAccountModified}
-          />
-        ))
-      )}
+      {loadingAccounts && <SpinnerStyled flex large />}
+      {accounts?.length === 0 && <h2>No accounts</h2>}
+      {accounts?.map(account => (
+        <AccountsListItem
+          key={account.id}
+          account={account}
+          setAccount={setAccount}
+          variants={LIST_ITEM_VARIANTS}
+          modifications={setAccountModified}
+        />
+      ))}
       <ScrollShadow position="bottom" innerWidth="100%" />
     </AccountsListStyled>
   );

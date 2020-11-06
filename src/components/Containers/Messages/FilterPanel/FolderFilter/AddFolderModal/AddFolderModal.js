@@ -52,7 +52,7 @@ const AddFolderModal = ({ closeModal, isVisible, addFolders, commonPath }) => {
       <ModalFolders>
         <ScrollShadow position="top" innerWidth="100%" />
         {account &&
-          facets &&
+          facets?._filter_directory &&
           account.paths.map((fullPath, i) => {
             const shortName = fullPath.replace(commonPath, '');
             const bucket = facets._filter_directory.directory.buckets.find(

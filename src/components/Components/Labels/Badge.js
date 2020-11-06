@@ -99,6 +99,7 @@ const AutoCompleteBadgeStyled = styled.div`
 
 const StatusBadgeStyled = styled(AutoCompleteBadgeStyled)`
   background-color: ${props => getStatusBadgeColor(props)};
+  height: 18px;
 `;
 
 const BadgeStyled = styled.div`
