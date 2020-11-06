@@ -25,3 +25,8 @@ yarn-debug.log*
 yarn-error.log*
 
 deployment/roles/
+
+.nvmrc
+.python-version
+.vscode
+.envrc
