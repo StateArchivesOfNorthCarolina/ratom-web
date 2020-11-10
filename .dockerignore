@@ -1,1 +1,6 @@
 node_modules/
+deployment/
+cypress/
+.vscode/
+.env
+.envrc

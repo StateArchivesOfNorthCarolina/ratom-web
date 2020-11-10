@@ -35,9 +35,9 @@ const MessagesList = () => {
     <>
       <MessagesListStyled
         ref={messagesUL}
-        initial="initial"
-        animate="enter"
-        exit="exit"
+        // initial="initial"
+        // animate="enter"
+        // exit="exit"
         variants={LIST_VARIANTS}
         data-cy="messages-list"
       >
